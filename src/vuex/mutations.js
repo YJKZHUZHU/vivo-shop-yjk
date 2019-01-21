@@ -30,20 +30,20 @@ const matutaions={
     },
     //文章删除
     del:(state,index)=>{
-        MessageBox.confirm('确定取消收藏该文章么？').then(action=>{
+        MessageBox.confirm('确定取消收藏该文章么？').then(action=>{
             state.article.splice(index,1)
             localStorage.setItem("article",JSON.stringify(state.article));
         })
     },
     //商品删除
     cancel:(state,index)=>{
-        MessageBox.confirm('确定取消收藏该商品么？').then(action=>{
+        MessageBox.confirm('确定取消收藏该商品么？').then(action=>{
             state.collections.splice(index,1)
             localStorage.setItem("collections",JSON.stringify(state.collections));
         })
     },
     laji:(state,index)=>{
-        MessageBox.confirm('确定删除收货地址么？').then(action=>{
+        MessageBox.confirm('确定删除该收货地址么？').then(action=>{
             state.address.splice(index,1)
             localStorage.setItem("address",JSON.stringify(state.address));
         }) 
@@ -62,7 +62,11 @@ const matutaions={
             localStorage.setItem("orders",JSON.stringify(state.orders));
         })
     },
-   
+    //编辑收货地址
+    // editAddress: (state, index)=> {
+    //   console.log(state, index,this)
+    //
+    // },
 
     //数量加
      add(state,index){

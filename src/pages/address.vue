@@ -14,7 +14,7 @@
                 <p class="address-details">收货地址：{{list.zone}}{{list.detail}}</p>
                 <div class="address-operation">
                     <p class="address-operation-box">
-                        <i class="iconfont icon-bianji"></i>
+                        <i class="iconfont icon-bianji" @click="editAddress(index, list)"></i>
                         <i class="iconfont icon-lajitong" @click="laji(index)"></i>
                     </p>
                 </div>
@@ -51,7 +51,19 @@ export default {
             this.$router.push({
                 path: "add_address"
             });
-        }
+        },
+      editAddress (index, list) {
+          console.log(index, list)
+        this.$router.push({
+          path: "add_address",
+          query: {
+            name: list.name,
+            phone: list.phone,
+            zone: list.zone,
+            detail: list.detail
+          }
+        });
+      }
     }
 };
 </script>
@@ -100,7 +112,6 @@ export default {
             font-size: 0.4rem;
             padding-top: 0.3rem;
             padding-bottom: 0.3rem;
-
             .phone {
                 float: right;
             }

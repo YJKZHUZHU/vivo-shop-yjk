@@ -4,22 +4,22 @@
         <div class="address">
             <div class="address-box">
                 <label for="">收货人：</label>
-                <input type="text" v-model="name" placeholder="收货人姓名">
+                <input type="text" v-model="name || $route.query.name" placeholder="收货人姓名">
             </div>
 
              <div class="address-box">
                 <label for="">手机号码：</label>
-                <input type="text" v-model="phone" placeholder="收货人的手机号码">
+                <input type="text" v-model="phone || $route.query.phone" placeholder="收货人的手机号码">
             </div>
 
              <div class="address-box">
                 <label for="">选择地区：</label>
-                <input type="text" v-model="zone" placeholder="请选择收货地址">
+                <input type="text" v-model="zone || $route.query.zone" placeholder="请选择收货地址">
             </div>
 
              <div class="address-box">
                 <label for="">详细地址：</label>
-                <input type="text" v-model="detail" placeholder="详细街道地址">
+                <input type="text" v-model="detail || $route.query.detail" placeholder="详细街道地址">
             </div>
         </div>
 
@@ -82,14 +82,13 @@ export default {
         height: 1.5rem;
         line-height: 1.5rem;
         background: #fff;
-
+        display: flex;
         label {
             width: 30%;
             height: 100%;
             padding-left: 0.58rem;
             font-size: 0.4rem;
             display: block;
-            float: left;
         }
 
         input {
