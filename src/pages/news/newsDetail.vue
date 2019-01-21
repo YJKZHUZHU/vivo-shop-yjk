@@ -1,12 +1,12 @@
 <template>
   <div class="detail" id="transition">
       <Detail-Header title="资讯详情"></Detail-Header>
-      <div class="detail-con" v-for="(list,index) in newsDetail">
+      <div class="detail-con" v-for="(list,index) in newsDetail" :key="index">
         <div class="detail-con-box" v-html="list.newsDetail"></div>
         <div class="details-box">
-          <div class="stars">
+          <div class="collection" @click="like">
             <i class="iconfont icon-dianzan"></i>
-            <span>1</span>
+            <span>{{ likeNumber }}</span>
           </div>
           <div class="collection" @click="btn(list)">
             <i class="iconfont icon-praise" v-show="!list.sc" ></i>
@@ -34,7 +34,8 @@ export default {
   name: "newsDetail",
   data() {
     return {
-      newsDetail: []
+      newsDetail: [],
+      likeNumber: 0
     };
   },
   components: {
@@ -45,10 +46,12 @@ export default {
   },
   methods: {
     btn(list) {
+      console.log(list)
+      list.sc = !list.sc
       var date = new Date();
       var fh1 = "-";
       var fh2 = ":";
-      var fh3 = "";
+      var fh3 = "   ";
       var year = date.getFullYear(); // 年
       var month = date.getMonth() + 1; // 月
       var day = date.getDate(); // 日
@@ -61,21 +64,12 @@ export default {
       hour = hour < 10 ? ('0' + hour) : hour;
       minutes = minutes < 10 ? ('0' + minutes) : minutes;
 
-      // if (month >= 1 && month <= 9) {
-      //   month = "0" + month;
-      // }else if(day >= 1 && day <= 9){
-      //   day = "0" + day;
-      // }else if(hour>=1 && hour<=9){
-      //   hour = "0" + hour;
-      // }else if(minutes>=1 && minutes<=9){
-      //   minutes = "0" + minutes;
-      // }
-      var currentdate =
-        year + fh1 + month + fh1 + day + fh3 + hour + fh2 + minutes;
+      var currentdate = year + fh1 + month + fh1 + day + fh3 + hour + fh2 + minutes;
 
       var idExist = this.$store.state.article.find(data => {
         return data.id == list.id;
       });
+      console.log(idExist)
       if (!idExist) {
         var data = {
           id: list.id,
@@ -94,6 +88,9 @@ export default {
           duration: 950
         });
       }
+    },
+    like: function () {
+      
     }
   },
   created() {

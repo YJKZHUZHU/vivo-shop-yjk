@@ -61,7 +61,7 @@
                         <div class="left">
                             <div class="cart">
                                 <div class="cartlength">{{cartlength}}</div>
-                                <img src="http://p6563v2ck.bkt.clouddn.com/%E8%B4%AD%E7%89%A9%E8%BD%A6.png" >
+                                <img src="https://shopstatic.vivo.com.cn/vivoshop/wap/dist/images/detail/icon-shopcart@2x_201db07.png" >
                                 <span>购物车</span>
                             </div>
                             <div class="collection" >
@@ -75,7 +75,7 @@
                                 </div>
                             </div>
                             <div class="shop">
-                                <img src="http://p6563v2ck.bkt.clouddn.com/%E5%BA%97%E9%93%BA_2.png" >
+                                <img src="https://shopstatic.vivo.com.cn/vivoshop/wap/dist/images/detail/icon-concat@2x_3442018.png" >
                                 <!-- <i class="iconfont icon-xuanzekuangxuanzhong" v-show="!$store.state.collection"></i>
                                 <i class="iconfont icon-xuanzekuangxuanzhong" v-show="$store.state.collection" style="color:red"></i> -->
                                 <span>店铺</span>
@@ -164,6 +164,7 @@ export default {
 
   methods: {
     addCollection(index) {
+      console.log($store.state.ces)
       this.$store.state.ces=!this.$store.state.ces
        var data={
            id:index.id,
@@ -171,7 +172,7 @@ export default {
            name:index.homeName,
            price:index.homePrice
        }
-        this.$stor.dispatch("setGoods",data)
+        this.$store.dispatch("setGoods",data)
     },
     // 点击按钮时，首先判断该商品是否在购物车已存在，如果存在则不再加入
     add: function(index) {

@@ -7,8 +7,6 @@
       <Home-Container :todos="todos"></Home-Container>
       <Home-Footer></Home-Footer>
   </div>
-  </div>  
-</div>
     
 </template>
 
@@ -78,7 +76,7 @@ export default {
  
     .official{
       width: 100%;
-      height: 0.8rem;
+      height: 100%;
       background: white;
       margin-top: 1.33rem;
     }

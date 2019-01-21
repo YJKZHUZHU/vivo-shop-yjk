@@ -62,7 +62,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 1.45rem;
+      /*height: 1.45rem;*/
       li
         width 25%
         display: flex;

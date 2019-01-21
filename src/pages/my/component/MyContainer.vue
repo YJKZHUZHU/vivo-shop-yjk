@@ -243,7 +243,7 @@ export default {
 
             .con-left {
                 float: left;
-                line-height: 1.3rem;
+                line-height: 1rem;
                 padding-left: 0.47rem;
 
                 i {
@@ -258,7 +258,7 @@ export default {
 
             .con-rigth {
                 float: right;
-                line-height: 1.3rem;
+                line-height: 1rem;
                 padding-right: 0.4rem;
             }
         }
