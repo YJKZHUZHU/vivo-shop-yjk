@@ -18,30 +18,35 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.header
+.header {
     width 100%
     height 1.45rem
     background white
     position fixed
     z-index 1
-    .header-left
+    .header-left{
         width 10%
         height 100%
         float left
-        i 
+        i {
             font-size: 0.6rem;
             line-height: 1.45rem;
             text-align: center;
             display: block;
-    .header-in
+        }
+    }
+    .header-in{
         width: 80%;
         float: left;
         text-align: center;
         font-size: 0.45rem;
         line-height: 1.45rem;
-    .header-rigth
+    }
+    .header-rigth{
         width 10%
         height 100%
         float left
+    }
+}
         
 </style>

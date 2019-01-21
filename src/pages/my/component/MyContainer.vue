@@ -234,18 +234,17 @@ export default {
 
     .container-con {
         margin-bottom 1.45rem
+        display flex
+        flex-direction column
         .con {
             width: 100%;
-            height: 1.41rem;
             background: #ffffff;
             border-bottom: 1px solid #f0f0f0;
-            display: block;
-
+            display : flex;
+            justify-content : space-between
             .con-left {
                 float: left;
-                line-height: 1rem;
                 padding-left: 0.47rem;
-
                 i {
                     font-size: 0.5rem;
                 }
@@ -255,7 +254,6 @@ export default {
                     padding-left: 0.1rem;
                 }
             }
-
             .con-rigth {
                 float: right;
                 line-height: 1rem;
