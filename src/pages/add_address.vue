@@ -4,22 +4,28 @@
         <div class="address">
             <div class="address-box">
                 <label for="">收货人：</label>
-                <input type="text" v-model="name || $route.query.name" placeholder="收货人姓名">
+                <input type="text" v-model="name " placeholder="收货人姓名">
             </div>
 
              <div class="address-box">
                 <label for="">手机号码：</label>
-                <input type="text" v-model="phone || $route.query.phone" placeholder="收货人的手机号码">
+                <input type="text" v-model="phone " placeholder="收货人的手机号码">
             </div>
 
              <div class="address-box">
+                <transition name="fade">
+                <AddressPicker @getLinkage='_showChildMsg' v-show="showLinkage"></AddressPicker>
+                </transition>
                 <label for="">选择地区：</label>
-                <input type="text" v-model="zone || $route.query.zone" placeholder="请选择收货地址">
+                <input type="text" v-model="zone " placeholder="请选择收货地址" @click="_showLinkage">
+               
+                <!-- <p v-html="result" class="getCity" @click="_showLinkage"></p> -->
+                <!-- <p v-html="id" class="getCity" ></p> -->
             </div>
 
              <div class="address-box">
                 <label for="">详细地址：</label>
-                <input type="text" v-model="detail || $route.query.detail" placeholder="详细街道地址">
+                <input type="text" v-model="detail" placeholder="详细街道地址">
             </div>
         </div>
 
@@ -31,6 +37,7 @@
 
 <script>
 import AddressHeader from "../common/header";
+import AddressPicker from './addressPicker'
 import { mapGetters, mapMutations } from "vuex";
 import { Toast } from "mint-ui";
 export default {
@@ -40,11 +47,14 @@ export default {
       name: "",
       phone: "",
       zone: "",
-      detail: ""
+      detail: "",
+      showLinkage:false, //控制子组件的显示隐藏
+      result:'',
     };
   },
   components: {
-    AddressHeader
+    AddressHeader,
+    AddressPicker
   },
   methods: {
     btn() {
@@ -68,7 +78,23 @@ export default {
         this.$store.dispatch("setAddress",data)
         this.$router.back();
       }
+    },
+     _showChildMsg(msg){ //接收子组件数据
+      console.log(msg)
+      this.zone = msg.name
+      console.log(this.zone)
+      this.showLinkage=false
+    },
+    _showLinkage(){
+      this.showLinkage=true
     }
+  },
+  mounted () {
+      console.log(this.$route)
+      this.name = this.$route.query.name
+      this.phone = this.$route.query.phone
+      this.zone = this.$route.query.zone
+      this.detail = this.$route.query.detail
   }
 };
 </script>
@@ -119,5 +145,14 @@ export default {
         color: #fff;
         background-color: #00acff;
     }
+}
+.getCity{
+  font-size: 20px;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to  {
+  opacity: 0;
 }
 </style>

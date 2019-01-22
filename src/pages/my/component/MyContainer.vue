@@ -27,7 +27,7 @@
              <p class="right">全部订单 ></p>
          </div>
          <div class="container-order-2">
-             <p class="" v-for="list in container">
+             <p class="" v-for="(list,index) in container" :key="index">
                  <img :src="list.img">
                  <span>{{list.name}}</span>
              </p>
@@ -131,22 +131,21 @@ export default {
     width 100%
     height 3.5rem
     background white
-    display block
+    display flex
+    flex-direction column
     margin-bottom .15rem
     margin-top .15rem
     font-size 0.35rem
     .container-order-1{
         width 100%
-        height 1.5rem
+        display flex
+        justify-content space-between
         .left{
-            float: left;
-            display: block;
             line-height: 1.5rem;
             margin-left: .5rem;
             font-size: 0.4rem;
         }
         .right {
-            float: right;
             line-height: 1.5rem;
             margin-right: .6rem;
             font-size: 0.4rem;

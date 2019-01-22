@@ -172,7 +172,6 @@ export default {
 }
 
 .lower_list {
-    height: 6.3rem;
     background: white;
     float: left;
     -webkit-box-sizing: border-box;
@@ -193,7 +192,7 @@ export default {
     }
 
     h2 {
-        width: 90%;
+        width: 50%;
         white-space: nowrap;
         text-overflow: ellipsis;
         font-size: 0.4rem;
@@ -206,7 +205,6 @@ export default {
         width: 3.8rem;
         margin: 0 auto;
         padding: 0;
-        height: 1.1rem;
         font-size: 0.22rem;
         line-height: 1.4;
         color: #000;
@@ -214,6 +212,9 @@ export default {
         padding-top: 0.2rem;
         text-align: center;
         overflow: hidden;
+        overflow: hidden;
+        text-overflow:ellipsis;
+        white-space: nowrap;
     }
 
     div {

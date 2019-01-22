@@ -14,7 +14,7 @@
             <div v-for="(list,index) in lower.lower_data" :key="index" class="lower_list" @click="goDetails(list.id)">
               <img v-bind:src="list.ImageOne" alt="图片">
               <p>{{list.name}}</p>
-              <p style="font-size: 0.3rem;">{{list.nametwo}}</p>
+              <p style="font-size: 0.3rem;padding:0.2rem 0">{{list.nametwo}}</p>
               <div>￥{{list.Price}}</div>
             </div>
           </div>
@@ -182,18 +182,18 @@ export default {
   }
 
   p {
-    width: 94%;
+    width: 50%;
     overflow: hidden;
     text-overflow: ellipsis;
     margin: auto;
     font-size: 0.35rem;
     text-align: center;
+    white-space: nowrap;
   }
 
   div {
     text-align: center;
     color: red;
-    margin-top: 10px;
     font-size: 0.35rem;
   }
 }
