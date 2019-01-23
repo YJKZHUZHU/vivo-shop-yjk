@@ -59,21 +59,32 @@
 
                     <div class="goodDetailFooter">
                         <div class="left">
+                          <router-link to="/cart">
                             <div class="cart">
                                 <div class="cartlength">{{cartlength}}</div>
                                 <img src="https://shopstatic.vivo.com.cn/vivoshop/wap/dist/images/detail/icon-shopcart@2x_201db07.png" >
+
                                 <span>购物车</span>
+
+
                             </div>
+                          </router-link>
+                          <router-link to="/MyCollection">
                             <div class="collection" >
                                 <div class="collection-box" @click="addCollection(goodDetail)"  v-show="!$store.state.ces">
                                     <i class="iconfont icon-collection"></i>
+
                                     <span>收藏</span>
+
+
                                 </div>
+
                                 <div class="collection-box" @click="addCollection(goodDetail)"  v-show="$store.state.ces">
                                     <i class="iconfont icon-shoucangxuanzhong1" style="color:red"></i>
                                     <span style="color:red">取消</span>
                                 </div>
                             </div>
+                          </router-link>
                             <div class="shop">
                                 <img src="https://shopstatic.vivo.com.cn/vivoshop/wap/dist/images/detail/icon-concat@2x_3442018.png" >
                                 <!-- <i class="iconfont icon-xuanzekuangxuanzhong" v-show="!$store.state.collection"></i>
