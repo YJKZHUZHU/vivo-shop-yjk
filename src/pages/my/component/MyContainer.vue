@@ -24,7 +24,7 @@
      <router-link class="container-order" to="/order" tag="div">
          <div class="container-order-1">
              <p class="left">我的订单</p>
-             <p class="right">全部订单 ></p>
+             <p class="right">全部订单 <i class="iconfont icon-youjiantou"></i></p>
          </div>
          <div class="container-order-2">
              <p class="" v-for="(list,index) in container" :key="index">
@@ -74,7 +74,7 @@
                   <i class="iconfont icon-youjiantou"></i>
               </div>
           </router-link>
-          <a target="_blank" href="http://www.myfwk.cn" class="con">
+          <a target="_blank" href="https://github.com/YJKZHUZHU/vivo-shop-yjk" class="con">
                  <div class="con-left">
                   <i class="iconfont icon-bangzhuguanyuwomen"></i>
                   <span>关于我</span>
@@ -242,7 +242,6 @@ export default {
             display : flex;
             justify-content : space-between
             .con-left {
-                float: left;
                 padding-left: 0.47rem;
                 i {
                     font-size: 0.5rem;
@@ -254,7 +253,6 @@ export default {
                 }
             }
             .con-rigth {
-                float: right;
                 line-height: 1rem;
                 padding-right: 0.4rem;
             }

@@ -29,17 +29,17 @@ export default {
   data() {
     return {
       province:{
-        name:'四川省',
-        id:'51'
+        name:'江西省',
+        id:'36'
       },
       maskFlag:false,
       city:{
-        name:'成都市',
-        id:'5101'
+        name:'赣州市',
+        id:'3607'
       },
       area:{
-        name:'锦江区',
-        id:'510104'
+        name:'安远县',
+        id:'360726'
       },
       flag:0, //最开始省市区那三个picker会初始化调用change事件，但是此时没有省市区数据，因此会报错，
               //所以以这个标识符来控制当时第一次初始化时调用change事件时直接return

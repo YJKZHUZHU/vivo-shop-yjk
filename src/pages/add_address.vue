@@ -50,6 +50,7 @@ export default {
       detail: "",
       showLinkage:false, //控制子组件的显示隐藏
       result:'',
+      addressId: ''
     };
   },
   components: {
@@ -58,11 +59,12 @@ export default {
   },
   methods: {
     btn() {
+        console.log(this.name,this.phone,this.zone,this.detail)
       if (
-        this.name == "" ||
-        this.phone == "" ||
-        this.zone == "" ||
-        this.detail == ""
+        !this.name ||
+        !this.phone ||
+        !this.zone ||
+        !this.detail
       ) {
         Toast({
           message: "信息请填写完整",
@@ -73,9 +75,19 @@ export default {
           name: this.name,
           phone: this.phone,
           zone: this.zone,
-          detail: this.detail
+          detail: this.detail,
         };
-        this.$store.dispatch("setAddress",data)
+        console.log(this.addressId)
+        if (typeof(this.addressId) == 'undefined') {
+            console.log(1)
+            this.$store.dispatch("setAddress",data)
+        }else {
+            console.log(2)
+            data.addressId = this.addressId
+            console.log(data)
+            this.$store.dispatch("editAddress",data)
+        }
+        
         this.$router.back();
       }
     },
@@ -87,14 +99,18 @@ export default {
     },
     _showLinkage(){
       this.showLinkage=true
-    }
-  },
-  mounted () {
-      console.log(this.$route)
+    },
+    getAddressDetaill() {
       this.name = this.$route.query.name
       this.phone = this.$route.query.phone
       this.zone = this.$route.query.zone
       this.detail = this.$route.query.detail
+      this.addressId = this.$route.query.addressId
+      
+    }
+  },
+  mounted () {
+    this.getAddressDetaill()
   }
 };
 </script>

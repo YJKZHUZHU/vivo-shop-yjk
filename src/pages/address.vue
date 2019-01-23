@@ -53,14 +53,15 @@ export default {
             });
         },
       editAddress (index, list) {
-          console.log(index, list)
+        console.log(index, list)
         this.$router.push({
           path: "add_address",
           query: {
             name: list.name,
             phone: list.phone,
             zone: list.zone,
-            detail: list.detail
+            detail: list.detail,
+            addressId: index
           }
         });
       }

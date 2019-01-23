@@ -45,9 +45,7 @@ export default {
     ...mapGetters(["this.$store.state.article"])
   },
   methods: {
-    btn(list) {
-      console.log(list)
-      list.sc = !list.sc
+    timeFormatting(){
       var date = new Date();
       var fh1 = "-";
       var fh2 = ":";
@@ -64,29 +62,38 @@ export default {
       hour = hour < 10 ? ('0' + hour) : hour;
       minutes = minutes < 10 ? ('0' + minutes) : minutes;
 
-      var currentdate = year + fh1 + month + fh1 + day + fh3 + hour + fh2 + minutes;
+      return year + fh1 + month + fh1 + day + fh3 + hour + fh2 + minutes;
+    },
+    btn(list) {
+      console.log(list)
+      
+      var currrentTime = this.timeFormatting()
 
       var idExist = this.$store.state.article.find(data => {
         return data.id == list.id;
       });
       console.log(idExist)
-      if (!idExist) {
+      if (typeof(idExist) == 'undefined') {
+        list.sc = true
         var data = {
           id: list.id,
           title: list.newsTitle,
           newsCon:list.newsCon,
-          currentdate: currentdate
+          currentdate: currrentTime
         };
         Toast({
           message: "收藏成功",
           duration: 950
         });
+        
         this.$store.dispatch("setArticle",data)
       } else {
+         list.sc = true
         Toast({
           message: "您已经收藏过了",
           duration: 950
         });
+       
       }
     },
     like: function () {

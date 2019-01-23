@@ -16,6 +16,10 @@ const actions={
     setAddress({commit},data){
         commit('SET_ADDRESS',data)
     },
+    // 编辑地址
+    editAddress({commit}, data) {
+        commit('EDIT_ADDRESS', data)
+    },
     //订单
     setOrders({commit},data){
         commit('SET_ORDERS',data)

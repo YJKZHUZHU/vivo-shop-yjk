@@ -28,6 +28,15 @@ const matutaions={
         state.address.push(data)
         localStorage.setItem("address",JSON.stringify(state.address));
     },
+    //编辑收货地址
+    [type.EDIT_ADDRESS](state,data) {
+        for (var i = 0; i<state.address.length; i++) {
+            if (i === data.addressId) {
+                delete(data.addressId)
+                state.address[i] = data
+            }
+        }
+      },
     //文章删除
     del:(state,index)=>{
         MessageBox.confirm('确定取消收藏该文章么？').then(action=>{
@@ -62,11 +71,7 @@ const matutaions={
             localStorage.setItem("orders",JSON.stringify(state.orders));
         })
     },
-    //编辑收货地址
-    // editAddress: (state, index)=> {
-    //   console.log(state, index,this)
-    //
-    // },
+    
 
     //数量加
      add(state,index){

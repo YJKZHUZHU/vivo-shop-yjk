@@ -4,7 +4,7 @@
         <div class="main_box">
           <ul>
             <img src="https://shopstatic.vivo.com.cn/vivoshop/commodity/20180405/20180405101609299910_original.jpg" width="100%">
-            <li v-for="(todo,index) in todos" :key="todo.id"   @click="open(todo.id)" >
+            <li v-for="(todo) in todos" :key="todo.id"   @click="open(todo.id)" >
               <div class="list">
                 <div class="image">
                   <img v-lazy="todo.homeImg" alt="图片">

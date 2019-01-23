@@ -1,7 +1,7 @@
 <template>
 <div>
-<Classify-Header title="商品分类"></Classify-Header>
-  <div class="calssify-con" >
+    <Classify-Header title="商品分类"></Classify-Header>
+    <div class="calssify-con" >
         <div class="calssify-left" ref="wrapper">
             <ul class="calssify-left-ul" >
                 <li v-for="(list,index) in left" :key="index" @click="qiehuan(index)" :class="{active:index===classifyIndex}">
@@ -18,21 +18,21 @@
             </ul>
         </div>
     </div>
-<v-footer></v-footer>
+    <v-footer></v-footer>
 </div>
   
 </template>
 
 <script>
 import ClassifyHeader from "../../common/header";
-import footer from "../../pages/footer";
+import Footers from "../../pages/footer";
 import axios from "axios";
 import { mapGetters } from "vuex";
 export default {
   data() {
     return {
       left: [],
-      rigth: [],
+      right: [],
       list: [],
       ce: [],
       key2: "",
@@ -40,26 +40,14 @@ export default {
     };
   },
   components: {
-    "v-footer": footer,
+    "v-footer": Footers,
     ClassifyHeader
   },
-  //    mounted(){
-  //       this.$nextTick(() => {
-  //         this.scroll = new BScroll(this.$refs.wrapper, {})
-  //         this.scroll = new BScroll(this.$refs.wrapper2, {})
-  //       })
-  //   },
   computed: {
-    ...mapGetters(["this.$store.state.sindex"])
+    ...mapGetters(['this.$store.state.nowIndex'])
   },
   created() {
-    var _this = this;
-    axios.get("/static/ceshi.json").then(function(res) {
-      console.log(res)
-     _this.left = res.data.data.classify.left;
-      _this.list = res.data.data.classify.right;
-      _this.right = _this.list[0];
-    });
+     this.getData()
   },
   methods: {
     qiehuan(index) {
@@ -73,8 +61,20 @@ export default {
         path: "goodDetail",
         query: { id: id }
       });
+    },
+    getData() {
+        var _this = this;
+        axios.get("/static/ceshi.json").then(function(res) {
+            console.log(res)
+            _this.left = res.data.data.classify.left;
+            _this.list = res.data.data.classify.right;
+            _this.right = _this.list[0];
+    });
     }
   }
+
+
+
 };
 </script>
 
@@ -99,7 +99,6 @@ export default {
         width: 4rem;
         height: 100%;
         background: #f6f6f6;
-        // border-right: 10px solid #f6f6f6;
         margin-bottom: 1.51rem;
         font-size 0.35rem
 

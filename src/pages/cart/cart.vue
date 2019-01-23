@@ -3,7 +3,7 @@
        <Cart-Header title="购物车"></Cart-Header>
         <div class="cartMain">
              <ul>
-                <li v-for="(cart,index) in carts" class="cartList">
+                <li v-for="(cart,index) in carts" class="cartList" :key="index">
                      <!-- 购物车单选 -->
                      <div class="select" @click="danxuan(cart)" >
                         <i class="iconfont icon-xuanzekuangmoren"   v-show="!cart.danx1uan"></i>
