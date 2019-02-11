@@ -1,6 +1,6 @@
 <template>
     <div class="goodDetaiSwipe">
-         <div class="goodDetailMain" v-for="(goodDetail,index) in gos">
+         <div class="goodDetailMain" v-for="(goodDetail,index) in gos" :key="index">
                         <div class="gooDetailNumber">商品编号：{{goodDetail.number}}</div>
                         <div class="goodDetailName">{{goodDetail.name}}</div>
                         <div style="text-align: justify;">
@@ -32,7 +32,7 @@
                         <mt-tab-container v-model="selected" swipeable>
                             <mt-tab-container-item id="tab-container1">
                                <div class="goodDetailImg">
-                                   <p v-for="Image in goodDetail.Images">
+                                   <p v-for="(Image, index) in goodDetail.Images" :key="index">
                                        <img v-bind:src="Image.one" alt="详情图片">
                                     </p>
                                 </div>

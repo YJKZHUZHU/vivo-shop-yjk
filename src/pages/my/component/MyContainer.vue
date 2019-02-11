@@ -240,6 +240,7 @@ export default {
             background: #ffffff;
             border-bottom: 1px solid #f0f0f0;
             display : flex;
+            align-items : center;
             justify-content : space-between
             .con-left {
                 padding-left: 0.47rem;

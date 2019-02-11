@@ -1,6 +1,6 @@
 <template>
   <div class="home-swiper">
-        <mt-swipe :auto="4000">
+        <mt-swipe>
           <mt-swipe-item v-for="(list,index) in swiper" :key="index">
             <img :src="list.img">
           </mt-swipe-item>
@@ -15,10 +15,16 @@ export default {
     return{
       swiper:[
         {
-          img:"https://shopstatic.vivo.com.cn/vivoshop/commodity/20180418/20180418104131830678_original.jpg"
+          img:"https://shopstatic.vivo.com.cn/vivoshop/commodity/20181229/2018122919374150925_original.jpg"
         },
         {
-          img:"https://shopstatic.vivo.com.cn/vivoshop/commodity/20180430/20180430232146894398_original.jpg"
+          img:"https://shopstatic.vivo.com.cn/vivoshop/commodity/20190120/20190120003259192949_original.jpg"
+        },
+        {
+          img:"https://shopstatic.vivo.com.cn/vivoshop/commodity/20190121/20190121174353662731_original.jpg"
+        },
+        {
+          img:"https://shopstatic.vivo.com.cn/vivoshop/commodity/20190120/20190120003014110304_original.jpg"
         }
       ]
     }
@@ -29,7 +35,7 @@ export default {
 
 <style lang="stylus" scoped>
     .home-swiper
-        height 6.5rem;
+        height 4.93rem;
         margin-top 1px;
         img
             width 100%;
