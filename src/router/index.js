@@ -18,30 +18,31 @@ import OrderDetails from "@/pages/OrderDetails"
 import pay from "@/pages/pay/pay"
 import address from "@/pages/address"
 import add_address from "@/pages/add_address"
+import login from '@/pages/login/Login'
 Vue.use(Router)
 
 export default new Router({
   routes: [
     { path: '/', name: 'Home', component: Home },
-    { path: '/Home', name: 'Home', component: Home,meta:{index:1} },
+    { path: '/Home', name: 'Home', component: Home, meta: { index: 1 } },
     { path: '/cart', name: 'cart', component: cart },
     { path: '/my', name: 'my', component: my },
-    { 
-      path: '/goodDetail', 
-      name: 'goodDetail', 
+    {
+      path: '/goodDetail',
+      name: 'goodDetail',
       component: goodDetail,
-      meta:{index:0}
+      meta: { index: 0 }
     },
-    { 
-      path: '/order', 
-      name: 'order', 
+    {
+      path: '/order',
+      name: 'order',
       component: order,
-      children:[
-       {
-        path: '/order/OrderDetails', 
-        name: '/order/OrderDetails', 
-        component: OrderDetails,
-       }
+      children: [
+        {
+          path: '/order/OrderDetails',
+          name: '/order/OrderDetails',
+          component: OrderDetails,
+        }
       ]
     },
     { path: '/author', name: 'author', component: author },
@@ -50,24 +51,29 @@ export default new Router({
     { path: '/news', name: 'news', component: news },
     { path: '/parts', name: 'parts', component: parts },
     { path: '/change', name: 'change', component: change },
-    { path: '/success',name:'success',component:success},
-    { path: '/MyCollection',name:'MyCollection',component:MyCollection},
-    { path: '/classify',name:'classify',component:classify},
-    { path: '/OrderDetails',name:'OrderDetails',component:OrderDetails},
-    { 
+    { path: '/success', name: 'success', component: success },
+    { path: '/MyCollection', name: 'MyCollection', component: MyCollection },
+    { path: '/classify', name: 'classify', component: classify },
+    { path: '/OrderDetails', name: 'OrderDetails', component: OrderDetails },
+    {
       path: '/pay',
-      name:'pay',
-      component:pay
+      name: 'pay',
+      component: pay
     },
     {
       path: '/address',
-      name:'address',
-      component:address
+      name: 'address',
+      component: address
     },
     {
       path: '/add_address',
-      name:'add_address',
-      component:add_address
+      name: 'add_address',
+      component: add_address
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: login
     }
   ],
   //路由切换页面始终回到最顶部

@@ -37,6 +37,16 @@ const matutaions={
             }
         }
       },
+    [type.RECEIVE_USER_INFO] (state, {userInfo}) {
+      state.userInfo = userInfo
+    },
+    [type.RESET_USER_INFO] (state) {
+      state.userInfo = {}
+    },
+
+    [type.RECEIVE_INFO](state, {info}) {
+      state.info = info
+    },
     //文章删除
     del:(state,index)=>{
         MessageBox.confirm('确定取消收藏该文章么？').then(action=>{
