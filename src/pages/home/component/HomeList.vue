@@ -26,7 +26,6 @@
         margin: auto;
         div
             width: 1.58rem;
-            height: 1.59rem;
             margin: auto;
         img 
             display: block;
