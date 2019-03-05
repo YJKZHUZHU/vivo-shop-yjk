@@ -23,17 +23,36 @@ module.exports = {
   },
   dev: {
     env: require('./dev.env'),
-    port: 8080,
+    host: 'localhost',
+    port: 9000,
     autoOpenBrowser: true,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
+<<<<<<< HEAD
     proxyTable: {
+=======
+    errorOverlay: true,
+    notifyOnErrors: true,
+    poll: false,
+    proxyTable: {
+      '/api': { // 匹配所有以 '/api'开头的请求路径
+        target: 'http://localhost:4000', // 代理目标的基础路径
+        changeOrigin: true, // 支持跨域
+        pathRewrite: {// 重写路径: 去掉路径中开头的'/api'
+          '^/api': ''
+        }
+      }
+>>>>>>> dd97348e4dbfb2d0c3406a00a82132e04210f9e5
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"
     // with this option, according to the CSS-Loader README
     // (https://github.com/webpack/css-loader#sourcemaps)
     // In our experience, they generally work as expected,
     // just be aware of this issue when enabling this option.
-    cssSourceMap: false
+    cssSourceMap: false,
+    useEslint: false,
+    showEslintErrorsInOverlay: false,
+    cacheBusting: true,
+    cssSourceMap: true
   }
 }

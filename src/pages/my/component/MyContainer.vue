@@ -1,10 +1,29 @@
 <template>
-  <div class="container">
+  <div class="container profile">
       <div class="container-bj">
           <img src="/static/img/tou.jpg">
           <span>Myfwk</span>
           <p>不要被人言左右，要相信自己的判断</p>
       </div>
+      <section class="profile-number">
+      <router-link :to="userInfo._id ? '/userinfo': '/login'" class="profile-link">
+        <div class="profile_image">
+          <i class="iconfont icon-person"></i>
+        </div>
+        <div class="user-info">
+          <p class="user-info-top" v-if="!userInfo.phone">{{userInfo.name || '登录/注册'}}</p>
+          <p>
+                <span class="user-icon">
+                  <i class="iconfont icon-shouji icon-mobile"></i>
+                </span>
+            <span class="icon-mobile-number">{{userInfo.phone || '暂无绑定手机号'}}</span>
+          </p>
+        </div>
+        <span class="arrow">
+          <i class="iconfont icon-jiantou1"></i>
+        </span>
+      </router-link>
+    </section>
 
       <div class="container-integral">
           <p>
@@ -83,12 +102,15 @@
                   <i class="iconfont icon-youjiantou"></i>
               </div>
           </a>
+          <mt-button type="danger" style="width: 100%" v-if="userInfo._id" @click="logout">退出登陆</mt-button>
       </div>
+
   </div>
 </template>
 
 <script>
 import { mapState, mapMutations, mapGetters } from "vuex";
+import  {MessageBox} from  'mint-ui'
 export default {
   name:"Mycontainer",
   data(){
@@ -114,6 +136,7 @@ export default {
   },
     computed:{
       ...mapGetters(["this.$store.state.orders"]),
+      ...mapState(["userInfo"]),
        jifeng(){
           var jifeng=0
           this.$store.state.orders.forEach(list => {
@@ -121,7 +144,21 @@ export default {
         });
          return jifeng;
       }
-  },
+    },
+  methods: {
+    logout () {
+      MessageBox.confirm('确认退出吗?').then(
+        action => {
+          // 请求退出
+          this.$store.dispatch('logout')
+          Toast('登出完成')
+        },
+        action => {
+          console.log('点击了取消')
+        }
+      );
+    }
+  }
 }
 </script>
 

@@ -5,6 +5,7 @@ const state={
     orders:localStorage["orders"]?JSON.parse(localStorage["orders"]): [],
     todos:localStorage["todos"]?JSON.parse(localStorage["todos"]): [],
     address:localStorage["address"]?JSON.parse(localStorage["address"]): [],
+    userInfo: localStorage["userInfo"]?JSON.parse(localStorage["userInfo"]): [], // 用户信息
     nowIndex:0
 }
 
