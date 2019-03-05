@@ -48,6 +48,11 @@ export default {
   },
   created() {
      this.getData()
+     axios.post('/wap/product/parts', {
+       params: {
+         
+       }
+     })
   },
   methods: {
     qiehuan(index) {

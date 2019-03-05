@@ -31,7 +31,7 @@
         </div>
        
         
-        <div v-show="collectionIndex===1" v-for="(list,index) in article"  @click="goNewsDetail(list.id)">
+        <div v-show="collectionIndex===1" v-for="(list,index) in article"  @click="goNewsDetail(list.id)" :key="index">
            <div class="article" >
                 <p class="tltie">{{list.title}}</p>
                 <p class="con">{{list.newsCon}}</p>
