@@ -39,13 +39,11 @@ const matutaions={
       },
     [type.RECEIVE_USER_INFO] (state, {userInfo}) {
       state.userInfo = userInfo
+      localStorage.setItem("userInfo",JSON.stringify(state.userInfo));
     },
     [type.RESET_USER_INFO] (state) {
       state.userInfo = {}
-    },
-
-    [type.RECEIVE_INFO](state, {info}) {
-      state.info = info
+      localStorage.setItem("userInfo",JSON.stringify(state.userInfo));
     },
     //文章删除
     del:(state,index)=>{
@@ -65,7 +63,7 @@ const matutaions={
         MessageBox.confirm('确定删除该收货地址么？').then(action=>{
             state.address.splice(index,1)
             localStorage.setItem("address",JSON.stringify(state.address));
-        }) 
+        })
     },
     //购物车删除
     shanchu:(state,index)=>{
@@ -81,7 +79,7 @@ const matutaions={
             localStorage.setItem("orders",JSON.stringify(state.orders));
         })
     },
-    
+
 
     //数量加
      add(state,index){
@@ -96,6 +94,7 @@ const matutaions={
         state.carts=[];
         localStorage.setItem("carts",JSON.stringify(state.carts));
     },
+
 }
 
 export default matutaions

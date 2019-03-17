@@ -11,7 +11,7 @@
                 </div>
                 <p class="name">{{todo.homeName}}</p>
                 <p class="nametwo">{{todo.homeNametwo}}</p>
-                <p class="Price">￥{{todo.homePrice}}</p> 
+                <p class="Price">￥{{todo.homePrice}}</p>
               </div>
             </li>
           </ul>
@@ -21,6 +21,7 @@
 
 <script>
 import { mapState, mapMutations, mapGetters } from "vuex";
+import { Lazyload } from 'mint-ui';
 export default {
   name: "HomeContainer",
   props: {
@@ -112,5 +113,10 @@ ul li {
     margin-top: .5rem;
     margin-bottom .2rem
   }
+}
+image[lazy=loading] {
+  width: 40px;
+  height: 300px;
+  margin: auto;
 }
 </style>
