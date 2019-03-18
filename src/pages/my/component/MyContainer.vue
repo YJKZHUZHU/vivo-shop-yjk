@@ -2,29 +2,13 @@
   <div class="container profile">
       <div class="container-bj">
           <img src="/static/img/tou.jpg">
-          <span>Myfwk</span>
-          <p>不要被人言左右，要相信自己的判断</p>
+        <router-link :to="userInfo._id ? '/userinfo': '/login'" class="profile-link">
+          <div class="user-info" style="width: 100%;text-align: center">
+            <p v-if="!userInfo.phone"><span>{{userInfo.name || '登录/注册'}}</span></p>
+            <p><span>{{userInfo.phone || '暂无绑定手机号'}}</span></p>
+          </div>
+        </router-link>
       </div>
-      <section class="profile-number">
-      <router-link :to="userInfo._id ? '/userinfo': '/login'" class="profile-link">
-        <div class="profile_image">
-          <i class="iconfont icon-person"></i>
-        </div>
-        <div class="user-info">
-          <p class="user-info-top" v-if="!userInfo.phone">{{userInfo.name || '登录/注册'}}</p>
-          <p>
-                <span class="user-icon">
-                  <i class="iconfont icon-shouji icon-mobile"></i>
-                </span>
-            <span class="icon-mobile-number"  v-if="!userInfo.phone">{{userInfo.phone || '暂无绑定手机号'}}</span>
-          </p>
-        </div>
-        <span class="arrow">
-          <i class="iconfont icon-jiantou1"></i>
-        </span>
-      </router-link>
-    </section>
-
       <div class="container-integral">
           <p>
               <span>0</span>
@@ -52,7 +36,7 @@
              </p>
          </div>
      </router-link>
-    
+
       <div class="container-con" id="transition">
           <router-link to="/MyCollection" class="con">
                  <div class="con-left">
@@ -93,16 +77,18 @@
                   <i class="iconfont icon-youjiantou"></i>
               </div>
           </router-link>
-          <a target="_blank" href="https://github.com/YJKZHUZHU/vivo-shop-yjk" class="con">
-                 <div class="con-left">
-                  <i class="iconfont icon-bangzhuguanyuwomen"></i>
-                  <span>关于我</span>
+          <div style="margin-bottom: 50px">
+            <a target="_blank" href="https://github.com/YJKZHUZHU/vivo-shop-yjk" class="con">
+              <div class="con-left">
+                <i class="iconfont icon-bangzhuguanyuwomen"></i>
+                <span>关于我</span>
               </div>
               <div class="con-rigth">
-                  <i class="iconfont icon-youjiantou"></i>
+                <i class="iconfont icon-youjiantou"></i>
               </div>
-          </a>
-          <mt-button type="danger" style="width: 100%" v-if="userInfo._id" @click="logout">退出登陆</mt-button>
+            </a>
+            <mt-button type="danger" style="width: 100%"  v-if="userInfo._id" @click="logout">退出登陆</mt-button>
+          </div>
       </div>
 
   </div>
@@ -110,7 +96,7 @@
 
 <script>
 import { mapState, mapMutations, mapGetters } from "vuex";
-import  {MessageBox} from  'mint-ui'
+import  {MessageBox,Toast} from  'mint-ui'
 export default {
   name:"Mycontainer",
   data(){
@@ -194,13 +180,13 @@ export default {
         display flex
         justify-content center
         align-items center
-       
+
         p{
             width 25%
             display flex
             flex-direction column
             margin-top .3rem
-           
+
             img{
                 width .8rem
                 height .8rem

@@ -38,7 +38,12 @@ module.exports = {
         pathRewrite: {// 重写路径: 去掉路径中开头的'/api'
           '^/api': ''
         }
+<<<<<<< HEAD
       }
+=======
+      },
+
+>>>>>>> 70e98271347a3ecc7e814872ba45a3cef08adfe4
     },
     cssSourceMap: false,
     useEslint: false,

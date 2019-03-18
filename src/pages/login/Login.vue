@@ -3,7 +3,7 @@
     <div class="loginInner">
       <div class="login_header">
         <!--<h2 class="login_logo">VIVO商城</h2>-->
-        <img src="../../../static/img/logo.png" alt="VIVO商城" class="login_logo">
+        <img src="https://accountstatic.vivo.com.cn/accountstatic.vivo.com.cn/static/img/logo.d68beda.png.webp" alt="VIVO商城" class="login_logo">
         <div class="login_header_title">
           <a href="javascript:;" :class="{on: loginWay}" @click="loginWay=true">短信登录</a>
           <a href="javascript:;" :class="{on: !loginWay}" @click="loginWay=false">密码登录</a>

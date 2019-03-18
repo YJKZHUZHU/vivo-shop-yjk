@@ -100,7 +100,6 @@ export default {
   },
   methods: {
     ...mapMutations(["shanchu", "add", "reduce", "settlement"]),
-
     danxuan(cart) {
       console.log(cart);
       cart.danx1uan = !cart.danx1uan;

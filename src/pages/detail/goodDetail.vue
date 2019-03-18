@@ -6,7 +6,7 @@
                 <li v-for="(goodDetail,index) in goodDetails" :key="index">
                     <div class="goodDetaiSwipe">
                         <mt-swipe :auto="4000">
-                            <mt-swipe-item v-for="list in goodDetail.homeSwipe"> 
+                            <mt-swipe-item v-for="(list, index) in goodDetail.homeSwipe" :key="index"> 
                                 <img :src="list.swipe" alt="图片">
                             </mt-swipe-item>
                         </mt-swipe>
@@ -43,7 +43,7 @@
                         <mt-tab-container v-model="selected" swipeable>
                             <mt-tab-container-item id="tab-container1">
                                <div class="goodDetailImg">
-                                   <p v-for="Image in goodDetail.Images">
+                                   <p v-for="(Image, index) in goodDetail.Images" :key="index">
                                        <img v-bind:src="Image.one" alt="详情图片">
                                     </p>
                                 </div>
@@ -71,15 +71,12 @@
                           </router-link>
                           <router-link to="/MyCollection">
                             <div class="collection" >
-                                <div class="collection-box" @click="addCollection(goodDetail)"  v-show="!$store.state.ces">
+                                <div class="collection-box" @click="addCollection(goodDetail)"  v-if="!$store.state.ces">
                                     <i class="iconfont icon-collection"></i>
-
                                     <span>收藏</span>
-
-
                                 </div>
 
-                                <div class="collection-box" @click="addCollection(goodDetail)"  v-show="$store.state.ces">
+                                <div class="collection-box" @click="addCollection(goodDetail)"  v-else-if="$store.state.ces">
                                     <i class="iconfont icon-shoucangxuanzhong1" style="color:red"></i>
                                     <span style="color:red">取消</span>
                                 </div>
@@ -175,7 +172,7 @@ export default {
 
   methods: {
     addCollection(index) {
-      console.log($store.state.ces)
+      console.log($store)
       this.$store.state.ces=!this.$store.state.ces
        var data={
            id:index.id,
