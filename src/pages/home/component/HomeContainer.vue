@@ -22,6 +22,7 @@
 <script>
 import { mapState, mapMutations, mapGetters } from "vuex";
 import { Lazyload } from 'mint-ui';
+import axios from  'axios'
 export default {
   name: "HomeContainer",
   props: {
@@ -31,6 +32,11 @@ export default {
     open: function(id) {
       this.$router.push({ path: "goodDetail", query: { id: id } });
     }
+  },
+  mounted:function () {
+    axios.get('/api/index_category',function (res) {
+      console.log(res)
+    })
   }
 };
 </script>
