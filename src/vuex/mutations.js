@@ -8,10 +8,24 @@ const matutaions={
         state.carts.push(data)
         localStorage.setItem("carts",JSON.stringify(state.carts));
     },
-    //文章
+    //文章收藏
     [type.SET_ARTICLE](state,data){
         state.article.push(data)
         localStorage.setItem("article",JSON.stringify(state.article));
+    },
+    //取消文章收藏
+    [type.DELETE_ARTICLE](state,data){
+      console.log(state.article,data)
+      for (var i in state.article) {
+        // console.log(i)
+        if (state.article[i].id === data){
+          state.article.splice(state.article[i],1)
+        }
+      }
+      console.log(state.article,data)
+      localStorage.setItem("article",JSON.stringify(state.article));
+      // state.article.push(data)
+      //       // localStorage.setItem("article",JSON.stringify(state.article));
     },
     //商品
     [type.SET_GOODS](state,data){

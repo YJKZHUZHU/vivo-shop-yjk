@@ -13,6 +13,11 @@ const actions={
     setArticle({commit},data){
         commit('SET_ARTICLE',data)
     },
+    //取消文章收藏
+    deleteArticle({commit}, data){
+      console.log(data)
+      commit('DELETE_ARTICLE',data)
+    },
     //商品收藏
     setGoods({commit},data){
         commit('SET_GOODS',data)

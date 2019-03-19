@@ -24,7 +24,6 @@ import { mapState, mapMutations, mapGetters } from "vuex";
 import { Lazyload } from 'mint-ui';
 import axios from  'axios'
 export default {
-  name: "HomeContainer",
   props: {
     todos: Array
   },

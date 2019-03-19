@@ -9,8 +9,8 @@
             <span>{{ likeNumber }}</span>
           </div>
           <div class="collection" @click="btn(list)">
-            <i class="iconfont icon-praise" v-show="!list.sc" ></i>
-            <i class="iconfont icon-praise" v-show="list.sc" style="color:red"></i>
+            <i class="iconfont icon-praise" v-if="list.sc" style="color:red"></i>
+            <i class="iconfont icon-praise" v-else-if="!list.sc" ></i>
             <span>收藏</span>
           </div>
         </div>
@@ -66,9 +66,8 @@ export default {
     },
     btn(list) {
       console.log(list)
-      
       var currrentTime = this.timeFormatting()
-
+      //找到了返回该对象，没找到返回undefined
       var idExist = this.$store.state.article.find(data => {
         return data.id == list.id;
       });
@@ -79,36 +78,45 @@ export default {
           id: list.id,
           title: list.newsTitle,
           newsCon:list.newsCon,
-          currentdate: currrentTime
+          currentdate: currrentTime,
+          isExist: list.sc
         };
         Toast({
           message: "收藏成功",
           duration: 950
         });
-        
         this.$store.dispatch("setArticle",data)
       } else {
-         list.sc = true
+         list.sc = false
         Toast({
-          message: "您已经收藏过了",
+          message: "取消收藏",
           duration: 950
         });
-       
+        this.$store.dispatch("deleteArticle",list.id)
       }
     },
-    like: function () {
-      
-    }
+    //点赞
+   like: function () {
+     
+   }
   },
   created() {
     var _this = this;
     var id = this.$route.query.id;
-    axios.get("/static/ceshi.json").then(function(res) {
-      for (var i = 0; i < res.data.data.news.length; i++) {
-        if (res.data.data.news[i].id == id) {
-          _this.newsDetail.push(res.data.data.news[i]);
+    axios.get("/api/index_goods").then(function(res) {
+      for (var i = 0; i < res.data.data.data.news.length; i++) {
+        if (res.data.data.data.news[i].id == id) {
+          _this.newsDetail.push(res.data.data.data.news[i]);
         }
       }
+      for(var i in  _this.newsDetail) {
+        if(JSON.parse(localStorage.getItem('article')).length > 0 && _this.newsDetail[i].id == JSON.parse(localStorage.getItem('article'))[i].id){
+          _this.newsDetail[i].sc = JSON.parse(localStorage.getItem('article'))[i].isExist
+        }else {
+          console.log(1)
+        }
+      }
+      console.log(_this.newsDetail)
     });
   }
   // created(){

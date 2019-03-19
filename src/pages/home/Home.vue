@@ -20,7 +20,6 @@ import HomeContainer from './component/HomeContainer'
 import HomeFooter from '../../pages/footer'
 import axios from 'axios';
 export default {
-  name:"Home",
   data(){
     return{
       todos:[]
@@ -38,9 +37,8 @@ export default {
   methods:{
     getData:function(){
       var _this=this
-      axios.get("/static/ceshi.json").then(function(res){
-        console.log(res)
-        _this.todos=res.data.data.home
+      axios.get("/api/index_goods").then(function(res){
+        _this.todos=res.data.data.data.home
       })
     }
   }

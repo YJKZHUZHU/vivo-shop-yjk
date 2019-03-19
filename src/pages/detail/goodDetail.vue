@@ -152,18 +152,18 @@ export default {
   created() {
     var _this = this;
     var id = this.$route.query.id;
-    axios.get("/static/ceshi.json").then(res => {
-      for (var i = 0; i < res.data.data.home.length;i++){
-        if (res.data.data.home[i].id == id ) {
-            _this.goodDetails.push(res.data.data.home[i]);
+    axios.get("/api/index_goods").then(res => {
+      for (var i = 0; i < res.data.data.data.home.length;i++){
+        if (res.data.data.data.home[i].id == id ) {
+            _this.goodDetails.push(res.data.data.data.home[i]);
         }
       }
     });
 
-    axios.get("/static/ceshi.json").then(res => {
-      for (var i = 0; i < res.data.data.set.length;i++){
-        if (res.data.data.set[i].id == id ) {
-            _this.goodDetails.push(res.data.data.set[i]);
+    axios.get("/api/index_goods").then(res => {
+      for (var i = 0; i < res.data.data.data.set.length;i++){
+        if (res.data.data.data.set[i].id == id ) {
+            _this.goodDetails.push(res.data.data.data.set[i]);
         }
       }
     });

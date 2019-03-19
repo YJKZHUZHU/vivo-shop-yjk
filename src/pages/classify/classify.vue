@@ -1,6 +1,6 @@
 <template>
 <div>
-    <Classify-Header title="商品分类"></Classify-Header>
+    <classify-header title="商品分类"></classify-header>
     <div class="calssify-con" >
         <div class="calssify-left" ref="wrapper">
             <ul class="calssify-left-ul" >
@@ -41,24 +41,23 @@ export default {
   },
   components: {
     "v-footer": Footers,
-    ClassifyHeader
+    "classify-header": ClassifyHeader
   },
   computed: {
     ...mapGetters(['this.$store.state.nowIndex'])
   },
   created() {
      this.getData()
-     axios.post('/wap/product/parts', {
-       params: {
-         
-       }
-     })
   },
   methods: {
     qiehuan(index) {
       var _this = this;
+      // _this.right.rigth_data = null
+      // console.log(typeof _this.right.rigth_data)
       _this.classifyIndex = index;
+      console.log(_this.list)
       _this.right = _this.list[index];
+      console.log(_this.right)
     },
     goDetails(id) {
       console.log(id);
@@ -69,11 +68,12 @@ export default {
     },
     getData() {
         var _this = this;
-        axios.get("/static/ceshi.json").then(function(res) {
-            console.log(res)
-            _this.left = res.data.data.classify.left;
-            _this.list = res.data.data.classify.right;
+        axios.get("/api/index_goods").then(function(res) {
+            // console.log(res)
+            _this.left = res.data.data.data.classify.left;
+            _this.list = res.data.data.data.classify.right;
             _this.right = _this.list[0];
+            // console.log(_this.right)
     });
     }
   }
