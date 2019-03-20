@@ -24,11 +24,26 @@ const matutaions={
       }
       console.log(state.article,data)
       localStorage.setItem("article",JSON.stringify(state.article));
-      // state.article.push(data)
-      //       // localStorage.setItem("article",JSON.stringify(state.article));
     },
+    //文章点赞
+  [type.LIKE_NUMBERS](state,data){
+    Array.prototype.remove=function (value) {
+      var index = this.indexOf(value)
+      if(index > -1){
+        this.splice(index,1)
+      }
+    }
+    for (var i in state.likeNumbers) {
+      if(state.likeNumbers[i].id == data.id){
+        state.likeNumbers.remove(state.likeNumbers[i])
+      }
+    }
+    state.likeNumbers.push(data)
+    localStorage.setItem("likeNumbers",JSON.stringify(state.likeNumbers));
+  },
     //商品
     [type.SET_GOODS](state,data){
+
         state.collections.push(data)
         localStorage.setItem("collections",JSON.stringify(state.collections));
     },

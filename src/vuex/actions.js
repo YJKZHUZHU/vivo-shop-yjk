@@ -18,6 +18,11 @@ const actions={
       console.log(data)
       commit('DELETE_ARTICLE',data)
     },
+    //文章点赞
+    like_numbers({commit}, data) {
+      // console.log(data)
+      commit('LIKE_NUMBERS', data)
+    },
     //商品收藏
     setGoods({commit},data){
         commit('SET_GOODS',data)

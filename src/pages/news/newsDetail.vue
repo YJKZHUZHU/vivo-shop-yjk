@@ -1,11 +1,12 @@
 <template>
   <div class="detail" id="transition">
-      <Detail-Header title="资讯详情"></Detail-Header>
+      <DetailHeader title="资讯详情"></DetailHeader>
       <div class="detail-con" v-for="(list,index) in newsDetail" :key="index">
         <div class="detail-con-box" v-html="list.newsDetail"></div>
         <div class="details-box">
-          <div class="collection" @click="like">
-            <i class="iconfont icon-dianzan"></i>
+          <div class="collection" @click="like(list)">
+            <i class="iconfont icon-dianzan" v-if="likeNumber == 0"></i>
+            <i class="iconfont icon-dianzan" v-else-if="likeNumber >0" style="color: red;"></i>
             <span>{{ likeNumber }}</span>
           </div>
           <div class="collection" @click="btn(list)">
@@ -29,9 +30,8 @@ import {
   TabContainerItem
 } from "mint-ui";
 import DetailHeader from '../../common/header';
-import { mapGetters, mapMutations } from "vuex";
+import { mapGetters, mapMutations,mapState } from "vuex";
 export default {
-  name: "newsDetail",
   data() {
     return {
       newsDetail: [],
@@ -96,12 +96,41 @@ export default {
       }
     },
     //点赞
-   like: function () {
-     
+   like: function (list) {
+     list.sc = true
+     this.likeNumber++
+     let likeNumber = this.likeNumber
+     Toast({
+       message: "点赞成功",
+       duration: 950
+     });
+     // console.log(list)
+     // var idExist = this.$store.state.likeNumbers.find(data => {
+     //   return data.id == list.id;
+     // });
+     // if (typeof(idExist) == 'undefined') {
+     //   var data = {
+     //     id: list.id,
+     //     likeNumber: this.likeNumber
+     //   };
+     //
+     // }
+       var data = {
+         id: list.id,
+         likeNumber: likeNumber
+       };
+     this.$store.dispatch("like_numbers",data)
    }
   },
-  created() {
+  mounted() {
+    // console.log( _this.likeNumber)
     var _this = this;
+    var merId = location.href.split('?')[1].split('&')[0].split('=')[1]
+    // for(var i in JSON.parse(localStorage.getItem('likeNumbers'))){
+    //   if(JSON.parse(localStorage.getItem('likeNumbers'))[i].id == merId) {
+    //     _this.likeNumber = JSON.parse(localStorage.getItem('likeNumbers'))[i].likeNumber
+    //   }
+    // }
     var id = this.$route.query.id;
     axios.get("/api/index_goods").then(function(res) {
       for (var i = 0; i < res.data.data.data.news.length; i++) {
@@ -109,15 +138,21 @@ export default {
           _this.newsDetail.push(res.data.data.data.news[i]);
         }
       }
-      for(var i in  _this.newsDetail) {
-        if(JSON.parse(localStorage.getItem('article')).length > 0 && _this.newsDetail[i].id == JSON.parse(localStorage.getItem('article'))[i].id){
-          _this.newsDetail[i].sc = JSON.parse(localStorage.getItem('article'))[i].isExist
-        }else {
-          console.log(1)
-        }
-      }
-      console.log(_this.newsDetail)
+     // for(var i in JSON.parse(localStorage.getItem()))
     });
+    for(var i in  _this.newsDetail) {
+      if(JSON.parse(localStorage.getItem('article')).length > 0 && _this.newsDetail[i].id == JSON.parse(localStorage.getItem('article'))[i].id){
+        _this.newsDetail[i].sc = JSON.parse(localStorage.getItem('article'))[i].isExist
+      }else {
+        console.log(1)
+      }
+      if(JSON.parse(localStorage.getItem('likeNumbers')).length > 0 && JSON.parse(localStorage.getItem('likeNumbers'))[i].id ==_this.newsDetail[i].id  ){
+        _this.likeNumber = JSON.parse(localStorage.getItem('likeNumbers'))[i].likeNumber
+      }else {
+        console.log(1)
+      }
+
+    }
   }
   // created(){
   //   var id = this.$route.query.id;

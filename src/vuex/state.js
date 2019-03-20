@@ -6,6 +6,7 @@ const state={
     todos:localStorage["todos"]?JSON.parse(localStorage["todos"]): [],
     address:localStorage["address"]?JSON.parse(localStorage["address"]): [],
     userInfo: localStorage["userInfo"]?JSON.parse(localStorage["userInfo"]): [], // 用户信息
+    likeNumbers: localStorage['likeNumbers']?JSON.parse(localStorage['likeNumbers']): [],//点赞数
     nowIndex:0
 }
 
