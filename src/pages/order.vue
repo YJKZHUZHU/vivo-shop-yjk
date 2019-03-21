@@ -44,10 +44,109 @@
                         </div>
                     </div>
                </div>
-               
-               <div  v-show="nowIndex===1">
-                   这里是第待付款
-               </div>
+
+              <div v-show="nowIndex===1">
+                <div v-for="(list,index) in orders" :key="index" class="orders">
+                  <div class="_order">
+                    <p class="left">
+                      <i class="iconfont icon-qijiandian"></i>
+                      vivo官方旗舰店
+                    </p>
+                    <p class="right" style="color: red;">待付款</p>
+                  </div>
+                  <div class="order" >
+                    <img :src="list.img">
+
+                    <div class="order-div">
+                      <h3>{{list.name}}</h3>
+                      <!-- <p class="order-div-color">颜色:黑</p> -->
+                      <p class="order-div-price">￥{{list.price}}</p>
+                    </div>
+                    <div class="order-div-2">
+                      × {{list.value}}
+                    </div>
+                  </div>
+                  <div class="order-2">
+                    <div class="order-2-box">
+                      <p class="order-2-zero">共计<span>{{list.value}}</span>件商品</p>
+                      <p class="order-2-one">总计：<span>￥{{list.price}}</span></p>
+                      <p class="order-2-two">(含运费：¥0.00优惠：¥0.00)</p>
+                    </div>
+                  </div>
+                  <div class="order-3">
+                    <a @click.stop="pay(list)">去付款</a>
+                    <a @click.stop="odefault(index)">订单删除</a>
+                  </div>
+                </div>
+              </div>
+              <div v-show="nowIndex===2">
+                <div v-for="(list,index) in orders" :key="index" class="orders">
+                  <div class="_order">
+                    <p class="left">
+                      <i class="iconfont icon-qijiandian"></i>
+                      vivo官方旗舰店
+                    </p>
+                    <p class="right">待收货</p>
+                  </div>
+                  <div class="order" >
+                    <img :src="list.img">
+
+                    <div class="order-div">
+                      <h3>{{list.name}}</h3>
+                      <!-- <p class="order-div-color">颜色:黑</p> -->
+                      <p class="order-div-price">￥{{list.price}}</p>
+                    </div>
+                    <div class="order-div-2">
+                      × {{list.value}}
+                    </div>
+                  </div>
+                  <div class="order-2">
+                    <div class="order-2-box">
+                      <p class="order-2-zero">共计<span>{{list.value}}</span>件商品</p>
+                      <p class="order-2-one">总计：<span>￥{{list.price}}</span></p>
+                      <p class="order-2-two">(含运费：¥0.00优惠：¥0.00)</p>
+                    </div>
+                  </div>
+                  <div class="order-3">
+                    <a @click.stop="confirmReceipt(list,index)">确认收货</a>
+                    <a @click.stop="odefaultReceipt(index)">订单删除</a>
+                  </div>
+                </div>
+              </div>
+              <div v-show="nowIndex===3">
+                <div v-for="(list,index) in orders" :key="index" class="orders">
+                  <div class="_order">
+                    <p class="left">
+                      <i class="iconfont icon-qijiandian"></i>
+                      vivo官方旗舰店
+                    </p>
+                    <p class="right">待评价</p>
+                  </div>
+                  <div class="order" >
+                    <img :src="list.img">
+
+                    <div class="order-div">
+                      <h3>{{list.name}}</h3>
+                      <!-- <p class="order-div-color">颜色:黑</p> -->
+                      <p class="order-div-price">￥{{list.price}}</p>
+                    </div>
+                    <div class="order-div-2">
+                      × {{list.value}}
+                    </div>
+                  </div>
+                  <div class="order-2">
+                    <div class="order-2-box">
+                      <p class="order-2-zero">共计<span>{{list.value}}</span>件商品</p>
+                      <p class="order-2-one">总计：<span>￥{{list.price}}</span></p>
+                      <p class="order-2-two">(含运费：¥0.00优惠：¥0.00)</p>
+                    </div>
+                  </div>
+                  <div class="order-3">
+                    <a @click.stop="odetails(list)">查看详情</a>
+                    <a @click.stop="odefault(index)">订单删除</a>
+                  </div>
+                </div>
+              </div>
             </div>
         </div>
   </div>
@@ -55,6 +154,7 @@
 
 <script>
 import { mapState, mapMutations, mapGetters } from "vuex";
+import { MessageBox } from 'mint-ui';
 import OrderHeader from "../common/Header";
 export default {
   name: "oerder",
@@ -102,6 +202,26 @@ export default {
             }
         })
         console.log(list)
+    },
+    pay(list){
+      console.log(list)
+      this.$router.push({
+        path:"pay",
+        query:{
+          id:list.id,
+          value:list.value
+        }
+      })
+    },
+  //  确认收货
+    confirmReceipt(list,index){
+      var _this = this
+      console.log(list,this.$store)
+      MessageBox.confirm('确定要收货么？').then(action=>{
+        _this.$store.state.pendingReceipt.splice(index,1)
+        localStorage.setItem("pendingReceipt",JSON.stringify(_this.$store.state.pendingReceipt));
+      })
+
     }
   }
 };

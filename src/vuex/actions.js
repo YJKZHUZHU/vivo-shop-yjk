@@ -27,6 +27,10 @@ const actions={
     setGoods({commit},data){
         commit('SET_GOODS',data)
     },
+    //取消收藏
+    deleteSetGoods({commit}, data){
+        commit('DELETE_SET_GOODS', data)
+    },
     //地址
     setAddress({commit},data){
         commit('SET_ADDRESS',data)

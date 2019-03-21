@@ -15,14 +15,12 @@ const matutaions={
     },
     //取消文章收藏
     [type.DELETE_ARTICLE](state,data){
-      console.log(state.article,data)
       for (var i in state.article) {
         // console.log(i)
         if (state.article[i].id === data){
-          state.article.splice(state.article[i],1)
+          state.article.splice(i,1)
         }
       }
-      console.log(state.article,data)
       localStorage.setItem("article",JSON.stringify(state.article));
     },
     //文章点赞
@@ -41,16 +39,27 @@ const matutaions={
     state.likeNumbers.push(data)
     localStorage.setItem("likeNumbers",JSON.stringify(state.likeNumbers));
   },
-    //商品
+    //商品收藏
     [type.SET_GOODS](state,data){
-
         state.collections.push(data)
         localStorage.setItem("collections",JSON.stringify(state.collections));
+    },
+    //取消商品收藏
+    [type.DELETE_SET_GOODS](state,data){
+      for (var i in state.collections) {
+        // console.log(i)
+        if (state.collections[i].id === data){
+          state.collections.splice(i,1)
+        }
+      }
+      localStorage.setItem("collections",JSON.stringify(state.collections));
     },
     //订单
     [type.SET_ORDERS](state,data){
         state.orders.push(data)
+        state.pendingReceipt.push(data)
         localStorage.setItem("orders",JSON.stringify(state.orders));
+        localStorage.setItem("pendingReceipt",JSON.stringify(state.orders));
     },
     //地址
     [type.SET_ADDRESS](state,data){
@@ -105,10 +114,16 @@ const matutaions={
     odefault:(state,index)=>{
         MessageBox.confirm('确定删除该订单么？').then(action=>{
             state.orders.splice(index,1)
-            localStorage.setItem("orders",JSON.stringify(state.orders));
+          localStorage.setItem("orders",JSON.stringify(state.orders));
         })
     },
-
+    // //确认收货
+    // confirmReceipt:(state,index)=>{
+    //   MessageBox.confirm('确定要收货吗？').then(action=>{
+    //     state.orders.splice(index,1)
+    //     localStorage.setItem("pendingReceipt",JSON.stringify(state.orders));
+    //   })
+    // },
 
     //数量加
      add(state,index){

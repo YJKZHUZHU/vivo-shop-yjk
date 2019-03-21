@@ -87,7 +87,7 @@ export default {
         });
         this.$store.dispatch("setArticle",data)
       } else {
-         list.sc = false
+        list.sc = false
         Toast({
           message: "取消收藏",
           duration: 950
@@ -123,14 +123,7 @@ export default {
    }
   },
   mounted() {
-    // console.log( _this.likeNumber)
     var _this = this;
-    var merId = location.href.split('?')[1].split('&')[0].split('=')[1]
-    // for(var i in JSON.parse(localStorage.getItem('likeNumbers'))){
-    //   if(JSON.parse(localStorage.getItem('likeNumbers'))[i].id == merId) {
-    //     _this.likeNumber = JSON.parse(localStorage.getItem('likeNumbers'))[i].likeNumber
-    //   }
-    // }
     var id = this.$route.query.id;
     axios.get("/api/index_goods").then(function(res) {
       for (var i = 0; i < res.data.data.data.news.length; i++) {
@@ -138,21 +131,29 @@ export default {
           _this.newsDetail.push(res.data.data.data.news[i]);
         }
       }
-     // for(var i in JSON.parse(localStorage.getItem()))
-    });
-    for(var i in  _this.newsDetail) {
-      if(JSON.parse(localStorage.getItem('article')).length > 0 && _this.newsDetail[i].id == JSON.parse(localStorage.getItem('article'))[i].id){
-        _this.newsDetail[i].sc = JSON.parse(localStorage.getItem('article'))[i].isExist
-      }else {
-        console.log(1)
+      if(JSON.parse(localStorage.getItem('article')).length> 0 || localStorage.getItem('article') != null){
+        for(var i in  JSON.parse(localStorage.getItem('article'))) {
+          for(var j in _this.newsDetail){
+            if(_this.newsDetail[j].id == JSON.parse(localStorage.getItem('article'))[i].id){
+              _this.newsDetail[j].sc = JSON.parse(localStorage.getItem('article'))[i].isExist
+            }else {
+              console.log(1)
+            }
+          }
+        }
       }
-      if(JSON.parse(localStorage.getItem('likeNumbers')).length > 0 && JSON.parse(localStorage.getItem('likeNumbers'))[i].id ==_this.newsDetail[i].id  ){
-        _this.likeNumber = JSON.parse(localStorage.getItem('likeNumbers'))[i].likeNumber
-      }else {
-        console.log(1)
+      if(JSON.parse(localStorage.getItem('likeNumbers')).length> 0 || localStorage.getItem('likeNumbers') != null) {
+        for (var i in  JSON.parse(localStorage.getItem('likeNumbers'))) {
+            if (JSON.parse(localStorage.getItem('likeNumbers'))[i].id == id) {
+              _this.likeNumber = JSON.parse(localStorage.getItem('likeNumbers'))[i].likeNumber
+            } else {
+              console.log(1)
+            }
+        }
       }
 
-    }
+    });
+
   }
   // created(){
   //   var id = this.$route.query.id;

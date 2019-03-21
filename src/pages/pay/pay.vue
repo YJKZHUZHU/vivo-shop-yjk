@@ -16,8 +16,9 @@
                 <p class="pay-shop-2">
                     <img :src="list.homeImg">
                     <p class="pay-shop-2-box">
-                        <span class="name">{{list.homeName}}<p>× {{$route.query.value}}</p></span>
-                        <!-- <span>颜色：冰钻黑</span> -->
+                        <span class="name">{{list.homeName}}
+                          <p>× {{$route.query.value}}</p>
+                        </span>
                         <span class="price">¥ {{list.homePrice}}</span>
                     </p>
                 </p>
@@ -69,7 +70,6 @@
            
             <!-- <span>{{list.id}}</span>
             <span>{{list.homeName}}</span> -->
-
             <div class="pay-shop-footer">
                 <p class="price">订单总金额：<span>¥{{$route.query.value*list.homePrice}}</span></p>
                 <a class="order" @click="addOrder(list,index)">立即结算</a>

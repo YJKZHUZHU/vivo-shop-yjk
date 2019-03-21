@@ -21,7 +21,6 @@
                         <div class="goodDetailColor">{{goodDetail.color}}</div>
                         <div class="goodDetailPaid">￥{{goodDetail.homePrice}}</div>
                     </div>
-                    
                     <div class="goodDetailValue">
                         <div class="_Value">购买数量：</div>
                         <div class="_cartNumber" style="margin-left: 2rem;">
@@ -30,16 +29,12 @@
                             <a href="javascript:;" @click="jia(index)" class="goodDetailAdd">+</a>
                         </div>
                     </div>
-
                     <Detail-Layer></Detail-Layer>
-                  
                     <div class="goodDetailBox">
                         <mt-navbar v-model="selected" >
                             <mt-tab-item id="tab-container1">图文详情</mt-tab-item>
                             <mt-tab-item id="tab-container2">参数</mt-tab-item>
                         </mt-navbar>
-
-
                         <mt-tab-container v-model="selected" swipeable>
                             <mt-tab-container-item id="tab-container1">
                                <div class="goodDetailImg">
@@ -48,40 +43,30 @@
                                     </p>
                                 </div>
                             </mt-tab-container-item>
-
                             <mt-tab-container-item id="tab-container2">
                                 <div class="peizhi" v-html="goodDetail.homePeizhi"></div>
                             </mt-tab-container-item>
                         </mt-tab-container>
-
                     </div>
-
-
                     <div class="goodDetailFooter">
                         <div class="left">
                           <router-link to="/cart">
                             <div class="cart">
                                 <div class="cartlength">{{cartlength}}</div>
                                 <img src="https://shopstatic.vivo.com.cn/vivoshop/wap/dist/images/detail/icon-shopcart@2x_201db07.png" >
-
                                 <span>购物车</span>
-
-
                             </div>
                           </router-link>
-                          <router-link to="/MyCollection">
+                          <!--<router-link to="/MyCollection">-->
                             <div class="collection" >
-                                <div class="collection-box" @click="addCollection(goodDetail)"  v-if="!$store.state.ces">
-                                    <i class="iconfont icon-collection"></i>
+                                <div class="collection-box" @click="addCollection(goodDetail)"  >
+                                    <i class="iconfont icon-collection" v-if="!goodDetail.isExit"></i>
+                                    <i class="iconfont icon-shoucangxuanzhong1" style="color:red" v-else-if="goodDetail.isExit"></i>
                                     <span>收藏</span>
                                 </div>
 
-                                <div class="collection-box" @click="addCollection(goodDetail)"  v-else-if="$store.state.ces">
-                                    <i class="iconfont icon-shoucangxuanzhong1" style="color:red"></i>
-                                    <span style="color:red">取消</span>
-                                </div>
                             </div>
-                          </router-link>
+                          <!--</router-link>-->
                             <div class="shop">
                                 <img src="https://shopstatic.vivo.com.cn/vivoshop/wap/dist/images/detail/icon-concat@2x_3442018.png" >
                                 <!-- <i class="iconfont icon-xuanzekuangxuanzhong" v-show="!$store.state.collection"></i>
@@ -158,29 +143,88 @@ export default {
             _this.goodDetails.push(res.data.data.data.home[i]);
         }
       }
+      if(JSON.parse(localStorage.getItem('collections')).length> 0 || localStorage.getItem('collections') != null){
+        for(var i in  JSON.parse(localStorage.getItem('collections'))) {
+          for(var j in _this.goodDetails){
+            if(_this.goodDetails[j].id == JSON.parse(localStorage.getItem('collections'))[i].id){
+              _this.goodDetails[j].isExit = JSON.parse(localStorage.getItem('collections'))[i].isExit
+            }else {
+              console.log(1)
+            }
+          }
+        }
+      }
     });
-
     axios.get("/api/index_goods").then(res => {
       for (var i = 0; i < res.data.data.data.set.length;i++){
         if (res.data.data.data.set[i].id == id ) {
             _this.goodDetails.push(res.data.data.data.set[i]);
         }
       }
+      if(JSON.parse(localStorage.getItem('collections')).length> 0 || localStorage.getItem('collections') != null){
+        for(var i in  JSON.parse(localStorage.getItem('collections'))) {
+          for(var j in _this.goodDetails){
+            if(_this.goodDetails[j].id == JSON.parse(localStorage.getItem('collections'))[i].id){
+              _this.goodDetails[j].isExit = JSON.parse(localStorage.getItem('collections'))[i].isExit
+            }else {
+              console.log(1)
+            }
+          }
+        }
+      }
     });
-   
+
   },
 
   methods: {
+    timeFormatting(){
+      var date = new Date();
+      var fh1 = "-";
+      var fh2 = ":";
+      var fh3 = "   ";
+      var year = date.getFullYear(); // 年
+      var month = date.getMonth() + 1; // 月
+      var day = date.getDate(); // 日
+      var hour = date.getHours(); // 时
+      var minutes = date.getMinutes(); // 分
+
+      //三元运算了解下！
+      month = month < 10 ? ('0' + month) : month;
+      day = day < 10 ? ('0' + day) : day;
+      hour = hour < 10 ? ('0' + hour) : hour;
+      minutes = minutes < 10 ? ('0' + minutes) : minutes;
+
+      return year + fh1 + month + fh1 + day + fh3 + hour + fh2 + minutes;
+    },
     addCollection(index) {
-      console.log($store)
-      this.$store.state.ces=!this.$store.state.ces
-       var data={
-           id:index.id,
-           img:index.homeImg,
-           name:index.homeName,
-           price:index.homePrice
-       }
+      console.log(index)
+      var currrentTime = this.timeFormatting()
+      var isExit = this.$store.state.collections.find(data => {
+        return data.id == index.id;
+      });
+      if (typeof(isExit) == 'undefined') {
+        index.isExit = true
+        var data={
+          id:index.id,
+          img:index.homeImg,
+          name:index.homeName,
+          price:index.homePrice,
+          currrentTime: currrentTime,
+          isExit: index.isExit
+        }
+        Toast({
+          message: "收藏成功",
+          duration: 950
+        });
         this.$store.dispatch("setGoods",data)
+      } else {
+        index.isExit = false
+        Toast({
+          message: "取消收藏",
+          duration: 950
+        });
+        this.$store.dispatch("deleteSetGoods",index.id)
+      }
     },
     // 点击按钮时，首先判断该商品是否在购物车已存在，如果存在则不再加入
     add: function(index) {
@@ -188,7 +232,6 @@ export default {
       var idExist = this.$store.state.carts.find(todo => {
         return todo.id == index.id;
       });
-
       if (!idExist) {
         var data = {
           id:index.id,
@@ -212,7 +255,6 @@ export default {
     },
     jia: function(index) {
       this.goodDetails[index].homeValue++;
-  
     },
     jian: function(index) {
       if (this.goodDetails[index].homeValue == 1) {
@@ -438,7 +480,7 @@ export default {
 
             .collection-box {
                 text-align: center;
-                
+                padding-top:3px
             }
 
             i {

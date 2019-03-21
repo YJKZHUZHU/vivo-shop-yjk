@@ -3,6 +3,7 @@ export const SET_ARTICLE ='SET_ARTICLE' //文章收藏
 export const DELETE_ARTICLE ='DELETE_ARTICLE' //取消文章收藏
 export const LIKE_NUMBERS ='LIKE_NUMBERS' //点赞数
 export const SET_GOODS='SET_GOODS' //商品收藏
+export const DELETE_SET_GOODS='DELETE_SET_GOODS' //取消商品收藏
 export const SET_ORDERS='SET_ORDERS' //订单
 export const SET_ADDRESS='SET_ADDRESS' //地址
 export const EDIT_ADDRESS = 'EDIT_ADDRESS' //编辑地址
