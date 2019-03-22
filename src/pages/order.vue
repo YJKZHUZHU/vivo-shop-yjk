@@ -80,7 +80,7 @@
                 </div>
               </div>
               <div v-show="nowIndex===2">
-                <div v-for="(list,index) in orders" :key="index" class="orders">
+                <div v-for="(list,index) in pendingReceipt" :key="index" class="orders">
                   <div class="_order">
                     <p class="left">
                       <i class="iconfont icon-qijiandian"></i>
@@ -183,6 +183,9 @@ export default {
   computed: {
     orders() {
       return this.$store.state.orders;
+    },
+    pendingReceipt() {
+      return this.$store.state.pendingReceipt;
     }
   },
   methods: {
