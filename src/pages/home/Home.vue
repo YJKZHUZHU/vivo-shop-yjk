@@ -38,7 +38,9 @@ export default {
     getData:function(){
       var _this=this
       axios.get("/api/index_goods").then(function(res){
-        _this.todos=res.data.data.data.home
+        if (res.data.success) {
+          _this.todos=res.data.home
+        }
       })
     }
   }

@@ -68,12 +68,12 @@ export default {
     },
     getData() {
         var _this = this;
-        axios.get("/api/index_goods").then(function(res) {
-            // console.log(res)
-            _this.left = res.data.data.data.classify.left;
-            _this.list = res.data.data.data.classify.right;
+        axios.get("/api/classify").then(function(res) {
+          if (res.data.success) {
+            _this.left = res.data.classify.left;
+            _this.list = res.data.classify.right;
             _this.right = _this.list[0];
-            // console.log(_this.right)
+          }
     });
     }
   }

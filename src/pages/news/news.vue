@@ -26,10 +26,11 @@ export default {
     },
     created(){
         var _this=this;
-        axios.get("/static/ceshi.json").then(function(res) {
-           _this.NewsContainer=res.data.data.news
+        axios.get("/api/news").then(function(res) {
+          if (res.data.success) {
+            _this.NewsContainer=res.data.news
+          }
         })
-       
     },
     methods: {
          open:function(id){
