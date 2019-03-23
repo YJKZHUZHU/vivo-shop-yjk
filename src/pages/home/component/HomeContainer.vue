@@ -33,9 +33,6 @@ export default {
     }
   },
   mounted:function () {
-    axios.get('/api/index_category',function (res) {
-      console.log(res)
-    })
   }
 };
 </script>

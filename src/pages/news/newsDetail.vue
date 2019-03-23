@@ -125,32 +125,36 @@ export default {
   mounted() {
     var _this = this;
     var id = this.$route.query.id;
-    axios.get("/api/index_goods").then(function(res) {
-      for (var i = 0; i < res.data.data.data.news.length; i++) {
-        if (res.data.data.data.news[i].id == id) {
-          _this.newsDetail.push(res.data.data.data.news[i]);
+    axios.get("/api/news").then(function(res) {
+      if(res.data.success) {
+        for (var i = 0; i < res.data.news.length; i++) {
+          if (res.data.news[i].id == id) {
+            _this.newsDetail.push(res.data.news[i]);
+          }
         }
-      }
-      if(JSON.parse(localStorage.getItem('article')).length> 0 || localStorage.getItem('article') != null){
-        for(var i in  JSON.parse(localStorage.getItem('article'))) {
-          for(var j in _this.newsDetail){
-            if(_this.newsDetail[j].id == JSON.parse(localStorage.getItem('article'))[i].id){
-              _this.newsDetail[j].sc = JSON.parse(localStorage.getItem('article'))[i].isExist
-            }else {
-              console.log(1)
+        if(JSON.parse(localStorage.getItem('article')).length> 0 || localStorage.getItem('article') != null){
+          for(var i in  JSON.parse(localStorage.getItem('article'))) {
+            for(var j in _this.newsDetail){
+              if(_this.newsDetail[j].id == JSON.parse(localStorage.getItem('article'))[i].id){
+                _this.newsDetail[j].sc = JSON.parse(localStorage.getItem('article'))[i].isExist
+              }else {
+                console.log(1)
+              }
             }
           }
         }
-      }
-      if(JSON.parse(localStorage.getItem('likeNumbers')).length> 0 || localStorage.getItem('likeNumbers') != null) {
-        for (var i in  JSON.parse(localStorage.getItem('likeNumbers'))) {
+        if(JSON.parse(localStorage.getItem('likeNumbers')).length> 0 || localStorage.getItem('likeNumbers') != null) {
+          for (var i in  JSON.parse(localStorage.getItem('likeNumbers'))) {
             if (JSON.parse(localStorage.getItem('likeNumbers'))[i].id == id) {
               _this.likeNumber = JSON.parse(localStorage.getItem('likeNumbers'))[i].likeNumber
             } else {
               console.log(1)
             }
+          }
         }
       }
+
+
 
     });
 

@@ -8,8 +8,8 @@
       </div>
       <div class="AuthorMain">
         <div>在校学生一枚明年毕业，这是我第一个用vue写的项目</div>
-        <p>我的QQ:2239657654</p>
-        <p>我的邮箱:2239657654@qq.com</p>
+        <p>我的QQ:2730455209</p>
+        <p>我的邮箱:2730455209@qq.com</p>
         <p>如果这个小项目对你有帮助给个star</p>
         <router-link :to="{name:'Home'}" >前往首页</router-link>
       </div>

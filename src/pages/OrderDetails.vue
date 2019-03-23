@@ -6,13 +6,13 @@
           <p>订单状态：已完成</p>
           <img src="https://shopstatic.vivo.com.cn/vivoshop/wap/dist/images/membercenter/order/no-pay_79c2dfe.png">
       </div>
-    
+
         <div class="details-address">
         <p class="address-box">
-            <span class="name">收货人：Myfwk</span>
-            <span class="phone">15255460858</span>
+            <span class="name">收货人：叶俊宽</span>
+            <span class="phone">18470186610</span>
         </p>
-        <p class="address-details">收货地址：安徽省合肥市蜀山区金寨路立基大厦B座 中科大对面</p>
+        <p class="address-details">收货地址：江西省赣州市赣南师范大学</p>
       </div>
       <div class="details-list" v-for="(list,index) in o1" :key="index">
         <div class="details-list-1">
@@ -23,7 +23,7 @@
                 <span class="price">¥ {{list.homePrice}}</span>
             </p>
         </div>
-       
+
        <div class="details-list-2">
            <div class="details-list-2-1">
                 <p>
@@ -75,7 +75,7 @@
            </div>
        </div>
         <!-- <img :src="list.homeImg" /> -->
-        
+
         <div class="order-footer">
             总计：
             <span>¥{{list.homePrice}}</span>
@@ -101,11 +101,13 @@ export default {
   created() {
     var _this = this;
     var id = this.$route.query.id;
-    axios.get("/static/ceshi.json").then(function(res) {
-      var data = res.data.data.home;
-      for (var i = 0; i < data.length; i++) {
-        if (data[i].id == id) {
-          _this.o1.push(data[i]);
+    axios.get("/api/index_goods").then(function(res) {
+      if (res.data.success) {
+        var data = res.data.home;
+        for (var i = 0; i < data.length; i++) {
+          if (data[i].id == id) {
+            _this.o1.push(data[i]);
+          }
         }
       }
     });
@@ -123,8 +125,7 @@ export default {
 
 <style lang="stylus" scoped>
 .details-box {
-    position: absolute;
-    top: 1.45rem;
+  padding-top: 1.45rem;
 }
 
 .details-success {
@@ -149,7 +150,7 @@ export default {
 
 .details-address {
     width: 100%;
-    height: 2.7rem;
+    height: 2rem;
     background: #fff;
 
     .address-box {
@@ -170,7 +171,7 @@ export default {
         color: #666;
         font-size: 0.38rem;
     }
-    
+
 }
 
 .details-list {
@@ -278,9 +279,10 @@ export default {
         position: fixed;
         bottom: 0;
         line-height: 1.3rem;
-        padding-left: 0.5rem;
+        padding-right: 0.5rem;
         font-size: 0.38rem;
         border-top: 1px solid #eaeaea;
+        text-align right
 
         span {
             color: red;

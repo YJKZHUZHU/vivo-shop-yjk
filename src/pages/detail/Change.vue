@@ -3,10 +3,9 @@
       <Change-header title="手机以旧换新"></Change-header>
       <div class="change-box">
         <div class="change-img" v-for="list in change">
-          <img :src="list.changeImg"></div>
+          <img :src="list.changeImg">
         </div>
       </div>
-     
   </div>
 </template>
 
@@ -25,8 +24,12 @@ export default {
   },
   created(){
       var _this=this
-      axios.get("/static/ceshi.json").then(function(res){
-          _this.change=res.data.data.change
+      axios.get("/api/change").then(function(res){
+        console.log(res)
+        if (res.data.success){
+          _this.change=res.data.change
+        }
+
       })
   }
 }
@@ -39,7 +42,7 @@ export default {
     .change-img
         width 100%
         height 17rem
-        img 
+        img
             width 100%
-            
+
 </style>

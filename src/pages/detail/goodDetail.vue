@@ -6,7 +6,7 @@
                 <li v-for="(goodDetail,index) in goodDetails" :key="index">
                     <div class="goodDetaiSwipe">
                         <mt-swipe :auto="4000">
-                            <mt-swipe-item v-for="(list, index) in goodDetail.homeSwipe" :key="index"> 
+                            <mt-swipe-item v-for="(list, index) in goodDetail.homeSwipe" :key="index">
                                 <img :src="list.swipe" alt="图片">
                             </mt-swipe-item>
                         </mt-swipe>
@@ -82,9 +82,9 @@
                                 <a href="javascript:void(0);" @click="pay(goodDetail.id,goodDetail.homeValue)">提交订单</a>
                             </div>
                         </div>
-                       
+
                     </div>
-                    
+
                 </li>
             </ul>
       </div>
@@ -112,7 +112,7 @@ export default {
     DetailHeader,
     DetailLayer
   },
-  computed: {   
+  computed: {
     paid: function() {
       var paid = 0;
       for (var i in this.goodDetails) {
@@ -137,43 +137,27 @@ export default {
   created() {
     var _this = this;
     var id = this.$route.query.id;
-    axios.get("/api/index_goods").then(res => {
-      for (var i = 0; i < res.data.data.data.home.length;i++){
-        if (res.data.data.data.home[i].id == id ) {
-            _this.goodDetails.push(res.data.data.data.home[i]);
+    axios.get("/api/goodDetail").then(res => {
+      if (res.data.success) {
+        for (var i = 0; i < res.data.goodDetail.length;i++){
+          if (res.data.goodDetail[i].id == id ) {
+            _this.goodDetails.push(res.data.goodDetail[i]);
+          }
         }
-      }
-      if(JSON.parse(localStorage.getItem('collections')).length> 0 || localStorage.getItem('collections') != null){
-        for(var i in  JSON.parse(localStorage.getItem('collections'))) {
-          for(var j in _this.goodDetails){
-            if(_this.goodDetails[j].id == JSON.parse(localStorage.getItem('collections'))[i].id){
-              _this.goodDetails[j].isExit = JSON.parse(localStorage.getItem('collections'))[i].isExit
-            }else {
-              console.log(1)
+        if(JSON.parse(localStorage.getItem('collections')).length> 0 || localStorage.getItem('collections') != null){
+          for(var i in  JSON.parse(localStorage.getItem('collections'))) {
+            for(var j in _this.goodDetails){
+              if(_this.goodDetails[j].id == JSON.parse(localStorage.getItem('collections'))[i].id){
+                _this.goodDetails[j].isExit = JSON.parse(localStorage.getItem('collections'))[i].isExit
+              }else {
+                console.log(1)
+              }
             }
           }
         }
       }
-    });
-    axios.get("/api/index_goods").then(res => {
-      for (var i = 0; i < res.data.data.data.set.length;i++){
-        if (res.data.data.data.set[i].id == id ) {
-            _this.goodDetails.push(res.data.data.data.set[i]);
-        }
-      }
-      if(JSON.parse(localStorage.getItem('collections')).length> 0 || localStorage.getItem('collections') != null){
-        for(var i in  JSON.parse(localStorage.getItem('collections'))) {
-          for(var j in _this.goodDetails){
-            if(_this.goodDetails[j].id == JSON.parse(localStorage.getItem('collections'))[i].id){
-              _this.goodDetails[j].isExit = JSON.parse(localStorage.getItem('collections'))[i].isExit
-            }else {
-              console.log(1)
-            }
-          }
-        }
-      }
-    });
 
+    });
   },
 
   methods: {

@@ -41,10 +41,12 @@ export default {
   },
   created() {
     var _this = this;
-    axios.get("/static/ceshi.json").then(function(res) {
-      _this.upper = res.data.data.phone.upper;
-      _this.list = res.data.data.phone.lower;
-      _this.lower = _this.list[0];
+    axios.get("/api/phone").then(function(res) {
+      if (res.data.success) {
+        _this.upper = res.data.data.phone.upper;
+        _this.list = res.data.data.phone.lower;
+        _this.lower = _this.list[0];
+      }
     });
   },
   methods: {
