@@ -136,8 +136,11 @@ const matutaions={
 
     settlement:(state,data)=>{
         console.log(this,state,data)
+      MessageBox.confirm('确定要购买吗').then(action=>{
         state.carts=[];
         localStorage.setItem("carts",JSON.stringify(state.carts));
+      })
+
     },
 
 }
