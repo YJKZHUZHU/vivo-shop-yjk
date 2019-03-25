@@ -52,15 +52,28 @@ const matutaions={
   },
     //商品收藏
     [type.SET_GOODS](state,data){
-        state.collections.push(data)
+      if (localStorage.getItem('userInfo')) {
+        state.userInfo.name= state.userInfo.name ? state.userInfo.name : state.userInfo.phone
+        var datas = []
+        datas.push(data)
+        state.collections = state.collections || {}
+        state.collections[state.userInfo.name] = state.collections[state.userInfo.name] || [];
+        state.collections[state.userInfo.name] = state.collections[state.userInfo.name].concat(datas);
+        console.log(state.collections)
         localStorage.setItem("collections",JSON.stringify(state.collections));
+      }else {
+        MessageBox.confirm('您还没有登入哦').then(function (action) {
+          location.href = location.href.replace('goodDetail','login')
+        })
+      }
     },
     //取消商品收藏
     [type.DELETE_SET_GOODS](state,data){
-      for (var i in state.collections) {
+      state.userInfo.name= state.userInfo.name ? state.userInfo.name : state.userInfo.phone
+      for (var i in state.collections[state.userInfo.name]) {
         // console.log(i)
-        if (state.collections[i].id === data){
-          state.collections.splice(i,1)
+        if (state.collections[state.userInfo.name][i].id === data){
+          state.collections[state.userInfo.name].splice(i,1)
         }
       }
       localStorage.setItem("collections",JSON.stringify(state.collections));
@@ -160,9 +173,10 @@ const matutaions={
     },
 
     settlement:(state,data)=>{
-        console.log(this,state,data)
+      console.log(data)
       MessageBox.confirm('确定要购买吗').then(action=>{
-        state.carts={};
+        state.userInfo.name= state.userInfo.name ? state.userInfo.name : state.userInfo.phone
+        state.carts[state.userInfo.name]=[];
         localStorage.setItem("carts",JSON.stringify(state.carts));
       })
 

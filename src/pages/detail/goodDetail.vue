@@ -145,11 +145,13 @@ export default {
             _this.goodDetails.push(res.data.goodDetail[i]);
           }
         }
-        if(JSON.parse(localStorage.getItem('collections')).length> 0 || localStorage.getItem('collections') != null){
-          for(var i in  JSON.parse(localStorage.getItem('collections'))) {
+        _this.$store.state.userInfo.name= _this.$store.state.userInfo.name ? _this.$store.state.userInfo.name : _this.$store.state.userInfo.phone
+        JSON.parse(localStorage.getItem('collections'))[_this.$store.state.userInfo.name] = JSON.parse(localStorage.getItem('collections'))[_this.$store.state.userInfo.name] || []
+        if(JSON.parse(localStorage.getItem('collections'))[_this.$store.state.userInfo.name].length> 0 || localStorage.getItem('collections')[_this.$store.state.userInfo.name] != null){
+          for(var i in  JSON.parse(localStorage.getItem('collections'))[_this.$store.state.userInfo.name]) {
             for(var j in _this.goodDetails){
-              if(_this.goodDetails[j].id == JSON.parse(localStorage.getItem('collections'))[i].id){
-                _this.goodDetails[j].isExit = JSON.parse(localStorage.getItem('collections'))[i].isExit
+              if(_this.goodDetails[j].id == JSON.parse(localStorage.getItem('collections'))[_this.$store.state.userInfo.name][i].id){
+                _this.goodDetails[j].isExit = JSON.parse(localStorage.getItem('collections'))[_this.$store.state.userInfo.name][i].isExit
               }else {
                 console.log(1)
               }
@@ -184,7 +186,9 @@ export default {
     addCollection(index) {
       console.log(index)
       var currrentTime = this.timeFormatting()
-      var isExit = this.$store.state.collections.find(data => {
+      this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
+      this.$store.state.collections[this.$store.state.userInfo.name] = this.$store.state.collections[this.$store.state.userInfo.name] || []
+      var isExit = this.$store.state.collections[this.$store.state.userInfo.name].find(data => {
         return data.id == index.id;
       });
       if (typeof(isExit) == 'undefined') {
