@@ -6,7 +6,7 @@
                 <p class="left">配送地址</p>
                 <p class="right" @click="goAdd_address">+添加地址</p>
             </div>
-            <div class="pay-address" v-for="(list,index) in address" :key="index" :class="{active:index===$store.state.nowIndex}" @click="btn(list,index)">
+            <div class="pay-address" v-for="(list,index) in address" :key="index" :class="{active:index===$store.state.nowIndex}">
                 <p class="address-box">
                     <span class="name">收货人：{{list.name}}</span>
                     <span class="phone">{{list.phone}}</span>
@@ -38,7 +38,8 @@ export default {
     },
     computed: {
         address() {
-        return this.$store.state.address;
+        this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
+        return this.$store.state.address[this.$store.state.userInfo.name];
         },
         ...mapGetters(
             ["this.$store.state.address"],

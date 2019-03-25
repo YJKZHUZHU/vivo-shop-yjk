@@ -5,8 +5,19 @@ import { MessageBox } from 'mint-ui';
 const matutaions={
     //购物车
     [type.SET_CARTS](state,data){
-        state.carts.push(data)
+      if (localStorage.getItem('userInfo')) {
+        state.userInfo.name= state.userInfo.name ? state.userInfo.name : state.userInfo.phone
+        var datas = []
+        datas.push(data)
+        state.carts[state.userInfo.name] = state.carts[state.userInfo.name] || [];
+        state.carts[state.userInfo.name] = state.carts[state.userInfo.name].concat(datas);
+        console.log(state.carts)
         localStorage.setItem("carts",JSON.stringify(state.carts));
+      }else {
+        MessageBox.confirm('您还没有登入哦').then(function (action) {
+          location.href = location.href.replace('goodDetail','login')
+        })
+      }
     },
     //文章收藏
     [type.SET_ARTICLE](state,data){
@@ -63,15 +74,26 @@ const matutaions={
     },
     //地址
     [type.SET_ADDRESS](state,data){
-        state.address.push(data)
+      if (localStorage.getItem('userInfo')) {
+        state.userInfo.name= state.userInfo.name ? state.userInfo.name : state.userInfo.phone
+        var datas = []
+        datas.push(data)
+        state.address[state.userInfo.name] = state.address[state.userInfo.name] || [];
+        state.address[state.userInfo.name] = state.address[state.userInfo.name].concat(datas);
         localStorage.setItem("address",JSON.stringify(state.address));
+      }else {
+          MessageBox.confirm('您还没有登入哦').then(function (action) {
+            location.href = location.href.replace('address','login')
+          })
+      }
     },
     //编辑收货地址
     [type.EDIT_ADDRESS](state,data) {
-        for (var i = 0; i<state.address.length; i++) {
+      state.userInfo.name= state.userInfo.name ? state.userInfo.name : state.userInfo.phone
+        for (var i = 0; i<state.address[state.userInfo.name].length; i++) {
             if (i === data.addressId) {
                 delete(data.addressId)
-                state.address[i] = data
+                state.address[state.userInfo.name][i] = data
             }
         }
       },
@@ -99,7 +121,8 @@ const matutaions={
     },
     laji:(state,index)=>{
         MessageBox.confirm('确定删除该收货地址么？').then(action=>{
-            state.address.splice(index,1)
+            state.userInfo.name= state.userInfo.name ? state.userInfo.name : state.userInfo.phone
+            state.address[state.userInfo.name].splice(index,1)
             localStorage.setItem("address",JSON.stringify(state.address));
         })
     },
@@ -127,17 +150,19 @@ const matutaions={
 
     //数量加
      add(state,index){
-        state.carts[index].value++
+       state.userInfo.name= state.userInfo.name ? state.userInfo.name : state.userInfo.phone
+        state.carts[ state.userInfo.name][index].value++
     },
     //数量减
     reduce(state,index){
-        state.carts[index].value==1?state.carts[index].value=1: state.carts[index].value--
+      state.userInfo.name= state.userInfo.name ? state.userInfo.name : state.userInfo.phone
+        state.carts[state.userInfo.name][index].value==1?state.carts[state.userInfo.name][index].value=1: state.carts[state.userInfo.name][index].value--
     },
 
     settlement:(state,data)=>{
         console.log(this,state,data)
       MessageBox.confirm('确定要购买吗').then(action=>{
-        state.carts=[];
+        state.carts={};
         localStorage.setItem("carts",JSON.stringify(state.carts));
       })
 

@@ -76,12 +76,14 @@ export default {
   },
   computed: {
     carts() {
-      return this.$store.state.carts;
+      this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
+      return this.$store.state.carts[this.$store.state.userInfo.name];
     },
     ...mapGetters(["this.$store.state.carts"]),
     sum: function() {
+      this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
       var sum = 0;
-      this.$store.state.carts.forEach(cart => {
+      this.$store.state.carts[this.$store.state.userInfo.name].forEach(cart => {
         if (cart.danx1uan) {
           sum += cart.price * cart.value;
         }
@@ -89,8 +91,9 @@ export default {
       return sum;
     },
     sumValue() {
+      this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
       var sumValue = 0;
-      this.$store.state.carts.forEach(cart => {
+      this.$store.state.carts[this.$store.state.userInfo.name].forEach(cart => {
         if (cart.danx1uan) {
           sumValue += parseInt(cart.value);
         }
@@ -108,13 +111,14 @@ export default {
       }
     },
     quanxuan() {
+      this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
       this.qx = !this.qx;
       if (this.qx) {
-        this.$store.state.carts.forEach(cart => {
+        this.$store.state.carts[this.$store.state.userInfo.name].forEach(cart => {
           cart.danx1uan = true;
         });
       } else {
-        this.$store.state.carts.forEach(cart => {
+        this.$store.state.carts[this.$store.state.userInfo.name].forEach(cart => {
           cart.danx1uan = false;
         });
       }

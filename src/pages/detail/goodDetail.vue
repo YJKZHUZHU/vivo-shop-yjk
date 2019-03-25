@@ -130,8 +130,9 @@ export default {
     )
   },
   mounted() {
-    if (this.$store.state.carts != undefined) {
-      this.cartlength = this.$store.state.carts.length;
+    this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
+    if (this.$store.state.carts[this.$store.state.userInfo.name] != undefined) {
+      this.cartlength = this.$store.state.carts[this.$store.state.userInfo.name].length;
     }
   },
   created() {
@@ -213,7 +214,9 @@ export default {
     // 点击按钮时，首先判断该商品是否在购物车已存在，如果存在则不再加入
     add: function(index) {
         console.log(index)
-      var idExist = this.$store.state.carts.find(todo => {
+      // this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
+      this.$store.state.carts[this.$store.state.userInfo.name] = this.$store.state.carts[this.$store.state.userInfo.name] || []
+      var idExist = this.$store.state.carts[this.$store.state.userInfo.name].find(todo => {
         return todo.id == index.id;
       });
       if (!idExist) {
@@ -227,7 +230,7 @@ export default {
         };
         this.$store.dispatch('setCart', data);
         // this.$store.commit("SET_CARTS",data);
-        this.cartlength = this.$store.state.carts.length;
+        this.cartlength = this.$store.state.carts[this.$store.state.userInfo.name].length;
         Toast({
           message: "加入购物车成功！",
           iconClass: "iconfont icon-goumaichenggong-copy",
