@@ -9,6 +9,7 @@ const matutaions={
         state.userInfo.name= state.userInfo.name ? state.userInfo.name : state.userInfo.phone
         var datas = []
         datas.push(data)
+        // state.carts = state.carts || {}
         state.carts[state.userInfo.name] = state.carts[state.userInfo.name] || [];
         state.carts[state.userInfo.name] = state.carts[state.userInfo.name].concat(datas);
         console.log(state.carts)
@@ -21,15 +22,28 @@ const matutaions={
     },
     //文章收藏
     [type.SET_ARTICLE](state,data){
-        state.article.push(data)
+      if (localStorage.getItem('userInfo')) {
+        state.userInfo.name= state.userInfo.name ? state.userInfo.name : state.userInfo.phone
+        var datas = []
+        datas.push(data)
+        // state.collections = state.collections || {}
+        state.article[state.userInfo.name] = state.article[state.userInfo.name] || [];
+        state.article[state.userInfo.name] = state.article[state.userInfo.name].concat(datas);
+        console.log(state.article)
         localStorage.setItem("article",JSON.stringify(state.article));
+      }else {
+        MessageBox.confirm('您还没有登入哦').then(function (action) {
+          location.href = location.href.replace('newsDetail','login')
+        })
+      }
     },
     //取消文章收藏
     [type.DELETE_ARTICLE](state,data){
-      for (var i in state.article) {
+      state.userInfo.name= state.userInfo.name ? state.userInfo.name : state.userInfo.phone
+      for (var i in state.article[state.userInfo.name]) {
         // console.log(i)
-        if (state.article[i].id === data){
-          state.article.splice(i,1)
+        if (state.article[state.userInfo.name][i].id === data){
+          state.article[state.userInfo.name].splice(i,1)
         }
       }
       localStorage.setItem("article",JSON.stringify(state.article));
@@ -56,7 +70,7 @@ const matutaions={
         state.userInfo.name= state.userInfo.name ? state.userInfo.name : state.userInfo.phone
         var datas = []
         datas.push(data)
-        state.collections = state.collections || {}
+        // state.collections = state.collections || {}
         state.collections[state.userInfo.name] = state.collections[state.userInfo.name] || [];
         state.collections[state.userInfo.name] = state.collections[state.userInfo.name].concat(datas);
         console.log(state.collections)
@@ -142,7 +156,8 @@ const matutaions={
     //购物车删除
     shanchu:(state,index)=>{
         MessageBox.confirm('确定删除该商品么？').then(action=>{
-            state.carts.splice(index,1)
+            state.userInfo.name= state.userInfo.name ? state.userInfo.name : state.userInfo.phone
+            state.carts[state.userInfo.name].splice(index,1)
             localStorage.setItem("carts",JSON.stringify(state.carts));
         })
     },

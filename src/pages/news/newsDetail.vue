@@ -68,8 +68,9 @@ export default {
       console.log(list)
       var currrentTime = this.timeFormatting()
       //找到了返回该对象，没找到返回undefined
-      var idExist = this.$store.state.article.find(data => {
-        return data.id == list.id;
+      this.$store.state.article[this.$store.state.userInfo.name] = this.$store.state.article[this.$store.state.userInfo.name] || []
+      var idExist = this.$store.state.article[this.$store.state.userInfo.name].find(todo => {
+        return todo.id == list.id;
       });
       console.log(idExist)
       if (typeof(idExist) == 'undefined') {
@@ -132,11 +133,13 @@ export default {
             _this.newsDetail.push(res.data.news[i]);
           }
         }
-        if(JSON.parse(localStorage.getItem('article')).length> 0 || localStorage.getItem('article') != null){
-          for(var i in  JSON.parse(localStorage.getItem('article'))) {
+        _this.$store.state.userInfo.name= _this.$store.state.userInfo.name ? _this.$store.state.userInfo.name : _this.$store.state.userInfo.phone
+        JSON.parse(localStorage.getItem('article'))[_this.$store.state.userInfo.name] = JSON.parse(localStorage.getItem('article'))[_this.$store.state.userInfo.name] || []
+        if(JSON.parse(localStorage.getItem('article'))[_this.$store.state.userInfo.name].length> 0 || localStorage.getItem('article')[_this.$store.state.userInfo.name] != null){
+          for(var i in  JSON.parse(localStorage.getItem('article'))[_this.$store.state.userInfo.name]) {
             for(var j in _this.newsDetail){
-              if(_this.newsDetail[j].id == JSON.parse(localStorage.getItem('article'))[i].id){
-                _this.newsDetail[j].sc = JSON.parse(localStorage.getItem('article'))[i].isExist
+              if(_this.newsDetail[j].id == JSON.parse(localStorage.getItem('article'))[_this.$store.state.userInfo.name][i].id){
+                _this.newsDetail[j].sc = JSON.parse(localStorage.getItem('article'))[_this.$store.state.userInfo.name][i].isExist
               }else {
                 console.log(1)
               }

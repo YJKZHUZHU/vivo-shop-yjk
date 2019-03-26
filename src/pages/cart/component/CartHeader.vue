@@ -5,14 +5,17 @@
              <i class="iconfont icon-zuojiantou"></i>
         </router-link>
       </div>
-      <div class="header-in">购物车</div>
+      <div class="header-in">{{cartTitle}}</div>
       <div class="header-rigth"></div>
   </div>
 </template>
 
 <script>
 export default {
-  
+  props: [ 'cartTitle' ],
+  created: function() {
+    console.log('This is a shopping cart')
+  }
 }
 </script>
 <style lang="stylus" scoped>

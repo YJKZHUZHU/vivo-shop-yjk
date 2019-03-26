@@ -1,13 +1,13 @@
 <template>
     <div class="cart">
-       <Cart-Header title="购物车"></Cart-Header>
+       <CartHeader cartTitle="购物车"></CartHeader>
         <div class="cartMain">
              <ul>
                 <li v-for="(cart,index) in carts" class="cartList" :key="index">
                      <!-- 购物车单选 -->
-                     <div class="select" @click="danxuan(cart)" >
-                        <i class="iconfont icon-xuanzekuangmoren"   v-show="!cart.danx1uan"></i>
-                        <i class="iconfont icon-xuanzekuangxuanzhong" v-show="cart.danx1uan" style="color:#25b5fe"></i>
+                     <div class="select" @click="danxuan(cart,index)" >
+                        <i class="iconfont icon-xuanzekuangmoren"   v-if="!cart.danx1uan"></i>
+                        <i class="iconfont icon-xuanzekuangxuanzhong" v-else-if="cart.danx1uan" style="color:#25b5fe"></i>
                     </div>
 
 
@@ -42,8 +42,8 @@
         </div>
         <div class="cartFooter"  v-if="carts.length">
             <div class="checkAll" @click="quanxuan()" >
-                <i class="iconfont icon-xuanzekuangmoren" v-show="!qx"></i>
-                <i class="iconfont icon-xuanzekuangxuanzhong" v-show="qx" style="color:#25b5fe"></i>
+                <i class="iconfont icon-xuanzekuangmoren" v-if="!qx"></i>
+                <i class="iconfont icon-xuanzekuangxuanzhong" v-else-if="qx" style="color:#25b5fe"></i>
                 <span>全选</span>
             </div>
 
@@ -63,7 +63,8 @@
 <script>
 import { Toast } from "mint-ui";
 import { mapState, mapMutations, mapGetters } from "vuex";
-import CartHeader from '../../common/header'
+// import CartHeader from '../../common/header'
+import CartHeader from '../../pages/cart/component/CartHeader'
 export default {
   name: "cart",
   data() {
@@ -105,11 +106,15 @@ export default {
   },
   methods: {
     ...mapMutations(["shanchu", "add", "reduce", "settlement"]),
-    danxuan(cart) {
-      console.log(cart);
+    danxuan(cart, index) {
+      console.log(cart, index);
+      this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
+      console.log()
       cart.danx1uan = !cart.danx1uan;
       if (!cart.danx1uan) {
         this.qx = false;
+      }else if (index == this.$store.state.carts[this.$store.state.userInfo.name].length-1){
+        this.qx = true;
       }
     },
     quanxuan() {
