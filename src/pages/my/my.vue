@@ -1,7 +1,7 @@
 <template>
     <div class="my">
-        <My-Header title="个人中心"></My-Header>
-        <My-Container></My-Container>
+        <MyHeader title="个人中心"></MyHeader>
+        <MyContainer></MyContainer>
         <v-footer></v-footer>
     </div>
 </template>
@@ -44,13 +44,13 @@ export default {
         background: white;
         font-size: 0.41rem;
    }
-   
+
    .myMain{
        height: 100%;
        background: white;
        margin-top: 10px;
        width: 100%;
-       
+
    }
     .MyBox{
         width: 100%;
@@ -76,7 +76,7 @@ export default {
     .myMain p{
         line-height: 75px;
     }
-  
+
    .Order i , .Order p{
        display: block;
        line-height: 55px;

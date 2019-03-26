@@ -146,20 +146,24 @@ export default {
           }
         }
         _this.$store.state.userInfo.name= _this.$store.state.userInfo.name ? _this.$store.state.userInfo.name : _this.$store.state.userInfo.phone
-        JSON.parse(localStorage.getItem('collections'))[_this.$store.state.userInfo.name] = JSON.parse(localStorage.getItem('collections'))[_this.$store.state.userInfo.name] || []
-        if(JSON.parse(localStorage.getItem('collections'))[_this.$store.state.userInfo.name].length> 0 || localStorage.getItem('collections')[_this.$store.state.userInfo.name] != null){
-          for(var i in  JSON.parse(localStorage.getItem('collections'))[_this.$store.state.userInfo.name]) {
-            for(var j in _this.goodDetails){
-              if(_this.goodDetails[j].id == JSON.parse(localStorage.getItem('collections'))[_this.$store.state.userInfo.name][i].id){
-                _this.goodDetails[j].isExit = JSON.parse(localStorage.getItem('collections'))[_this.$store.state.userInfo.name][i].isExit
-              }else {
-                console.log(1)
+        if(JSON.parse(localStorage.getItem('collections'))[_this.$store.state.userInfo.name]){
+
+          JSON.parse(localStorage.getItem('collections'))[_this.$store.state.userInfo.name] = JSON.parse(localStorage.getItem('collections'))[_this.$store.state.userInfo.name] || []
+          if(JSON.parse(localStorage.getItem('collections'))[_this.$store.state.userInfo.name].length> 0 || localStorage.getItem('collections')[_this.$store.state.userInfo.name] != null){
+            for(var i in  JSON.parse(localStorage.getItem('collections'))[_this.$store.state.userInfo.name]) {
+              for(var j in _this.goodDetails){
+                if(_this.goodDetails[j].id == JSON.parse(localStorage.getItem('collections'))[_this.$store.state.userInfo.name][i].id){
+                  _this.goodDetails[j].isExit = JSON.parse(localStorage.getItem('collections'))[_this.$store.state.userInfo.name][i].isExit
+                }else {
+                  console.log(1)
+                }
               }
             }
           }
         }
-      }
 
+
+      }
     });
   },
 

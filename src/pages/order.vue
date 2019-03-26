@@ -3,8 +3,8 @@
       <Order-Header title="我的订单"></Order-Header>
         <div class="orderMain">
             <div  class="order-box">
-                <p  v-for="(c,index) in t" 
-                @click="btn(index)" 
+                <p  v-for="(c,index) in t"
+                @click="btn(index)"
                 >
                     <a :class="{active:index===nowIndex}">{{c.item}}</a>
                 </p>
@@ -16,12 +16,12 @@
                             <p class="left">
                                 <i class="iconfont icon-qijiandian"></i>
                                 vivo官方旗舰店
-                            </p>    
+                            </p>
                             <p class="right">已完成</p>
                         </div>
                         <div class="order" >
                             <img :src="list.img">
-                         
+
                             <div class="order-div">
                                 <h3>{{list.name}}</h3>
                                 <!-- <p class="order-div-color">颜色:黑</p> -->
@@ -182,10 +182,12 @@ export default {
   },
   computed: {
     orders() {
-      return this.$store.state.orders;
+      this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
+      return this.$store.state.orders[this.$store.state.userInfo.name];
     },
     pendingReceipt() {
-      return this.$store.state.pendingReceipt;
+      this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
+      return this.$store.state.pendingReceipt[this.$store.state.userInfo.name];
     }
   },
   methods: {
@@ -195,7 +197,7 @@ export default {
     },
     odetails(list){
         this.$router.push({
-            path: "OrderDetails", 
+            path: "OrderDetails",
             query:{
                 id:list.id,
                 text:list.text,
@@ -221,7 +223,8 @@ export default {
       var _this = this
       console.log(list,this.$store)
       MessageBox.confirm('确定要收货么？').then(action=>{
-        _this.$store.state.pendingReceipt.splice(index,1)
+        _this.$store.state.userInfo.name= _this.$store.state.userInfo.name ? _this.$store.state.userInfo.name : _this.$store.state.userInfo.phone
+        _this.$store.state.pendingReceipt[_this.$store.state.userInfo.name].splice(index,1)
         localStorage.setItem("pendingReceipt",JSON.stringify(_this.$store.state.pendingReceipt));
       })
 
@@ -234,29 +237,29 @@ export default {
 <style lang="stylus" scoped>
 .orderMain
     padding-top 1.3rem
-.order-box 
+.order-box
     height 1rem
     background white
     position fixed
     width 100%
     border-bottom 1px solid #f0f0f0
-    .active 
+    .active
         color #199cfe
         border-bottom 2px solid #199cfe
-    p 
+    p
         width 25%
         height 100%
         line-height 1rem
         float left
         text-align center
 
-        a 
+        a
             width 50%
             height 100%
             font-size .36rem
             display block
             margin auto
-.order-box2 
+.order-box2
     width 100%
     margin-top 1rem
 .orders
@@ -269,9 +272,9 @@ export default {
         .left
             float left
             color #666
-            margin-left .5rem 
+            margin-left .5rem
             font-size .35rem
-            i 
+            i
                 font-size .4rem
                 color #666
         .right
@@ -279,17 +282,17 @@ export default {
             color rgb(0, 172, 255)
             margin-right .3rem
             font-size .35rem
-    .order 
+    .order
         width 100%
         height 3rem
         background white
         border-bottom 1px solid #f0f0f0
         border-top 1px solid #f0f0f0
-        img 
+        img
             float left
             margin .3rem
             height 2.5rem
-        .order-div 
+        .order-div
             width 4rem
             margin .3rem
             line-height .7rem
@@ -299,29 +302,29 @@ export default {
             .order-div-price
                 color red
                 font-size .4rem
-        .order-div-2 
+        .order-div-2
             display inline-block
             float right
             margin .3rem .6rem
             font-size .4rem
-    .order-2 
+    .order-2
         width 100%
         height 1.7rem
         background white
-        .order-2-box 
+        .order-2-box
             width 50%
             float right
             text-align right
             margin .2rem .4rem
             .order-2-zero
-                float left  
+                float left
                 font-size .35rem
                 margin-left .5rem
-                span 
+                span
                     color red
-            .order-2-one 
+            .order-2-one
                 font-size .35rem
-                span 
+                span
                     color red
             .order-2-two
                 color #666
@@ -344,6 +347,6 @@ export default {
             margin-top .1rem
             border 1px solid #dcdcdc
             font-size .3rem
-            
+
 </style>
 

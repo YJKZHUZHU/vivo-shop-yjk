@@ -94,10 +94,23 @@ const matutaions={
     },
     //订单
     [type.SET_ORDERS](state,data){
-        state.orders.push(data)
-        state.pendingReceipt.push(data)
+      if (localStorage.getItem('userInfo')) {
+        state.userInfo.name= state.userInfo.name ? state.userInfo.name : state.userInfo.phone
+        var datas = []
+        datas.push(data)
+        // state.carts = state.carts || {}
+        state.orders[state.userInfo.name] = state.orders[state.userInfo.name] || [];
+        state.pendingReceipt[state.userInfo.name] = state.pendingReceipt[state.userInfo.name] || [];
+        state.orders[state.userInfo.name] = state.orders[state.userInfo.name].concat(datas);
+        state.pendingReceipt[state.userInfo.name] = state.pendingReceipt[state.userInfo.name].concat(datas);
+        console.log(state.orders)
         localStorage.setItem("orders",JSON.stringify(state.orders));
-        localStorage.setItem("pendingReceipt",JSON.stringify(state.orders));
+        localStorage.setItem("pendingReceipt",JSON.stringify(state.pendingReceipt));
+      }else {
+        MessageBox.confirm('您还没有登入哦').then(function (action) {
+          location.href = location.href.replace('order','login')
+        })
+      }
     },
     //地址
     [type.SET_ADDRESS](state,data){
@@ -135,14 +148,16 @@ const matutaions={
     //文章删除
     del:(state,index)=>{
         MessageBox.confirm('确定取消收藏该文章么？').then(action=>{
-            state.article.splice(index,1)
+          state.userInfo.name= state.userInfo.name ? state.userInfo.name : state.userInfo.phone
+            state.article[state.userInfo.name].splice(index,1)
             localStorage.setItem("article",JSON.stringify(state.article));
         })
     },
     //商品删除
     cancel:(state,index)=>{
         MessageBox.confirm('确定取消收藏该商品么？').then(action=>{
-            state.collections.splice(index,1)
+            state.userInfo.name= state.userInfo.name ? state.userInfo.name : state.userInfo.phone
+            state.collections[state.userInfo.name].splice(index,1)
             localStorage.setItem("collections",JSON.stringify(state.collections));
         })
     },
@@ -164,7 +179,8 @@ const matutaions={
     //订单删除
     odefault:(state,index)=>{
         MessageBox.confirm('确定删除该订单么？').then(action=>{
-            state.orders.splice(index,1)
+            state.userInfo.name= state.userInfo.name ? state.userInfo.name : state.userInfo.phone
+            state.orders[state.userInfo.name].splice(index,1)
           localStorage.setItem("orders",JSON.stringify(state.orders));
         })
     },

@@ -1,7 +1,7 @@
 <template>
   <div class="header">
       <div class="header-left">
-          <router-link to="/news">
+          <router-link to="/home">
              <i class="iconfont icon-zuojiantou"></i>
         </router-link>
       </div>
@@ -25,11 +25,11 @@ export default {
     background white
     position fixed
     z-index 1
-    .header-left 
+    .header-left
         width 10%
         height 100%
         float left
-        i 
+        i
             font-size .6rem
             line-height 1.45rem
             text-align center
@@ -41,7 +41,7 @@ export default {
         text-align: center
         font-size: 0.45rem
         line-height: 1.45rem
-    .header-right 
+    .header-right
         width 10%
         height 100%
         float left

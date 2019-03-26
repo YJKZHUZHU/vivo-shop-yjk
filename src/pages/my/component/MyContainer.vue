@@ -125,9 +125,15 @@ export default {
       ...mapState(["userInfo"]),
        jifeng(){
           var jifeng=0
-          this.$store.state.orders.forEach(list => {
-            jifeng += parseInt(list.price)
-        });
+         this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
+         if (this.$store.state.orders[this.$store.state.userInfo.name]){
+           this.$store.state.orders[this.$store.state.userInfo.name].forEach(list => {
+             jifeng += parseInt(list.price)
+           });
+         }else {
+           jifeng = 0
+         }
+
          return jifeng;
       }
     },

@@ -98,7 +98,7 @@ export default {
     },
     //点赞
    like: function (list) {
-     list.sc = true
+     // list.sc = true
      this.likeNumber++
      let likeNumber = this.likeNumber
      Toast({
@@ -134,24 +134,26 @@ export default {
           }
         }
         _this.$store.state.userInfo.name= _this.$store.state.userInfo.name ? _this.$store.state.userInfo.name : _this.$store.state.userInfo.phone
-        JSON.parse(localStorage.getItem('article'))[_this.$store.state.userInfo.name] = JSON.parse(localStorage.getItem('article'))[_this.$store.state.userInfo.name] || []
-        if(JSON.parse(localStorage.getItem('article'))[_this.$store.state.userInfo.name].length> 0 || localStorage.getItem('article')[_this.$store.state.userInfo.name] != null){
-          for(var i in  JSON.parse(localStorage.getItem('article'))[_this.$store.state.userInfo.name]) {
-            for(var j in _this.newsDetail){
-              if(_this.newsDetail[j].id == JSON.parse(localStorage.getItem('article'))[_this.$store.state.userInfo.name][i].id){
-                _this.newsDetail[j].sc = JSON.parse(localStorage.getItem('article'))[_this.$store.state.userInfo.name][i].isExist
-              }else {
-                console.log(1)
+        if (JSON.parse(localStorage.getItem('article'))[_this.$store.state.userInfo.name]){
+          JSON.parse(localStorage.getItem('article'))[_this.$store.state.userInfo.name] = JSON.parse(localStorage.getItem('article'))[_this.$store.state.userInfo.name] || []
+          if(JSON.parse(localStorage.getItem('article'))[_this.$store.state.userInfo.name].length> 0 || localStorage.getItem('article')[_this.$store.state.userInfo.name] != null){
+            for(var i in  JSON.parse(localStorage.getItem('article'))[_this.$store.state.userInfo.name]) {
+              for(var j in _this.newsDetail){
+                if(_this.newsDetail[j].id == JSON.parse(localStorage.getItem('article'))[_this.$store.state.userInfo.name][i].id){
+                  _this.newsDetail[j].sc = JSON.parse(localStorage.getItem('article'))[_this.$store.state.userInfo.name][i].isExist
+                }else {
+                  console.log(1)
+                }
               }
             }
           }
-        }
-        if(JSON.parse(localStorage.getItem('likeNumbers')).length> 0 || localStorage.getItem('likeNumbers') != null) {
-          for (var i in  JSON.parse(localStorage.getItem('likeNumbers'))) {
-            if (JSON.parse(localStorage.getItem('likeNumbers'))[i].id == id) {
-              _this.likeNumber = JSON.parse(localStorage.getItem('likeNumbers'))[i].likeNumber
-            } else {
-              console.log(1)
+          if(JSON.parse(localStorage.getItem('likeNumbers')).length> 0 || localStorage.getItem('likeNumbers') != null) {
+            for (var i in  JSON.parse(localStorage.getItem('likeNumbers'))) {
+              if (JSON.parse(localStorage.getItem('likeNumbers'))[i].id == id) {
+                _this.likeNumber = JSON.parse(localStorage.getItem('likeNumbers'))[i].likeNumber
+              } else {
+                console.log(1)
+              }
             }
           }
         }

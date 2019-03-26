@@ -25,12 +25,12 @@
                     <p class="go" @click="goDetalis(list.id)">
                         <span>去购买</span>
                     </p>
-                    
+
                 </div>
             </div>
         </div>
-       
-        
+
+
         <div v-show="collectionIndex===1" v-for="(list,index) in article"  @click="goNewsDetail(list.id)" :key="index">
            <div class="article" >
                 <p class="tltie">{{list.title}}</p>
@@ -64,10 +64,12 @@ export default {
   },
   computed: {
     collections() {
-      return this.$store.state.collections;
+      this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
+      return this.$store.state.collections[this.$store.state.userInfo.name];
     },
     article() {
-      return this.$store.state.article;
+      this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
+      return this.$store.state.article[this.$store.state.userInfo.name];
     },
     ...mapGetters(
       ["this.$store.state.collections"],
