@@ -70,7 +70,8 @@ export default {
   data() {
     return {
       qx: false,
-      payLength: null
+      payLength: null,
+      idData: []
     };
   },
   components: {
@@ -109,9 +110,15 @@ export default {
     // ...mapMutations(["shanchu", "add", "reduce", "settlement"]),
     ...mapMutations(["shanchu", "add", "reduce"]),
     danxuan(cart, index) {
-      this.payLength = index
+    this.payLength = index
+     if(!cart.danx1uan){
+       this.idData.push(cart.id)
+     }else {
+       //删除数组中指定的元素
+       this.idData.splice(this.idData.findIndex(item => item.id === cart.id), 1)
+       console.log(this.idData)
+     }
       this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
-      console.log()
       cart.danx1uan = !cart.danx1uan;
       if (!cart.danx1uan) {
         this.qx = false;
@@ -133,7 +140,11 @@ export default {
       }
     },
     settlement(){
-      this.$store.dispatch('setPay',this.payLength)
+      var data = {
+        payLength: this.payLength,
+        idData: this.idData
+      }
+      this.$store.dispatch('setPay',data)
     }
   }
 };

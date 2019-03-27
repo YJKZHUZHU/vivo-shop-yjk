@@ -158,11 +158,7 @@ export default {
           }
         }
       }
-
-
-
     });
-
   }
   // created(){
   //   var id = this.$route.query.id;

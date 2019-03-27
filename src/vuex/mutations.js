@@ -202,15 +202,37 @@ const matutaions={
       state.userInfo.name= state.userInfo.name ? state.userInfo.name : state.userInfo.phone
         state.carts[state.userInfo.name][index].value==1?state.carts[state.userInfo.name][index].value=1: state.carts[state.userInfo.name][index].value--
     },
-    [type.SET_PAY](state,len) {
+    [type.SET_PAY](state,data) {
+      console.log(data)
+      function unique(array) {
+        var obj = {};
+        return array.filter(function(item, index, array){
+          return obj.hasOwnProperty(item) ? false : (obj[item] = true)
+        })
+      }
+      function array_diff(a, b) {
+        for(var i=0;i<b.length;i++)
+        {
+          for(var j=0;j<a.length;j++)
+          {
+            if(a[j].id==b[i]){
+              a.splice(j,1);
+              j=j-1;
+            }
+          }
+        }
+        return a;
+      }
+      data.idData = unique(data.idData)
       MessageBox.confirm('确定要购买吗').then(action=>{
+        console.log(data)
         state.userInfo.name= state.userInfo.name ? state.userInfo.name : state.userInfo.phone
-        if(state.carts[state.userInfo.name].length = len+1) {
+
+        if(state.carts[state.userInfo.name].length == data.payLength+1) {
           state.carts[state.userInfo.name]=[];
         }else {
-          state.carts[state.userInfo.name] = []
+          array_diff(state.carts[state.userInfo.name],data.idData)
         }
-
         localStorage.setItem("carts",JSON.stringify(state.carts));
       })
     },
@@ -221,7 +243,6 @@ const matutaions={
         state.carts[state.userInfo.name]=[];
         localStorage.setItem("carts",JSON.stringify(state.carts));
       })
-
     },
 
 }
