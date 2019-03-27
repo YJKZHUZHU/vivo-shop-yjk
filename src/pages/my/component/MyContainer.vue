@@ -2,7 +2,7 @@
   <div class="container profile">
       <div class="container-bj">
           <img src="/static/img/tou.jpg">
-        <router-link :to="userInfo._id ? '/userinfo': '/login'" class="profile-link">
+        <router-link :to="userInfo._id ? '/author': '/login'" class="profile-link">
           <div class="user-info" style="width: 100%;text-align: center">
             <p v-if="!userInfo.phone"><span>{{userInfo.name || '登录/注册'}}</span></p>
             <p><span>{{userInfo.phone || '暂无绑定手机号'}}</span></p>

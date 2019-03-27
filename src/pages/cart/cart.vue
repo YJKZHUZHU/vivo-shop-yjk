@@ -50,7 +50,7 @@
             <div class="Total">合计：<span style="font-size: 0.54rem;color:#E3211E">￥{{sum}}</span></div>
 
                 <div class="Settlement">
-                    <a href="javascript:void(0);" @click="settlement">结算 {{sumValue}}</a>
+                    <a href="javascript:void(0);" @click="settlement()">结算 {{sumValue}}</a>
                 </div>
                 <!-- <div class="Settlementtwo">
                     <router-link :to="{name:'Home'}" >继续购物</router-link>
@@ -69,7 +69,8 @@ export default {
   name: "cart",
   data() {
     return {
-      qx: false
+      qx: false,
+      payLength: null
     };
   },
   components: {
@@ -105,9 +106,10 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(["shanchu", "add", "reduce", "settlement"]),
+    // ...mapMutations(["shanchu", "add", "reduce", "settlement"]),
+    ...mapMutations(["shanchu", "add", "reduce"]),
     danxuan(cart, index) {
-      console.log(cart, index);
+      this.payLength = index
       this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
       console.log()
       cart.danx1uan = !cart.danx1uan;
@@ -129,6 +131,9 @@ export default {
           cart.danx1uan = false;
         });
       }
+    },
+    settlement(){
+      this.$store.dispatch('setPay',this.payLength)
     }
   }
 };

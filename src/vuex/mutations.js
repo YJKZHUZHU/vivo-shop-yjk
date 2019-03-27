@@ -202,7 +202,18 @@ const matutaions={
       state.userInfo.name= state.userInfo.name ? state.userInfo.name : state.userInfo.phone
         state.carts[state.userInfo.name][index].value==1?state.carts[state.userInfo.name][index].value=1: state.carts[state.userInfo.name][index].value--
     },
+    [type.SET_PAY](state,len) {
+      MessageBox.confirm('确定要购买吗').then(action=>{
+        state.userInfo.name= state.userInfo.name ? state.userInfo.name : state.userInfo.phone
+        if(state.carts[state.userInfo.name].length = len+1) {
+          state.carts[state.userInfo.name]=[];
+        }else {
+          state.carts[state.userInfo.name] = []
+        }
 
+        localStorage.setItem("carts",JSON.stringify(state.carts));
+      })
+    },
     settlement:(state,data)=>{
       console.log(data)
       MessageBox.confirm('确定要购买吗').then(action=>{

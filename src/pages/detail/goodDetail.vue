@@ -146,8 +146,7 @@ export default {
           }
         }
         _this.$store.state.userInfo.name= _this.$store.state.userInfo.name ? _this.$store.state.userInfo.name : _this.$store.state.userInfo.phone
-        if(JSON.parse(localStorage.getItem('collections'))[_this.$store.state.userInfo.name]){
-
+        if(JSON.parse(localStorage.getItem('userInfo')) && JSON.parse(localStorage.getItem('collections'))[_this.$store.state.userInfo.name]){
           JSON.parse(localStorage.getItem('collections'))[_this.$store.state.userInfo.name] = JSON.parse(localStorage.getItem('collections'))[_this.$store.state.userInfo.name] || []
           if(JSON.parse(localStorage.getItem('collections'))[_this.$store.state.userInfo.name].length> 0 || localStorage.getItem('collections')[_this.$store.state.userInfo.name] != null){
             for(var i in  JSON.parse(localStorage.getItem('collections'))[_this.$store.state.userInfo.name]) {

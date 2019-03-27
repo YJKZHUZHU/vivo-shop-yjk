@@ -109,7 +109,7 @@
                   </div>
                   <div class="order-3">
                     <a @click.stop="confirmReceipt(list,index)">确认收货</a>
-                    <a @click.stop="odefaultReceipt(index)">订单删除</a>
+                    <!--<a @click.stop="odefaultReceipt(index)">订单删除</a>-->
                   </div>
                 </div>
               </div>

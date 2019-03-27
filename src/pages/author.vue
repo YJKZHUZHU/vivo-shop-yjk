@@ -1,11 +1,12 @@
 <template>
   <div class="Author" >
-      <div class="AuthorHeader">
-        <router-link to="my">
-          <i class="iconfont icon-552cc14536532"></i>
-        </router-link>
-          关于我
-      </div>
+      <!--<div class="AuthorHeader">-->
+        <!--<router-link to="my">-->
+          <!--<i class="iconfont icon-552cc14536532"></i>-->
+        <!--</router-link>-->
+          <!--关于我-->
+      <!--</div>-->
+      <authorHeader title="关于我"></authorHeader>
       <div class="AuthorMain">
         <div>在校学生一枚今年毕业，这是我第一个用vue写的项目</div>
         <p>我的QQ:2730455209</p>
@@ -18,7 +19,11 @@
 
 <script>
 import { mapState } from 'vuex';
+import authorHeader from '../common/header'
 export default {
+  components: {
+    authorHeader
+  }
 }
 </script>
 
@@ -46,7 +51,8 @@ export default {
 .AuthorMain{
     margin-top: 1.6rem;
     font-size: 0.4rem;
-    text-align: center;
+    text-align: left;
+    padding: 0.2rem;
 }
 .AuthorMain a{
     display: block;

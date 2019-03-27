@@ -15,7 +15,6 @@ const actions={
     },
     //取消文章收藏
     deleteArticle({commit}, data){
-      console.log(data)
       commit('DELETE_ARTICLE',data)
     },
     //文章点赞
@@ -42,6 +41,9 @@ const actions={
     //订单
     setOrders({commit},data){
         commit('SET_ORDERS',data)
+    },
+    setPay({commit}, data) {
+        commit('SET_PAY', data)
     },
   // 同步记录用户信息
   recordUser({commit}, userInfo) {
