@@ -11,7 +11,7 @@
         </div>
         <div class="calssify-rigth" ref="wrapper2">
             <ul class="calssify-left-ul">
-                <li v-for="(list,index) in right.rigth_data" :key="index" @click="goDetails(list.id)">
+                <li v-for="(list,index) in right.rigth_data" :key="list.id" @click="goDetails(list.id)">
                      <img v-lazy="list.img">
                     <span>{{list.name}}</span>
                 </li>
@@ -52,15 +52,10 @@ export default {
   methods: {
     qiehuan(index) {
       var _this = this;
-      // _this.right.rigth_data = null
-      // console.log(typeof _this.right.rigth_data)
       _this.classifyIndex = index;
-      console.log(_this.list)
       _this.right = _this.list[index];
-      console.log(_this.right)
     },
     goDetails(id) {
-      console.log(id);
       this.$router.push({
         path: "goodDetail",
         query: { id: id }
@@ -70,8 +65,8 @@ export default {
         var _this = this;
         axios.get("/api/classify").then(function(res) {
           if (res.data.success) {
-            _this.left = res.data.classify.left;
-            _this.list = res.data.classify.right;
+            _this.left = res.data.classify[0].left;
+            _this.list = res.data.classify[0].right;
             _this.right = _this.list[0];
           }
     });

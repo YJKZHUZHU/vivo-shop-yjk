@@ -40,7 +40,7 @@ module.exports = {
         }
       }
       },
-    cssSourceMap: false,
+    // cssSourceMap: false,
     useEslint: false,
     showEslintErrorsInOverlay: false,
     cacheBusting: true,
