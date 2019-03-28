@@ -71,17 +71,21 @@ export default {
     return {
       qx: false,
       payLength: null,
-      idData: []
+      idData: [],
+      carts: this.$store.state.carts[this.$store.state.userInfo.name]
     };
   },
   components: {
     CartHeader
   },
+  created() {
+    this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
+  },
   computed: {
-    carts() {
-      this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
-      return this.$store.state.carts[this.$store.state.userInfo.name];
-    },
+    // carts() {
+    //   this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
+    //   return this.$store.state.carts[this.$store.state.userInfo.name];
+    // },
     ...mapGetters(["this.$store.state.carts"]),
     sum: function() {
       this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone

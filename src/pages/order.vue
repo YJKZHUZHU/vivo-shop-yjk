@@ -174,21 +174,26 @@ export default {
         {
           item: "待评价"
         }
-      ]
+      ],
+      orders: this.$store.state.orders[this.$store.state.userInfo.name],
+      pendingReceipt:this.$store.state.pendingReceipt[this.$store.state.userInfo.name]
     };
+  },
+  created() {
+    this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
   },
   components: {
     OrderHeader
   },
   computed: {
-    orders() {
-      this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
-      return this.$store.state.orders[this.$store.state.userInfo.name];
-    },
-    pendingReceipt() {
-      this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
-      return this.$store.state.pendingReceipt[this.$store.state.userInfo.name];
-    }
+    // orders() {
+    //   this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
+    //   return this.$store.state.orders[this.$store.state.userInfo.name];
+    // },
+    // pendingReceipt() {
+    //   this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
+    //   return this.$store.state.pendingReceipt[this.$store.state.userInfo.name];
+    // }
   },
   methods: {
     ...mapMutations(["odefault"]),

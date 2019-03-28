@@ -34,6 +34,7 @@
 </style>
 
 <script>
+  import  {MessageBox} from 'mint-ui'
 export default {
   methods: {
       xuangou:function(){
@@ -43,7 +44,7 @@ export default {
       this.$router.push({path:"parts"})
     },
     btn:function(){
-      MessageBox('提示', 'Vue的第一个项目能给个star么？Thank you');
+      MessageBox('等待开放，敬请期待哈哈哈');
     }
   },
 }

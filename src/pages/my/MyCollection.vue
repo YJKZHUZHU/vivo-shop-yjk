@@ -59,18 +59,23 @@ export default {
         {
           name: "文章"
         }
-      ]
+      ],
+      collections: this.$store.state.collections[this.$store.state.userInfo.name],
+      article: this.$store.state.article[this.$store.state.userInfo.name]
     };
   },
+  created() {
+    this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
+  },
   computed: {
-    collections() {
-      this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
-      return this.$store.state.collections[this.$store.state.userInfo.name];
-    },
-    article() {
-      this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
-      return this.$store.state.article[this.$store.state.userInfo.name];
-    },
+    // collections() {
+    //   this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
+    //   return this.$store.state.collections[this.$store.state.userInfo.name];
+    // },
+    // article() {
+    //   this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
+    //   return this.$store.state.article[this.$store.state.userInfo.name];
+    // },
     ...mapGetters(
       ["this.$store.state.collections"],
       ["this.$store.state.article"]

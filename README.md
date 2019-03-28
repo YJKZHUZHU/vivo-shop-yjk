@@ -1,29 +1,7 @@
-<<<<<<< HEAD
+
 # vue2.0全家桶实现vivo商城 shop
 vue全家桶 vue2.0+vuex+axios+better-scroll还有就是miut-ui组件库
-
-
-## 开头
-
-## 2018/09/22 如果发现图片打不开 ，我七牛云的那边域名出问题了 ！
-## 2019/01/08 最近在用TP5 写后台，持续关注哦 这个项目也会更新一些功能的，先放两张图！！！！！！！😊😊😊😊
-![](https://github.com/Mynameisfwk/vivo-shop/blob/master/static/img/D246F738D61254CF43058771EB0C256B.jpg)
-![](https://github.com/Mynameisfwk/vivo-shop/blob/master/static/img/E2CF505C13B27427AA8B7173161F9736.jpg)
-
-
-### 在线预览
-旧的版本：[vivo移动端商城](http://fwk01.top)<br>
-新的版本：[vivo移动端商城](http://fwk02.top)<br>
-项目演示地址：[vivo移动端商城](http://fwk02.top)<br>
-建议Chrome调试手机模式下预览<br>
-因为刚买的域名主机所以要解析，实名认证才可以浏览，所以你们还是下把项目给下载下来本地运行看把！😊
-
-### 废话
-项目源码地址：[vivo-shop](https://github.com/Mynameisfwk/vivo-shop)，觉得还可以的话给个star 在这先谢谢了~<br>
-刚出来实习两个月 所以没有那么的时间来写，只有周六周日有时间！所以帮忙star鼓励下！🙏
-
 ## 写在前面
-
 > 这个小项目还有很多地方做的还不是那么完美还存在一些小BUG，不过后期我会努力完善的，但求各位大佬提出你们的->[建议](https://github.com/Mynameisfwk/vivo-shop/issues)，如果你觉的对你有帮助帮忙点个star谢谢！
 
 > 因为比较赶所以有些功能还没实现，一些代码也没有优化好尤其是一些样式你们将就看吧，不过基本功能都写完了，没有实现都功能上拉下拉刷新、加载更多等等，后面会陆陆续续的做完的！
@@ -76,17 +54,12 @@ vue全家桶 vue2.0+vuex+axios+better-scroll还有就是miut-ui组件库
 # 安装项目依赖
 npm install 
 
-# 启动服务 访问http://localhost:8080
+# 启动服务 访问http://localhost:9000
 npm run dev
 
 # 编译打包
 npm run build
 ```
-
-## 骚话
-记得当时在学校自学前端的时候一个布局浮动弄了我快三四天的时间，当时一度怀疑我是不是适合学编程，之后冷静下来想想别人能做到为什么我就不能？那时候也是总是沉不住气，一遇到问题就想要放弃，学编程不是一蹴而就，而是慢慢的积累知识点哪怕是每天写两三个功能或是说解决一个问题，长期积累下去也会学到很多，只有不急不躁具有空杯心态才能硕果累累！
-
-对。以上就是我的骚话！！！说下我个人的观点！！！写的不好，大佬轻喷！！
 
 ## 写在最后
 数据都来自于vivo官网如有侵权请请联系删除这个小项目做的有点粗糙可以说是非常粗糙、各位将就看看吧、大佬轻喷、还有就是我要厚着脸皮要个star 感谢 🙏
@@ -95,4 +68,4 @@ npm run build
 =======
 # vivo-shop-yjk
 vue-project-2019
->>>>>>> 9e69161d92788f727b376f30a54575afcdb9ea85
+

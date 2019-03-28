@@ -30,17 +30,14 @@ import { mapState, mapMutations, mapGetters } from "vuex";
 export default {
     data(){
         return{
-            nowIndex:0
+            nowIndex:0,
+            address: this.$store.state.address[this.$store.state.userInfo.name]
         }
     },
     components: {
         AddressHeader
     },
     computed: {
-        address() {
-        this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
-        return this.$store.state.address[this.$store.state.userInfo.name];
-        },
         ...mapGetters(
             ["this.$store.state.address"],
             ["this.$store.state.nowIndex"]
