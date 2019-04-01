@@ -1,6 +1,6 @@
 import state from './state'
 import * as type from './type.js'
-import { MessageBox } from 'mint-ui';
+import { MessageBox, Toast } from 'mint-ui';
 
 const matutaions={
     //购物车
@@ -224,17 +224,22 @@ const matutaions={
         return a;
       }
       data.idData = unique(data.idData)
-      MessageBox.confirm('确定要购买吗').then(action=>{
-        console.log(data)
-        state.userInfo.name= state.userInfo.name ? state.userInfo.name : state.userInfo.phone
+      if (data.idData.length == 0) {
+        Toast('请选择要购买的商品')
+      }else {
+        MessageBox.confirm('确定要购买吗').then(action=>{
+          console.log(data)
+          state.userInfo.name= state.userInfo.name ? state.userInfo.name : state.userInfo.phone
 
-        if(state.carts[state.userInfo.name].length == data.payLength+1) {
-          state.carts[state.userInfo.name]=[];
-        }else {
-          array_diff(state.carts[state.userInfo.name],data.idData)
-        }
-        localStorage.setItem("carts",JSON.stringify(state.carts));
-      })
+          if(state.carts[state.userInfo.name].length == data.payLength+1) {
+            state.carts[state.userInfo.name]=[];
+          }else {
+            array_diff(state.carts[state.userInfo.name],data.idData)
+          }
+          localStorage.setItem("carts",JSON.stringify(state.carts));
+        })
+      }
+
     },
     settlement:(state,data)=>{
       console.log(data)

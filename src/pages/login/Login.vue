@@ -5,8 +5,8 @@
         <!--<h2 class="login_logo">VIVO商城</h2>-->
         <img src="https://accountstatic.vivo.com.cn/accountstatic.vivo.com.cn/static/img/logo.d68beda.png.webp" alt="VIVO商城" class="login_logo">
         <div class="login_header_title">
-          <a href="javascript:;" :class="{on: loginWay}" @click="loginWay=true">短信登录</a>
-          <a href="javascript:;" :class="{on: !loginWay}" @click="loginWay=false">密码登录</a>
+          <a href="javascript:;" :class="{on: loginWay}" @click="loginWay=true">短信登录/注册</a>
+          <a href="javascript:;" :class="{on: !loginWay}" @click="loginWay=false">密码登录/注册</a>
         </div>
       </div>
       <div class="login_content">
@@ -30,11 +30,11 @@
           <div :class="{on: !loginWay}">
             <section>
               <section class="login_message">
-                <input type="text" maxlength="11" placeholder="手机/邮箱/用户名" v-model="name">
+                <input type="text"  placeholder="手机/邮箱" v-model="name">
               </section>
               <section class="login_verification">
-                <input type="text" maxlength="8" placeholder="密码" v-if="showPwd" v-model="pwd">
-                <input type="password" maxlength="8" placeholder="密码" v-else v-model="pwd">
+                <input type="text"  placeholder="密码" v-if="showPwd" v-model="pwd">
+                <input type="password"  placeholder="密码" v-else v-model="pwd" >
                 <div class="switch_button" :class="showPwd?'on':'off'" @click="showPwd=!showPwd">
                   <div class="switch_circle" :class="{right: showPwd}"></div>
                   <span class="switch_text">{{showPwd ? 'abc' : '...'}}</span>
@@ -62,6 +62,7 @@
 
 <script>
   import AlertTip from '../../components/AlertTip/AlertTip.vue'
+  import { Toast  } from 'mint-ui'
   import {reqSendCode, reqSmsLogin, reqPwdLogin} from '../../api'
   export default {
     data () {
@@ -117,7 +118,23 @@
 
 
       },
-
+      //验证密码
+      checkPassword(val) {
+        var str = val;
+        if (str == null || str.length <8) {
+          return false;
+        }
+        var reg1 = new RegExp(/^[0-9A-Za-z]+$/);
+        if (!reg1.test(str)) {
+          return false;
+        }
+        var reg = new RegExp(/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/);
+        if (reg.test(str)) {
+          return true;
+        } else {
+          return false;
+        }
+      },
       showAlert(alertText) {
         this.alertShow = true
         this.alertText = alertText
@@ -142,13 +159,13 @@
 
         } else {// 密码登陆
           const {name, pwd, captcha} = this
-          if(!this.name) {
+          if(!(/^1[3-578]\d{9}$/.test(name) || /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/.test(name))) {
             // 用户名必须指定
-            this.showAlert('用户名必须指定')
+            this.showAlert('用户名需为邮箱或者手机号')
             return
-          } else if(!this.pwd) {
+          } else if(!this.checkPassword(pwd)) {
             // 密码必须指定
-            this.showAlert('密码必须指定')
+            this.showAlert('密码须为字母加数字且长度不小于8位')
             return
           } else if(!this.captcha) {
             // 验证码必须指定
@@ -190,7 +207,8 @@
       getCaptcha () {
         // 每次指定的src要不一样
         this.$refs.captcha.src = 'http://localhost:4000/captcha?time='+Date.now()
-      }
+      },
+
     },
 
     components: {

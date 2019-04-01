@@ -30,7 +30,7 @@
                     <div class="pay-invoice-2-2">
                         <div v-show="invoiceIndex===0">
                             <p>*请输入发票抬头:</p>
-                            <input type="text" id="input" v-model="list.text" placeholder="请输入发票信息">
+                            <input type="number" id="input" v-model="list.text" placeholder="请输入发票信息">
 
                         </div>
                     </div>

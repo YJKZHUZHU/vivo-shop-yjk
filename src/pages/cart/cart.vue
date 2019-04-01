@@ -3,7 +3,7 @@
        <CartHeader cartTitle="购物车"></CartHeader>
         <div class="cartMain">
              <ul>
-                <li v-for="(cart,index) in carts" class="cartList" :key="index">
+                <li v-for="(cart,index) in carts" class="cartList" :key="cart.id">
                      <!-- 购物车单选 -->
                      <div class="select" @click="danxuan(cart,index)" >
                         <i class="iconfont icon-xuanzekuangmoren"   v-if="!cart.danx1uan"></i>
@@ -114,6 +114,8 @@ export default {
     // ...mapMutations(["shanchu", "add", "reduce", "settlement"]),
     ...mapMutations(["shanchu", "add", "reduce"]),
     danxuan(cart, index) {
+      console.log(cart)
+      this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
     this.payLength = index
      if(!cart.danx1uan){
        this.idData.push(cart.id)
@@ -122,7 +124,7 @@ export default {
        this.idData.splice(this.idData.findIndex(item => item.id === cart.id), 1)
        console.log(this.idData)
      }
-      this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
+
       cart.danx1uan = !cart.danx1uan;
       if (!cart.danx1uan) {
         this.qx = false;
@@ -137,6 +139,8 @@ export default {
         this.$store.state.carts[this.$store.state.userInfo.name].forEach(cart => {
           cart.danx1uan = true;
         });
+        this.idData = this.$store.state.carts[this.$store.state.userInfo.name]
+        this.payLength = this.$store.state.carts[this.$store.state.userInfo.name].length-1
       } else {
         this.$store.state.carts[this.$store.state.userInfo.name].forEach(cart => {
           cart.danx1uan = false;
