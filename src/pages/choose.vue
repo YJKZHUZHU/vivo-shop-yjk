@@ -43,8 +43,8 @@ export default {
     var _this = this;
     axios.get("/api/phone").then(function(res) {
       if (res.data.success) {
-        _this.upper = res.data.data.phone.upper;
-        _this.list = res.data.data.phone.lower;
+        _this.upper = res.data.phone[0].upper;
+        _this.list = res.data.phone[0].lower;
         _this.lower = _this.list[0];
       }
     });

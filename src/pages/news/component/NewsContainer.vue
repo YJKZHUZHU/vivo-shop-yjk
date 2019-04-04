@@ -11,10 +11,10 @@
                 {{list.newsCon}}
             </div>
             <div class="container-time">
-                发布日期 2018-4-18
+                发布日期 {{ list.newsTime }}
             </div>
         </div>
-       
+
     </div>
 </template>
 
@@ -47,7 +47,7 @@ export default {
         padding-top 1.45rem
         padding-bottom 1.45rem
         // position absolute
-       
+
         .container-box
             width 100%
             height 8.4rem
@@ -65,7 +65,7 @@ export default {
             width 95%
             height 4.3rem
             margin auto
-            img 
+            img
                 width 100%
                 height 100%
         .container-con
