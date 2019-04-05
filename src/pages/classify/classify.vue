@@ -20,7 +20,7 @@
     </div>
     <v-footer></v-footer>
 </div>
-  
+
 </template>
 
 <script>
@@ -87,7 +87,7 @@ export default {
 
 .calssify-con {
     display: flex;
-    overflow: hidden;
+    /*overflow: hidden;*/
     position: absolute;
     width: 100%;
     top: 0;

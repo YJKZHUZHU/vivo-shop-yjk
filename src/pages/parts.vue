@@ -19,7 +19,7 @@
         </div>
         </div>
     </div>
-    
+
   </div>
 </template>
 
@@ -42,11 +42,13 @@ export default {
   },
   created() {
     var _this = this;
-    axios.get("/static/ceshi.json").then(function(res) {
-      console.log(res);
-      _this.PartsUpper = res.data.data.parts.PartsUpper;
-      _this.list = res.data.data.parts.PartsLower;
-      _this.PartsLower = _this.list[0];
+    axios.get("/api/part").then(function(res) {
+      if(res.data.success){
+        _this.PartsUpper = res.data.parts[0].PartsUpper;
+        _this.list = res.data.parts[0].PartsLower;
+        _this.PartsLower = _this.list[0];
+      }
+
     });
   },
   methods: {
@@ -124,7 +126,7 @@ export default {
 .list {
     float: left;
     text-align: center;
-    width: 25%;
+    width: 20%;
     font-size: 0.37rem;
 }
 
