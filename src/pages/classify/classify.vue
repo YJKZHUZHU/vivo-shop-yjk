@@ -99,7 +99,7 @@ export default {
         width: 4rem;
         height: 100%;
         background: #f6f6f6;
-        margin-bottom: 1.51rem;
+        margin-bottom: 1.71rem;
         font-size 0.35rem
 
         li {
@@ -138,6 +138,9 @@ export default {
                     color: #999;
                     line-height: 0.9rem;
                     font-size: 0.34rem;
+                    overflow: hidden;
+                    text-overflow:ellipsis;
+                    white-space: nowrap;
                 }
             }
         }
