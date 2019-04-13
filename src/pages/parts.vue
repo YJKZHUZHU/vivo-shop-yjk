@@ -68,16 +68,18 @@ export default {
     rise(){
         var _this = this;
         var data = _this.PartsLower.PartsLower_data;
-        data.sort((a, b) => {
-            return a.homePrice > b.homePrice;
-        });
+        function sortHomePrice(a,b){
+          return b.homePrice-a.homePrice
+        }
+        data.sort(sortHomePrice)
     },
     drop(){
         var _this = this;
         var data = _this.PartsLower.PartsLower_data;
-        data.sort((a, b) => {
-            return a.homePrice < b.homePrice;
-        });
+        function sortHomePrice(a,b){
+          return a.homePrice-b.homePrice
+        }
+        data.sort(sortHomePrice)
     }
   }
 };

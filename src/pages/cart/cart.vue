@@ -50,7 +50,7 @@
             <div class="Total">合计：<span style="font-size: 0.54rem;color:#E3211E">￥{{sum}}</span></div>
 
                 <div class="Settlement">
-                    <a href="javascript:void(0);" @click="settlement()">结算 {{sumValue}}</a>
+                    <a href="javascript:void(0);" @click="settlement">结算 {{sumValue}}</a>
                 </div>
                 <!-- <div class="Settlementtwo">
                     <router-link :to="{name:'Home'}" >继续购物</router-link>

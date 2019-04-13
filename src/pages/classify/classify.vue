@@ -9,9 +9,9 @@
                 </li>
             </ul>
         </div>
-        <div class="calssify-rigth" ref="wrapper2">
+        <div class="calssify-right" ref="wrapper2">
             <ul class="calssify-left-ul">
-                <li v-for="(list,index) in right.rigth_data" :key="list.id" @click="goDetails(list.id)">
+                <li v-for="(list,index) in right.right_data" :key="list.id" @click="goDetails(list.id)">
                      <img v-lazy="list.img">
                     <span>{{list.name}}</span>
                 </li>
@@ -109,7 +109,7 @@ export default {
         }
     }
 
-    .calssify-rigth {
+    .calssify-right {
         flex: 1;
         height: 100%;
         background: white;
