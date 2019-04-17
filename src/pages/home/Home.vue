@@ -1,13 +1,13 @@
 <template>
   <div class="Home">
       <div class="Homeheader"><i class="iconfont icon-VIVO"></i></div>
-      <div class="official"><img src="/static/img/official.png" alt="图片" style="width: 100%;height:100%"></div>
+      <!--<div class="official"><img src="/static/img/official.png" alt="图片" style="width: 100%;height:100%"></div>-->
       <Home-Swipe></Home-Swipe>
       <Home-List></Home-List>
       <Home-Container :todos="todos"></Home-Container>
       <Home-Footer></Home-Footer>
   </div>
-    
+
 </template>
 
 <script>
@@ -73,7 +73,7 @@ export default {
       width: 100%;
       height: 6.5rem;
   }
- 
+
     .official{
       width: 100%;
       height: 100%;

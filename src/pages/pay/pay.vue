@@ -24,19 +24,19 @@
                 </p>
             </div>
 
-            <div class="pay-shop-invoice">
-                <p class="pay-invoice-1">发票信息</p>
-                <div class="pay-invoice-2">
-                    <div class="pay-invoice-2-2">
-                        <div v-show="invoiceIndex===0">
-                            <p>*请输入发票抬头:</p>
-                            <input type="number" id="input" v-model="list.text" placeholder="请输入发票信息">
+            <!--<div class="pay-shop-invoice">-->
+                <!--<p class="pay-invoice-1">发票信息</p>-->
+                <!--<div class="pay-invoice-2">-->
+                    <!--<div class="pay-invoice-2-2">-->
+                        <!--<div v-show="invoiceIndex===0">-->
+                            <!--<p>*请输入发票抬头:</p>-->
+                            <!--<input type="number" id="input" v-model="list.text" placeholder="请输入发票信息">-->
 
-                        </div>
-                    </div>
+                        <!--</div>-->
+                    <!--</div>-->
 
-                </div>
-            </div>
+                <!--</div>-->
+            <!--</div>-->
 
             <div class="pay-shop-fs">
                 <div class="pay-fs-1">支付方式</div>
@@ -59,7 +59,7 @@
             <div class="pay-shop-liuyan">
                 <p class="pay-liuyan-1">订单留言</p>
                 <div class="pay-liuyan-2">
-                    <textarea v-model="list.ly" rows="5" placeholder="限300字（若有特殊需求，请联系商城在线客服)" maxlength="300"></textarea>
+                    <textarea v-model="list.ly" rows="5" placeholder="限300字" maxlength="300"></textarea>
                     <p>商品总金额：¥{{$route.query.value*list.homePrice}}</p>
                     <p>运费：0.00</p>
                     <p>优惠：¥0.00</p>
@@ -126,12 +126,6 @@
         this.invoiceIndex = index;
       },
       addOrder(id, index) {
-        if (id.text == undefined) {
-          Toast({
-            message: "请输入发票抬头",
-            duration: 950
-          });
-        } else {
           var data = {
             id: id.id,
             name: id.homeName,
@@ -150,7 +144,6 @@
             });
             clearInterval(time);
           }, 1000);
-        }
       }
     },
     created() {

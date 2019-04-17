@@ -12,7 +12,7 @@
                         </mt-swipe>
                     </div>
                     <div class="goodDetailMain">
-                        <div class="gooDetailNumber">商品编号：{{goodDetail.number}}</div>
+
                         <div class="goodDetailName">{{goodDetail.homeName}}</div>
                         <div style="text-align: justify;font-size: 0.348rem;">
                             <span style="margin-left:-.2rem;color:#FF4B3D;">【{{goodDetail.homeBright}}】</span>
@@ -20,6 +20,7 @@
                         </div>
                         <div class="goodDetailColor">{{goodDetail.color}}</div>
                         <div class="goodDetailPaid">￥{{goodDetail.homePrice}}</div>
+                        <div class="gooDetailNumber"><span style="color: red">商品编号：</span>{{goodDetail.number}}</div>
                     </div>
                     <div class="goodDetailValue">
                         <div class="_Value">购买数量：</div>
@@ -33,7 +34,7 @@
                     <div class="goodDetailBox">
                         <mt-navbar v-model="selected" >
                             <mt-tab-item id="tab-container1">图文详情</mt-tab-item>
-                            <mt-tab-item id="tab-container2">参数</mt-tab-item>
+                            <!--<mt-tab-item id="tab-container2">参数</mt-tab-item>-->
                         </mt-navbar>
                         <mt-tab-container v-model="selected" swipeable>
                             <mt-tab-container-item id="tab-container1">
@@ -142,6 +143,7 @@ export default {
       if (res.data.success) {
         for (var i = 0; i < res.data.goodDetail.length;i++){
           if (res.data.goodDetail[i].id == id ) {
+            res.data.goodDetail[i].number = id + new Date().getTime()
             _this.goodDetails.push(res.data.goodDetail[i]);
           }
         }
@@ -524,7 +526,8 @@ export default {
 }
 
 .gooDetailNumber {
-    display: none;
+    /*display: none;*/
+  font-size: 16px;
 }
 
 .add a {

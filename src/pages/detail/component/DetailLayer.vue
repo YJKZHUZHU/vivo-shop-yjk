@@ -39,7 +39,7 @@
                             </p>
                             <p style="height: 1rem;line-height: 1rem;margin-left: 0.7rem">
                                 换新鼓励金通过参加以旧换新回收旧手机以后获得，旧手机享受额外补贴。
-                                <router-link to="/change" >现在换机 </router-link>
+                                <!--<router-link to="/change" >现在换机 </router-link>-->
                             </p>
                         </div>
                     </div>

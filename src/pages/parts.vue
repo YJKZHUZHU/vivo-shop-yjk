@@ -8,7 +8,6 @@
         <div class="sort">
             <p @click="rise">价格升序</p>
             <p @click="drop">价格降序</p>
-            <p>销量优先</p>
         </div>
         <div class="lower">
             <div class="lower_list" v-for="(list,index) in PartsLower.PartsLower_data" :key="index" @click="goDetails(list.id)">
