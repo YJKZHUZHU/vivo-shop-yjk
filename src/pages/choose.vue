@@ -66,16 +66,18 @@ export default {
     rise() {
       var _this = this;
       var data = _this.lower.lower_data;
-      data.sort((a, b) => {
-        return a.Price > b.Price;
-      });
+      function sortPrice(a,b){
+        return b.Price-a.Price
+      }
+      data.sort(sortPrice)
     },
     drop(){
       var _this = this;
       var data = _this.lower.lower_data;
-      data.sort((a, b) => {
-        return a.Price < b.Price;
-      });
+      function sortPrice(a,b){
+        return a.Price-b.Price
+      }
+      data.sort(sortPrice)
     }
   }
 };

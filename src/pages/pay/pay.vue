@@ -77,6 +77,104 @@
         </div>
     </div>
 </template>
+<script>
+  import { Toast } from "mint-ui";
+  import { mapGetters, mapMutations } from "vuex";
+  import PayHeader from "../../common/header";
+  import axios from "axios";
+  export default {
+    name: "pay",
+    data() {
+      return {
+        listIndex: 0,
+        invoiceIndex: 0,
+        pay: [],
+        lists: [
+          {
+            id: "1",
+            name: "在线支付"
+          },
+          {
+            id: "2",
+            name: "花呗分期"
+          },
+          {
+            id: "3",
+            name: "货到付款"
+          }
+        ],
+        text: "",
+        ly: ""
+      };
+    },
+    components: {
+      PayHeader
+    },
+    //    computed: {
+    //         address() {
+    //         return this.$store.state.address;
+    //         },
+    //         ...mapGetters(
+    //             ["this.$store.state.address"],
+    //         )
+    //     },
+    methods: {
+      btn(id, index) {
+        this.listIndex = index;
+      },
+      invoiceClick(index) {
+        this.invoiceIndex = index;
+      },
+      addOrder(id, index) {
+        if (id.text == undefined) {
+          Toast({
+            message: "请输入发票抬头",
+            duration: 950
+          });
+        } else {
+          var data = {
+            id: id.id,
+            name: id.homeName,
+            price: id.homePrice,
+            text: id.text,
+            ly: id.ly,
+            img: id.homeImg,
+            listname: this.lists[index].name,
+            value: this.$route.query.value
+          };
+          this.$store.dispatch("setOrders", data);
+          var _this = this;
+          var time = setInterval(function() {
+            _this.$router.push({
+              path: "success"
+            });
+            clearInterval(time);
+          }, 1000);
+        }
+      }
+    },
+    created() {
+      var _this = this;
+      var id = this.$route.query.id;
+      var value = this.$route.query.value;
+      axios.get("/static/ceshi.json").then(function(res) {
+        for (var i = 0; i < res.data.data.set.length; i++) {
+          if (res.data.data.set[i].id == id) {
+            _this.pay.push(res.data.data.set[i]);
+          }
+        }
+      });
+      axios.get("/static/ceshi.json").then(function(res) {
+        for (var i = 0; i < res.data.data.home.length; i++) {
+          if (res.data.data.home[i].id == id) {
+            _this.pay.push(res.data.data.home[i]);
+          }
+        }
+      });
+
+    }
+  };
+</script>
 <style lang="stylus" scoped>
 .active {
     border: 1px solid #444;
@@ -362,103 +460,5 @@
 </style>
 
 
-<script>
-import { Toast } from "mint-ui";
-import { mapGetters, mapMutations } from "vuex";
-import PayHeader from "../../common/header";
-import axios from "axios";
-export default {
-  name: "pay",
-  data() {
-    return {
-      listIndex: 0,
-      invoiceIndex: 0,
-      pay: [],
-      lists: [
-        {
-          id: "1",
-          name: "在线支付"
-        },
-        {
-          id: "2",
-          name: "花呗分期"
-        },
-        {
-          id: "3",
-          name: "货到付款"
-        }
-      ],
-      text: "",
-      ly: ""
-    };
-  },
-  components: {
-    PayHeader
-  },
-  //    computed: {
-  //         address() {
-  //         return this.$store.state.address;
-  //         },
-  //         ...mapGetters(
-  //             ["this.$store.state.address"],
-  //         )
-  //     },
-  methods: {
-    btn(id, index) {
-      this.listIndex = index;
-    },
-    invoiceClick(index) {
-      this.invoiceIndex = index;
-    },
-    addOrder(id, index) {
-      if (id.text == undefined) {
-        Toast({
-          message: "请输入发票抬头",
-          duration: 950
-        });
-      } else {
-        var data = {
-          id: id.id,
-          name: id.homeName,
-          price: id.homePrice,
-          text: id.text,
-          ly: id.ly,
-          img: id.homeImg,
-          listname: this.lists[index].name,
-          value: this.$route.query.value
-        };
-        this.$store.dispatch("setOrders", data);
-        var _this = this;
-        var time = setInterval(function() {
-          _this.$router.push({
-            path: "success"
-          });
-          clearInterval(time);
-        }, 1000);
-      }
-    }
-  },
-  created() {
-    var _this = this;
-    var id = this.$route.query.id;
-    var value = this.$route.query.value;
-    axios.get("/static/ceshi.json").then(function(res) {
-      for (var i = 0; i < res.data.data.set.length; i++) {
-        if (res.data.data.set[i].id == id) {
-          _this.pay.push(res.data.data.set[i]);
-        }
-      }
-    });
-    axios.get("/static/ceshi.json").then(function(res) {
-      for (var i = 0; i < res.data.data.home.length; i++) {
-        if (res.data.data.home[i].id == id) {
-          _this.pay.push(res.data.data.home[i]);
-        }
-      }
-    });
-
-  }
-};
-</script>
 
 

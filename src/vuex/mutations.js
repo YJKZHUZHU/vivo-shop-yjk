@@ -242,11 +242,12 @@ const matutaions={
 
     },
     settlement:(state,data)=>{
-      console.log(data)
+      // console.log(data)
       MessageBox.confirm('确定要购买吗').then(action=>{
         state.userInfo.name= state.userInfo.name ? state.userInfo.name : state.userInfo.phone
         state.carts[state.userInfo.name]=[];
         localStorage.setItem("carts",JSON.stringify(state.carts));
+
       })
     },
 
