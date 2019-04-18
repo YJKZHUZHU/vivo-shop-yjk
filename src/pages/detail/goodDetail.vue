@@ -20,7 +20,7 @@
                         </div>
                         <div class="goodDetailColor">{{goodDetail.color}}</div>
                         <div class="goodDetailPaid">￥{{goodDetail.homePrice}}</div>
-                        <div class="gooDetailNumber"><span style="color: red">商品编号：</span>{{goodDetail.number}}</div>
+                        <!--<div class="gooDetailNumber"><span style="color: red">商品编号：</span>{{goodDetail.number}}</div>-->
                     </div>
                     <div class="goodDetailValue">
                         <div class="_Value">购买数量：</div>
@@ -143,7 +143,7 @@ export default {
       if (res.data.success) {
         for (var i = 0; i < res.data.goodDetail.length;i++){
           if (res.data.goodDetail[i].id == id ) {
-            res.data.goodDetail[i].number = id + new Date().getTime()
+            // res.data.goodDetail[i].number = id + new Date().getTime()
             _this.goodDetails.push(res.data.goodDetail[i]);
           }
         }

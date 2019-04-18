@@ -8,7 +8,7 @@
                      <div class="select" @click="danxuan(cart,index)" >
                         <i class="iconfont icon-xuanzekuangmoren"   v-if="!cart.danx1uan"></i>
                         <i class="iconfont icon-xuanzekuangxuanzhong" v-else-if="cart.danx1uan" style="color:#25b5fe"></i>
-                    </div>
+                      </div>
 
 
                     <!-- 购物车商品信息 -->

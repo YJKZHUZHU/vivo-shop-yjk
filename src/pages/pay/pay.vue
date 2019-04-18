@@ -1,13 +1,16 @@
 <template>
-    <div>
+    <div class="pay-container">
         <Pay-Header title="结算"></Pay-Header>
-        <div to="address" class="pay-address" >
+        <div to="address" class="pay-address">
              <p class="address-box">
-                <span class="name">收货人：叶俊宽</span>
-                <span class="phone">18470186610</span>
+                <span class="name">收货人：{{ defaultAddress.name }}</span>
+                <span @click="pickAddress" class="pick-address">选择收货地址</span>
             </p>
             <p class="address-details">
-                收货地址：江西省赣州市赣南师范大学
+              电话：{{ defaultAddress.phone }}
+            </p>
+            <p class="address-details">
+                收货地址：{{ defaultAddress.zone }} {{ defaultAddress.detail }}
             </p>
         </div>
         <div class="pay-shop" v-for="(list,index) in pay" :key="index">
@@ -23,27 +26,9 @@
                     </p>
                 </p>
             </div>
-
-            <!--<div class="pay-shop-invoice">-->
-                <!--<p class="pay-invoice-1">发票信息</p>-->
-                <!--<div class="pay-invoice-2">-->
-                    <!--<div class="pay-invoice-2-2">-->
-                        <!--<div v-show="invoiceIndex===0">-->
-                            <!--<p>*请输入发票抬头:</p>-->
-                            <!--<input type="number" id="input" v-model="list.text" placeholder="请输入发票信息">-->
-
-                        <!--</div>-->
-                    <!--</div>-->
-
-                <!--</div>-->
-            <!--</div>-->
-
             <div class="pay-shop-fs">
                 <div class="pay-fs-1">支付方式</div>
                 <div class="pay-fs-2">
-                    <!-- <div class="pay-fs-2-1" v-for="(item,index) in lists" :class="{active:index===ceshi}" @click="btn(index)" >
-                        {{item.name}}
-                    </div> -->
                     <div class="pay-fs-2-1" >
                         <div v-for="(list,index) in lists" :class="{active:index===listIndex}" @click="btn(list.name,index)">{{list.name}}</div>
                     </div>
@@ -53,9 +38,7 @@
                        <div v-show="listIndex===2" class="pay-fs-2-2-3">货到再付款，支持现金交易</div>
                     </div>
                 </div>
-
             </div>
-
             <div class="pay-shop-liuyan">
                 <p class="pay-liuyan-1">订单留言</p>
                 <div class="pay-liuyan-2">
@@ -64,16 +47,40 @@
                     <p>运费：0.00</p>
                     <p>优惠：¥0.00</p>
                     <p>赠送积分：{{$route.query.value*list.homePrice}}</p>
-
                 </div>
             </div>
-
-            <!-- <span>{{list.id}}</span>
-            <span>{{list.homeName}}</span> -->
             <div class="pay-shop-footer">
                 <p class="price">订单总金额：<span>¥{{$route.query.value*list.homePrice}}</span></p>
-                <a class="order" @click="addOrder(list,index)">立即结算</a>
+                <a class="order" @click="addOrder(list,listIndex)">立即结算</a>
             </div>
+        </div>
+        <!--地址选择弹层-->
+        <div class="dialog-address" v-if="showAddress">
+          <ul>
+            <li v-for="(item, index) in addressList" :key="index" style="padding: 10px 0;border-bottom: 1px solid #ccc">
+              <div class="choose">
+                <div class="select" @click="danxuan(item,index)" >
+                  <i class="iconfont icon-xuanzekuangmoren"   v-if="selectNumber == index"></i>
+                  <i class="iconfont icon-xuanzekuangxuanzhong" v-else-if="selectNumber != index" style="color:#25b5fe"></i>
+                </div>
+                <div class="address">
+                  <p class="address-details">
+                    收货人：{{ item.name }}
+                  </p>
+                  <p class="address-details">
+                    电话：{{ item.phone }}
+                  </p>
+                  <p class="address-details">
+                    收货地址：{{ item.zone }} {{ item.detail }}
+                  </p>
+                </div>
+              </div>
+            </li>
+          </ul>
+          <div style="text-align: center">
+            <mt-button type="primary" @click="saveAddress()">保存</mt-button>
+          </div>
+
         </div>
     </div>
 </template>
@@ -82,12 +89,14 @@
   import { mapGetters, mapMutations } from "vuex";
   import PayHeader from "../../common/header";
   import axios from "axios";
+  import { Button } from 'mint-ui';
   export default {
     name: "pay",
     data() {
       return {
         listIndex: 0,
-        invoiceIndex: 0,
+        defaultAddress: {},
+        addressList: [],
         pay: [],
         lists: [
           {
@@ -103,39 +112,57 @@
             name: "货到付款"
           }
         ],
-        text: "",
-        ly: ""
+        ly: "",
+        showAddress: false,
+        danxuan: null,
+        selectNumber: ''
       };
     },
     components: {
       PayHeader
     },
-    //    computed: {
-    //         address() {
-    //         return this.$store.state.address;
-    //         },
-    //         ...mapGetters(
-    //             ["this.$store.state.address"],
-    //         )
-    //     },
     methods: {
+      danxuan(item, index) {
+        this.selectNumber = index
+        // for (var i in addressList) {
+        //   if (i == index) {
+        //     console.log(this.dnxuan)
+        //   }
+        // }
+      },
+      saveAddress() {
+        this.showAddress = false
+      },
+      pickAddress() {
+        console.log(1)
+        this.showAddress = true
+      },
       btn(id, index) {
         this.listIndex = index;
       },
-      invoiceClick(index) {
-        this.invoiceIndex = index;
+      //收集订单
+      getOrder(params) {
+        this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
+        params.userName = this.$store.state.userInfo.name
+        axios.post('/api/getOrder',params).then(function (res) {
+          if (res.success) {
+            console.log(res.message)
+          }
+        })
       },
       addOrder(id, index) {
+        console.log(this.lists[index].name)
           var data = {
             id: id.id,
             name: id.homeName,
             price: id.homePrice,
-            text: id.text,
             ly: id.ly,
             img: id.homeImg,
             listname: this.lists[index].name,
-            value: this.$route.query.value
+            value: this.$route.query.value,
+            orderNumber: new Date().getTime()
           };
+          this.getOrder(data)
           this.$store.dispatch("setOrders", data);
           var _this = this;
           var time = setInterval(function() {
@@ -164,11 +191,24 @@
           }
         }
       });
-
+      _this.$store.state.userInfo.name= _this.$store.state.userInfo.name ? _this.$store.state.userInfo.name : _this.$store.state.userInfo.phone
+      //保存默认地址
+      _this.defaultAddress = _this.$store.state.address[_this.$store.state.userInfo.name][0]
+      //保存地址列表
+      for (var i in _this.$store.state.address[_this.$store.state.userInfo.name]) {
+        for (var item in _this.$store.state.address[_this.$store.state.userInfo.name][i]) {
+          _this.$store.state.address[_this.$store.state.userInfo.name][i].danxuan = false
+        }
+      }
+      console.log(_this.$store.state.address[_this.$store.state.userInfo.name])
+      _this.addressList = _this.$store.state.address[_this.$store.state.userInfo.name]
     }
   };
 </script>
 <style lang="stylus" scoped>
+.pay-container {
+  position relative
+}
 .active {
     border: 1px solid #444;
     color: red;
@@ -189,8 +229,9 @@
         padding-top: 0.3rem;
         padding-bottom: 0.3rem;
 
-        .phone {
+        .pick-address {
             float: right;
+            color: #00acff;
         }
     }
 
@@ -449,6 +490,27 @@
         background: #f81200;
         float: right;
     }
+}
+.dialog-address {
+  z-index 100;
+  position: fixed;
+  background #ddd;
+  padding 10px;
+  left:0;
+  top:156px;
+  width: 100%;
+  .choose {
+    display flex;
+    .select {
+      flex: 0 0 30px;
+    }
+    .address {
+      flex:1;
+      .address-details {
+        font-size: 16px;
+      }
+    }
+  }
 }
 </style>
 
