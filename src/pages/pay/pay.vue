@@ -60,8 +60,8 @@
             <li v-for="(item, index) in addressList" :key="index" style="padding: 10px 0;border-bottom: 1px solid #ccc">
               <div class="choose">
                 <div class="select" @click="danxuan(item,index)" >
-                  <i class="iconfont icon-xuanzekuangmoren"   v-if="selectNumber == index"></i>
-                  <i class="iconfont icon-xuanzekuangxuanzhong" v-else-if="selectNumber != index" style="color:#25b5fe"></i>
+                  <i class="iconfont icon-xuanzekuangmoren"   v-if="selectNumber != index"></i>
+                  <i class="iconfont icon-xuanzekuangxuanzhong" v-else-if="selectNumber == index" style="color:#25b5fe"></i>
                 </div>
                 <div class="address">
                   <p class="address-details">
@@ -114,8 +114,8 @@
         ],
         ly: "",
         showAddress: false,
-        danxuan: null,
-        selectNumber: ''
+        selectNumber: '',
+        selectedAddress: ''
       };
     },
     components: {
@@ -124,14 +124,10 @@
     methods: {
       danxuan(item, index) {
         this.selectNumber = index
-        // for (var i in addressList) {
-        //   if (i == index) {
-        //     console.log(this.dnxuan)
-        //   }
-        // }
+        this.defaultAddress = item
       },
       saveAddress() {
-        this.showAddress = false
+        this.showAddress = !this.showAddress
       },
       pickAddress() {
         console.log(1)
@@ -144,6 +140,8 @@
       getOrder(params) {
         this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
         params.userName = this.$store.state.userInfo.name
+        params.address = "姓名："+params.address.name+'--电话号码：'+ params.address.phone+"--详细地址："+params.address.zone + params.address.detail
+        console.log(params.address)
         axios.post('/api/getOrder',params).then(function (res) {
           if (res.success) {
             console.log(res.message)
@@ -151,7 +149,8 @@
         })
       },
       addOrder(id, index) {
-        console.log(this.lists[index].name)
+        delete this.defaultAddress.danxuan
+        console.log(this.defaultAddress)
           var data = {
             id: id.id,
             name: id.homeName,
@@ -160,10 +159,12 @@
             img: id.homeImg,
             listname: this.lists[index].name,
             value: this.$route.query.value,
-            orderNumber: new Date().getTime()
+            orderNumber: new Date().getTime(),
+            address: this.defaultAddress
           };
-          this.getOrder(data)
+
           this.$store.dispatch("setOrders", data);
+          this.getOrder(data)
           var _this = this;
           var time = setInterval(function() {
             _this.$router.push({
@@ -177,20 +178,29 @@
       var _this = this;
       var id = this.$route.query.id;
       var value = this.$route.query.value;
-      axios.get("/static/ceshi.json").then(function(res) {
-        for (var i = 0; i < res.data.data.set.length; i++) {
-          if (res.data.data.set[i].id == id) {
-            _this.pay.push(res.data.data.set[i]);
+      axios.get('/api/goodDetail').then(function (res) {
+        if (res.data.success) {
+          for (var i in res.data.goodDetail){
+            if (res.data.goodDetail[i].id == id)
+            _this.pay.push(res.data.goodDetail[i]);
           }
         }
-      });
-      axios.get("/static/ceshi.json").then(function(res) {
-        for (var i = 0; i < res.data.data.home.length; i++) {
-          if (res.data.data.home[i].id == id) {
-            _this.pay.push(res.data.data.home[i]);
-          }
-        }
-      });
+        console.log(_this.pay)
+      })
+      // axios.get("/static/ceshi.json").then(function(res) {
+      //   for (var i = 0; i < res.data.data.set.length; i++) {
+      //     if (res.data.data.set[i].id == id) {
+      //       _this.pay.push(res.data.data.set[i]);
+      //     }
+      //   }
+      // });
+      // axios.get("/static/ceshi.json").then(function(res) {
+      //   for (var i = 0; i < res.data.data.home.length; i++) {
+      //     if (res.data.data.home[i].id == id) {
+      //       _this.pay.push(res.data.data.home[i]);
+      //     }
+      //   }
+      // });
       _this.$store.state.userInfo.name= _this.$store.state.userInfo.name ? _this.$store.state.userInfo.name : _this.$store.state.userInfo.phone
       //保存默认地址
       _this.defaultAddress = _this.$store.state.address[_this.$store.state.userInfo.name][0]

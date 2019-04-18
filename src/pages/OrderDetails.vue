@@ -2,7 +2,7 @@
   <div class="o1">
       <Order-Header title="订单详情"></Order-Header>
         <div class="details-box">
-      <div class="details-success">
+        <div class="details-success">
           <p>订单状态：已完成</p>
           <img src="https://shopstatic.vivo.com.cn/vivoshop/wap/dist/images/membercenter/order/no-pay_79c2dfe.png">
       </div>
@@ -14,13 +14,13 @@
         </p>
         <p class="address-details">收货地址：江西省赣州市赣南师范大学</p>
       </div>
-      <div class="details-list" v-for="(list,index) in o1" :key="index">
+        <div class="details-list" v-for="(list,index) in o1" :key="index">
         <div class="details-list-1">
-            <img :src="list.homeImg">
+            <img :src="list.img">
             <p>
                 <!-- <span>id是{{list.id}}</span> -->
-                <span class="name">{{list.homeName}}<p>× {{$route.query.value}}</p></span>
-                <span class="price">¥ {{list.homePrice}}</span>
+                <span class="name">{{list.name}}<p>× {{$route.query.value}}</p></span>
+                <span class="price">¥ {{list.price}}</span>
             </p>
         </div>
 
@@ -39,7 +39,7 @@
            <div class="details-list-2-2">
                 <p>
                     <span class="span-1">商品总金额：</span>
-                    <span class="span-2">¥ 2898.00</span>
+                    <span class="span-2">¥ {{ list.price * list.value }}</span>
                 </p>
                  <p>
                      <span class="span-1">运费：</span>
@@ -48,10 +48,6 @@
                 <p>
                      <span class="span-1">优惠：</span>
                      <span class="span-2 red">-¥ 0.00</span>
-                </p>
-                <p>
-                    <span class="span-1">换鼓励金：</span>
-                    <span class="span-2 red">-¥ 0.00</span>
                 </p>
            </div>
 
@@ -64,21 +60,14 @@
                      <span class="span-1">支付方式：</span>
                      <span class="span-2">{{$route.query.listname}}</span>
                 </p>
-                <p>
-                     <span class="span-1">发票类型：</span>
-                     <span class="span-2">个人</span>
-                </p>
-                <p>
-                    <span class="span-1">发票抬头：</span>
-                    <span class="span-2">{{$route.query.text}}</span>
-                </p>
+
            </div>
        </div>
         <!-- <img :src="list.homeImg" /> -->
 
         <div class="order-footer">
             总计：
-            <span>¥{{list.homePrice}}</span>
+            <span>¥{{list.price * list.value}}</span>
         </div>
       </div>
     </div>
@@ -92,7 +81,8 @@ export default {
   name: "o1",
   data() {
     return {
-      o1: []
+      o1: [],
+      address: ''
     };
   },
   components: {
@@ -101,16 +91,26 @@ export default {
   created() {
     var _this = this;
     var id = this.$route.query.id;
-    axios.get("/api/index_goods").then(function(res) {
-      if (res.data.success) {
-        var data = res.data.home;
-        for (var i = 0; i < data.length; i++) {
-          if (data[i].id == id) {
-            _this.o1.push(data[i]);
-          }
-        }
+    var orderNumber = this.$route.query.orderNumber
+    _this.$store.state.userInfo.name= _this.$store.state.userInfo.name ? _this.$store.state.userInfo.name : _this.$store.state.userInfo.phone
+    console.log(_this.$store.state.orders)
+    for(var item in _this.$store.state.orders[_this.$store.state.userInfo.name]) {
+      if (_this.$store.state.orders[_this.$store.state.userInfo.name][item].orderNumber == orderNumber){
+        console.log(this.$store.state.orders[_this.$store.state.userInfo.name][item])
+        _this.o1.push(this.$store.state.orders[_this.$store.state.userInfo.name][item]);
       }
-    });
+    }
+    // console.log(_this.o1[0].address)
+    // axios.get("/api/index_goods").then(function(res) {
+    //   if (res.data.success) {
+    //     var data = res.data.home;
+    //     for (var i = 0; i < data.length; i++) {
+    //       if (data[i].id == id) {
+    //         _this.o1.push(data[i]);
+    //       }
+    //     }
+    //   }
+    // });
     // axios.get("/static/ceshi.json").then(function(res) {
     //   var data = res.data.data.list;
     //   for (var i = 0; i < data.length; i++) {

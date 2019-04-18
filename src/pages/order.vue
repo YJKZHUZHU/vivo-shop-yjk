@@ -236,7 +236,8 @@ export default {
                 text:list.text,
                 ly:list.ly,
                 listname:list.listname,
-                value:list.value
+                value:list.value,
+                orderNumber: list.orderNumber
             }
         })
         console.log(list)
