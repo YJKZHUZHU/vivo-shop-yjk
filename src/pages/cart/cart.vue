@@ -9,8 +9,6 @@
                         <i class="iconfont icon-xuanzekuangmoren"   v-if="!cart.danx1uan"></i>
                         <i class="iconfont icon-xuanzekuangxuanzhong" v-else-if="cart.danx1uan" style="color:#25b5fe"></i>
                       </div>
-
-
                     <!-- 购物车商品信息 -->
                      <div class="cartImage">
                         <img :src="cart.img" >
@@ -21,15 +19,12 @@
                         </div>
                         <p class="cartPrice">￥{{cart.price}}</p>
                     </div>
-
                     <!-- 购物车商品数量 -->
                     <div class="cartNumber">
                         <a href="javascript:;" @click="reduce(index)" class="add">-</a>
                         <input type="text"   v-model="cart.value" readonly="readonly"/>
                         <a href="javascript:;" @click="add(index)" class="reduce">+</a>
                     </div>
-
-
                 </li>
             </ul>
         </div>
@@ -41,7 +36,7 @@
             <router-link :to="{name:'Home'}">逛一逛</router-link>
         </div>
         <div class="cartFooter"  v-if="carts.length">
-            <div class="checkAll" @click="quanxuan()" >
+            <div class="checkAll" @click="quanxuan(carts)" >
                 <i class="iconfont icon-xuanzekuangmoren" v-if="!qx"></i>
                 <i class="iconfont icon-xuanzekuangxuanzhong" v-else-if="qx" style="color:#25b5fe"></i>
                 <span>全选</span>
@@ -50,7 +45,7 @@
             <div class="Total">合计：<span style="font-size: 0.54rem;color:#E3211E">￥{{sum}}</span></div>
 
                 <div class="Settlement">
-                    <a href="javascript:void(0);" @click="settlement">结算 {{sumValue}}</a>
+                    <a href="javascript:void(0);" @click="settlement">提交订单 {{sumValue}}</a>
                 </div>
                 <!-- <div class="Settlementtwo">
                     <router-link :to="{name:'Home'}" >继续购物</router-link>
@@ -65,6 +60,7 @@ import { Toast } from "mint-ui";
 import { mapState, mapMutations, mapGetters } from "vuex";
 // import CartHeader from '../../common/header'
 import CartHeader from '../../pages/cart/component/CartHeader'
+import axiox from 'axios'
 export default {
   name: "cart",
   data() {
@@ -72,7 +68,8 @@ export default {
       qx: false,
       payLength: null,
       idData: [],
-      carts: this.$store.state.carts[this.$store.state.userInfo.name]
+      carts: this.$store.state.carts[this.$store.state.userInfo.name],
+      cartOrderList: []
     };
   },
   components: {
@@ -114,45 +111,96 @@ export default {
     // ...mapMutations(["shanchu", "add", "reduce", "settlement"]),
     ...mapMutations(["shanchu", "add", "reduce"]),
     danxuan(cart, index) {
-      console.log(cart)
       this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
-    this.payLength = index
-     if(!cart.danx1uan){
-       this.idData.push(cart.id)
-     }else {
-       //删除数组中指定的元素
-       this.idData.splice(this.idData.findIndex(item => item.id === cart.id), 1)
-       console.log(this.idData)
-     }
-
+      // console.log(cart, index)
       cart.danx1uan = !cart.danx1uan;
-      if (!cart.danx1uan) {
-        this.qx = false;
-      }else if (index == this.$store.state.carts[this.$store.state.userInfo.name].length-1){
-        this.qx = true;
+      if (cart.danx1uan) {
+        this.cartOrderList.push(cart)
+      }else {
+        this.cartOrderList.splice(index,1)
+        console.log(this.carts)
       }
+      if (this.cartOrderList.length == this.$store.state.carts[this.$store.state.userInfo.name].length) {
+        this.qx = true
+      }else {
+        this.qx = false
+      }
+      console.log(this.cartOrderList)
     },
-    quanxuan() {
-      this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
-      this.qx = !this.qx;
+    quanxuan(data) {
+      this.qx = !this.qx
       if (this.qx) {
-        this.$store.state.carts[this.$store.state.userInfo.name].forEach(cart => {
-          cart.danx1uan = true;
-        });
-        this.idData = this.$store.state.carts[this.$store.state.userInfo.name]
-        this.payLength = this.$store.state.carts[this.$store.state.userInfo.name].length-1
-      } else {
-        this.$store.state.carts[this.$store.state.userInfo.name].forEach(cart => {
-          cart.danx1uan = false;
-        });
+       for(var i in data) {
+         data[i].danx1uan = true
+       }
+        this.cartOrderList = data
+      }else {
+        //清空
+        this.cartOrderList = []
+        for(var i in data) {
+          data[i].danx1uan = false
+        }
       }
+      console.log(this.cartOrderList)
     },
+    //提交订单
+    waitPay(parms) {
+      axiox.post('/api/getOrder',parms).then(res => {
+        console.log(res)
+      })
+    },
+    // danxuan(cart, index) {
+    //   console.log(cart)
+    //   this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
+    // this.payLength = index
+    //  if(!cart.danx1uan){
+    //    this.idData.push(cart.id)
+    //  }else {
+    //    //删除数组中指定的元素
+    //    this.idData.splice(this.idData.findIndex(item => item.id === cart.id), 1)
+    //    console.log(this.idData)
+    //  }
+    //   cart.danx1uan = !cart.danx1uan;
+    //   if (!cart.danx1uan) {
+    //     this.qx = false;
+    //   }else if (index == this.$store.state.carts[this.$store.state.userInfo.name].length-1){
+    //     this.qx = true;
+    //   }
+    // },
+    // quanxuan(data) {
+    //   console.log(data)
+    //   this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
+    //   this.qx = !this.qx;
+    //   if (this.qx) {
+    //     this.$store.state.carts[this.$store.state.userInfo.name].forEach(cart => {
+    //       cart.danx1uan = true;
+    //     });
+    //     this.idData = this.$store.state.carts[this.$store.state.userInfo.name]
+    //     this.payLength = this.$store.state.carts[this.$store.state.userInfo.name].length-1
+    //   } else {
+    //     this.$store.state.carts[this.$store.state.userInfo.name].forEach(cart => {
+    //       cart.danx1uan = false;
+    //     });
+    //   }
+    // },
     settlement(){
       var data = {
         payLength: this.payLength,
         idData: this.idData
       }
-      this.$store.dispatch('setPay',data)
+      this.$store.dispatch('setPay',this.cartOrderList)
+      for (var i in this.cartOrderList) {
+        this.cartOrderList[i].ly = null
+        this.cartOrderList[i].listname = null
+        this.cartOrderList[i].orderNumber = new Date().getTime()
+        this.cartOrderList[i].orderStatus = '0'
+        this.cartOrderList[i].userName = this.$store.state.userInfo.name
+        this.cartOrderList[i].orderTime = new Date().getTime()
+        var parms = this.cartOrderList[i]
+        this.waitPay(parms)
+      }
+      console.log(this.cartOrderList)
+
     }
   }
 };

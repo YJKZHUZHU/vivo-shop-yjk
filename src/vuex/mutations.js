@@ -1,6 +1,7 @@
 import state from './state'
 import * as type from './type.js'
 import { MessageBox, Toast } from 'mint-ui';
+import axios from 'axios'
 
 const matutaions={
     //购物车
@@ -204,42 +205,68 @@ const matutaions={
     },
     [type.SET_PAY](state,data) {
       console.log(data)
-      function unique(array) {
-        var obj = {};
-        return array.filter(function(item, index, array){
-          return obj.hasOwnProperty(item) ? false : (obj[item] = true)
-        })
-      }
-      function array_diff(a, b) {
-        for(var i=0;i<b.length;i++)
-        {
-          for(var j=0;j<a.length;j++)
-          {
-            if(a[j].id==b[i]){
-              a.splice(j,1);
-              j=j-1;
+      console.log(state.carts[state.userInfo.name])
+      // function unique(array) {
+      //   var obj = {};
+      //   return array.filter(function(item, index, array){
+      //     return obj.hasOwnProperty(item) ? false : (obj[item] = true)
+      //   })
+      // }
+      // function array_diff(a, b) {
+      //   for(var i=0;i<b.length;i++)
+      //   {
+      //     for(var j=0;j<a.length;j++)
+      //     {
+      //       if(a[j].id==b[i]){
+      //         a.splice(j,1);
+      //         j=j-1;
+      //       }
+      //     }
+      //   }
+      //   return a;
+      // }
+      // array_diff(state.carts[state.userInfo.name],data)
+      if (data.length > 0) {
+        state.userInfo.name= state.userInfo.name ? state.userInfo.name : state.userInfo.phone
+          MessageBox.confirm('提交订单不付款？').then(action=>{
+            if (data.length == state.carts[state.userInfo.name].length) {
+              state.carts[state.userInfo.name].splice(0,data.length)
+            }else {
+              for (var j in state.carts[state.userInfo.name]) {
+                for (var i in data) {
+                  if (data[i].id == state.carts[state.userInfo.name][j].id) {
+                    state.carts[state.userInfo.name].splice(j, 1)
+                  }
+                }
+              }
             }
-          }
-        }
-        return a;
-      }
-      data.idData = unique(data.idData)
-      if (data.idData.length == 0) {
-        Toast('请选择要购买的商品')
+            localStorage.setItem("carts",JSON.stringify(state.carts));
+            // if(state.carts[state.userInfo.name].length == data.payLength+1) {
+            //   state.carts[state.userInfo.name]=[];
+            // }else {
+            //   array_diff(state.carts[state.userInfo.name],data.idData)
+            // }
+            // localStorage.setItem("carts",JSON.stringify(state.carts));
+          })
       }else {
-        MessageBox.confirm('确定要购买吗').then(action=>{
-          console.log(data)
-          state.userInfo.name= state.userInfo.name ? state.userInfo.name : state.userInfo.phone
-
-          if(state.carts[state.userInfo.name].length == data.payLength+1) {
-            state.carts[state.userInfo.name]=[];
-          }else {
-            array_diff(state.carts[state.userInfo.name],data.idData)
-          }
-          localStorage.setItem("carts",JSON.stringify(state.carts));
-        })
+        Toast('请选择要购买的商品')
       }
-
+      // data.idData = unique(data.idData)
+      // if (data.idData.length == 0) {
+      //   Toast('请选择要购买的商品')
+      // }else {
+      //   MessageBox.confirm('确定要购买吗').then(action=>{
+      //     console.log(data)
+      //     state.userInfo.name= state.userInfo.name ? state.userInfo.name : state.userInfo.phone
+      //
+      //     if(state.carts[state.userInfo.name].length == data.payLength+1) {
+      //       state.carts[state.userInfo.name]=[];
+      //     }else {
+      //       array_diff(state.carts[state.userInfo.name],data.idData)
+      //     }
+      //     localStorage.setItem("carts",JSON.stringify(state.carts));
+      //   })
+      // }
     },
     settlement:(state,data)=>{
       // console.log(data)

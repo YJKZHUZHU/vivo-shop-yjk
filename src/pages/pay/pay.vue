@@ -138,9 +138,13 @@
       },
       //收集订单
       getOrder(params) {
+        console.log(params)
         this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
         params.userName = this.$store.state.userInfo.name
         params.address = "姓名："+params.address.name+'--电话号码：'+ params.address.phone+"--详细地址："+params.address.zone + params.address.detail
+        if (this.$route.query.orderNumber) {
+          params.orderNumber = this.$route.query.orderNumber
+        }
         console.log(params.address)
         axios.post('/api/getOrder',params).then(function (res) {
           if (res.success) {
@@ -160,9 +164,9 @@
             listname: this.lists[index].name,
             value: this.$route.query.value,
             orderNumber: new Date().getTime(),
-            address: this.defaultAddress
+            address: this.defaultAddress,
+            orderStatus: '1'
           };
-
           this.$store.dispatch("setOrders", data);
           this.getOrder(data)
           var _this = this;

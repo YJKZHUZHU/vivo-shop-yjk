@@ -235,7 +235,7 @@ export default {
           price:index.homePrice,
           value:index.homeValue,
           img:index.homeImg,
-          danx1uan: ''
+          danx1uan: false
         };
         this.$store.dispatch('setCart', data);
         // this.$store.commit("SET_CARTS",data);
