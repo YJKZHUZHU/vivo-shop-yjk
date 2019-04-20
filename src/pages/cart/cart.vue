@@ -32,8 +32,8 @@
 
         <div class="cartImg" v-if="!carts.length">
             <img src="/static/img/gouwuche.png" alt="购物车图片">
-            <h1>你还有未结算的订单哦，快去结算吧!</h1>
-            <router-link :to="{name:'order'}">去结算</router-link>
+            <h1>空空如也</h1>
+            <router-link :to="{name:'Home'}">去购物</router-link>
         </div>
         <div class="cartFooter"  v-if="carts.length">
             <div class="checkAll" @click="quanxuan(carts)" >
@@ -56,8 +56,9 @@
     </div>
 </template>
 <script>
-import { Toast } from "mint-ui";
+import { Toast,MessageBox } from "mint-ui";
 import { mapState, mapMutations, mapGetters } from "vuex";
+import axios from 'axios'
 // import CartHeader from '../../common/header'
 import CartHeader from '../../pages/cart/component/CartHeader'
 import axiox from 'axios'
@@ -184,12 +185,51 @@ export default {
     //   }
     // },
     settlement(){
-      console.log(this.cartOrderList)
-      var data = {
-        payLength: this.payLength,
-        idData: this.idData
+      var data = this.cartOrderList
+      if (data.length > 0) {
+        this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
+        MessageBox.confirm('提交订单吗？').then(action=>{
+          var orderNumberString = ''
+          // var valueNumberString = ''
+          for (var i in data) {
+            data[i].ly = null
+            data[i].listname = null
+            data[i].orderStatus = '0'
+            data[i].userName = this.$store.state.userInfo.name
+            data[i].orderTime = new Date().getTime()
+            orderNumberString += data[i].orderNumber + '-'
+            // valueNumberString += data[i].value + '-'
+            var parms = data[i]
+            axios.post('/api/getOrder',parms).then(res => {
+              console.log(res)
+            })
+          }
+          if (data.length == this.$store.state.carts[this.$store.state.userInfo.name].length) {
+            this.$store.state.carts[this.$store.state.userInfo.name].splice(0,data.length)
+          }else {
+            for (var j in this.$store.state.carts[this.$store.state.userInfo.name]) {
+              for (var i in data) {
+                if (data[i].id == this.$store.state.carts[this.$store.state.userInfo.name][j].id) {
+                  this.$store.state.carts[this.$store.state.userInfo.name].splice(j, 1)
+                }
+              }
+            }
+          }
+          console.log(orderNumberString)
+          this.$router.push({path: '/pay',query:{orderNumber:orderNumberString}})
+          localStorage.setItem("carts",JSON.stringify(this.$store.state.carts));
+        })
+      }else {
+
+        console.log(this.$route)
+        Toast('请选择要购买的商品')
       }
-      this.$store.dispatch('setPay',this.cartOrderList)
+      console.log(this.cartOrderList)
+      // var data = {
+      //   payLength: this.payLength,
+      //   idData: this.idData
+      // }
+      // this.$store.dispatch('setPay',this.cartOrderList)
       // for (var i in this.cartOrderList) {
       //   this.cartOrderList[i].ly = null
       //   this.cartOrderList[i].listname = null

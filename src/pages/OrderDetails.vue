@@ -3,7 +3,7 @@
     <Order-Header title="订单详情"></Order-Header>
     <div class="details-box">
       <div class="details-success">
-        <p>订单状态：已完成</p>
+        <p>订单状态：{{ orderStatus }}</p>
         <img src="https://shopstatic.vivo.com.cn/vivoshop/wap/dist/images/membercenter/order/no-pay_79c2dfe.png">
       </div>
       <div class="details-address">
@@ -11,7 +11,7 @@
           <span class="name">收货人：{{ address.name }}</span>
           <span class="phone">联系方式：{{ address.phone }}</span>
         </p>
-        <p class="address-details">收货地址：{{ address.zone }} {{ address.detail }}</p>
+        <p class="address-details">收货地址：{{ address.detailAddress }}</p>
       </div>
       <div class="details-list" v-for="(list,index) in o1" :key="index">
         <div class="details-list-1">
@@ -19,7 +19,7 @@
           <p>
             <!-- <span>id是{{list.id}}</span> -->
             <span class="name">{{list.name}}
-          <p>× {{$route.query.value}}</p></span>
+          <p>× {{list.value}}</p></span>
           <span class="price">¥ {{list.price}}</span>
           </p>
         </div>
@@ -32,7 +32,7 @@
             </p>
             <p>
               <span class="span-1">订单备注：</span>
-              <span class="span-2">{{$route.query.ly}}</span>
+              <span class="span-2">{{list.ly}}</span>
             </p>
           </div>
 
@@ -58,7 +58,15 @@
             </p>
             <p>
               <span class="span-1">支付方式：</span>
-              <span class="span-2">{{$route.query.listname}}</span>
+              <span class="span-2">{{list.listname}}</span>
+            </p>
+            <p>
+              <span class="span-1">下单时间：</span>
+              <span class="span-2">{{list.orderTime}}</span>
+            </p>
+            <p>
+              <span class="span-1">订单编号：</span>
+              <span class="span-2">{{list.orderNumber}}</span>
             </p>
 
           </div>
@@ -83,25 +91,50 @@
     data() {
       return {
         o1: [],
-        address: ''
+        address: '',
+        orderStatus: ''
       };
     },
     components: {
       OrderHeader
     },
-    created() {
-      var _this = this;
-      var id = this.$route.query.id;
-      var orderNumber = this.$route.query.orderNumber
-      _this.$store.state.userInfo.name = _this.$store.state.userInfo.name ? _this.$store.state.userInfo.name : _this.$store.state.userInfo.phone
-      for (var item in JSON.parse(localStorage.getItem('orders'))[_this.$store.state.userInfo.name]) {
-        if (JSON.parse(localStorage.getItem('orders'))[_this.$store.state.userInfo.name][item].orderNumber == orderNumber) {
-          console.log(JSON.parse(localStorage.getItem('orders'))[_this.$store.state.userInfo.name][item])
-          _this.o1.push(JSON.parse(localStorage.getItem('orders'))[_this.$store.state.userInfo.name][item]);
-        }
+    methods: {
+      getData(parms) {
+        axios.post('/api/searchOrder',parms).then(res => {
+          if (res.data.success) {
+            this.o1  = res.data.data
+            if (res.data.data[0].address) {
+              console.log(res.data.data[0].address.split('--')[1].split('：')[1])
+              this.address = {
+                name:res.data.data[0].address.split('--')[0].split('：')[1],
+                phone: res.data.data[0].address.split('--')[1].split('：')[1],
+                detailAddress: res.data.data[0].address.split('--')[2].split('：')[1]
+              }
+            }
+            if(res.data.data[0].orderStatus){
+              this.orderStatus = res.data.data[0].orderStatus == 1 ? '已完成': '待付款'
+            }
+          }
+        })
       }
-      console.log(_this.o1[0].address.detail)
-      _this.address = _this.o1[0].address
+    },
+    created() {
+      var parms = {
+        orderNumber :this.$route.query.orderNumber
+      }
+      this.getData(parms)
+      // var _this = this;
+      // var id = this.$route.query.id;
+      // var orderNumber = this.$route.query.orderNumber
+      // _this.$store.state.userInfo.name = _this.$store.state.userInfo.name ? _this.$store.state.userInfo.name : _this.$store.state.userInfo.phone
+      // for (var item in JSON.parse(localStorage.getItem('orders'))[_this.$store.state.userInfo.name]) {
+      //   if (JSON.parse(localStorage.getItem('orders'))[_this.$store.state.userInfo.name][item].orderNumber == orderNumber) {
+      //     console.log(JSON.parse(localStorage.getItem('orders'))[_this.$store.state.userInfo.name][item])
+      //     _this.o1.push(JSON.parse(localStorage.getItem('orders'))[_this.$store.state.userInfo.name][item]);
+      //   }
+      // }
+      // console.log(_this.o1[0].address.detail)
+      // _this.address = _this.o1[0].address
       // axios.get("/api/index_goods").then(function(res) {
       //   if (res.data.success) {
       //     var data = res.data.home;

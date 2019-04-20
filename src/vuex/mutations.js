@@ -234,10 +234,12 @@ const matutaions={
                   }
                 }
               }
+
             }
             localStorage.setItem("carts",JSON.stringify(state.carts));
           })
       }else {
+        console.log(this)
         Toast('请选择要购买的商品')
       }
     },

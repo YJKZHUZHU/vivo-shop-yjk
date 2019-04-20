@@ -74,79 +74,12 @@
               </div>
             </div>
             <div class="order-3">
+              <a @click.stop="odetails(list)">查看详情</a>
               <a @click.stop="pay(list)">去付款</a>
-              <a @click.stop="odefault(index)">取消订单</a>
+              <a @click.stop="odefault({index: index,list:list})">取消订单</a>
             </div>
           </div>
         </div>
-        <!--<div v-show="nowIndex===2">-->
-          <!--<div v-for="(list,index) in pendingReceipt" :key="index" class="orders">-->
-            <!--<div class="_order">-->
-              <!--<p class="left">-->
-                <!--<i class="iconfont icon-qijiandian"></i>-->
-                <!--vivo官方旗舰店-->
-              <!--</p>-->
-              <!--<p class="right">待收货</p>-->
-            <!--</div>-->
-            <!--<div class="order" >-->
-              <!--<img :src="list.img">-->
-
-              <!--<div class="order-div">-->
-                <!--<h3>{{list.name}}</h3>-->
-                <!--&lt;!&ndash; <p class="order-div-color">颜色:黑</p> &ndash;&gt;-->
-                <!--<p class="order-div-price">￥{{list.price}}</p>-->
-              <!--</div>-->
-              <!--<div class="order-div-2">-->
-                <!--× {{list.value}}-->
-              <!--</div>-->
-            <!--</div>-->
-            <!--<div class="order-2">-->
-              <!--<div class="order-2-box">-->
-                <!--<p class="order-2-zero">共计<span>{{list.value}}</span>件商品</p>-->
-                <!--<p class="order-2-one">总计：<span>￥{{list.price}}</span></p>-->
-                <!--<p class="order-2-two">(含运费：¥0.00优惠：¥0.00)</p>-->
-              <!--</div>-->
-            <!--</div>-->
-            <!--<div class="order-3">-->
-              <!--<a @click.stop="confirmReceipt(list,index)">确认收货</a>-->
-              <!--<a @click.stop="odefaultReceipt(index)">订单删除</a>-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
-        <!--<div v-show="nowIndex===3">-->
-          <!--<div v-for="(list,index) in orders" :key="index" class="orders">-->
-            <!--<div class="_order">-->
-              <!--<p class="left">-->
-                <!--<i class="iconfont icon-qijiandian"></i>-->
-                <!--vivo官方旗舰店-->
-              <!--</p>-->
-              <!--<p class="right">待评价</p>-->
-            <!--</div>-->
-            <!--<div class="order" >-->
-              <!--<img :src="list.img">-->
-
-              <!--<div class="order-div">-->
-                <!--<h3>{{list.name}}</h3>-->
-                <!--&lt;!&ndash; <p class="order-div-color">颜色:黑</p> &ndash;&gt;-->
-                <!--<p class="order-div-price">￥{{list.price}}</p>-->
-              <!--</div>-->
-              <!--<div class="order-div-2">-->
-                <!--× {{list.value}}-->
-              <!--</div>-->
-            <!--</div>-->
-            <!--<div class="order-2">-->
-              <!--<div class="order-2-box">-->
-                <!--<p class="order-2-zero">共计<span>{{list.value}}</span>件商品</p>-->
-                <!--<p class="order-2-one">总计：<span>￥{{list.price}}</span></p>-->
-                <!--<p class="order-2-two">(含运费：¥0.00优惠：¥0.00)</p>-->
-              <!--</div>-->
-            <!--</div>-->
-            <!--<div class="order-3">-->
-              <!--<a @click.stop="odetails(list)">查看详情</a>-->
-              <!--<a @click.stop="odefault(index)">订单删除</a>-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
       </div>
     </div>
   </div>
@@ -218,11 +151,6 @@
         this.$router.push({
           path: "OrderDetails",
           query:{
-            id:list.id,
-            text:list.text,
-            ly:list.ly,
-            listname:list.listname,
-            value:list.value,
             orderNumber: list.orderNumber
           }
         })
@@ -235,7 +163,7 @@
           query:{
             id:list.id,
             value:list.value,
-            orderNumber: list.orderNumber
+            orderNumber: list.orderNumber + '-'
           }
         })
       },

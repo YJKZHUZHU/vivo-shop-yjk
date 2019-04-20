@@ -30,7 +30,7 @@
                             <a href="javascript:;" @click="jia(index)" class="goodDetailAdd">+</a>
                         </div>
                     </div>
-                    <Detail-Layer></Detail-Layer>
+                    <!--<Detail-Layer></Detail-Layer>-->
                     <div class="goodDetailBox">
                         <mt-navbar v-model="selected" >
                             <mt-tab-item id="tab-container1">图文详情</mt-tab-item>
@@ -68,12 +68,12 @@
 
                             </div>
                           <!--</router-link>-->
-                            <div class="shop">
-                                <img src="https://shopstatic.vivo.com.cn/vivoshop/wap/dist/images/detail/icon-concat@2x_3442018.png" >
-                                <!-- <i class="iconfont icon-xuanzekuangxuanzhong" v-show="!$store.state.collection"></i>
-                                <i class="iconfont icon-xuanzekuangxuanzhong" v-show="$store.state.collection" style="color:red"></i> -->
-                                <span>店铺</span>
-                            </div>
+                            <!--<div class="shop">-->
+                                <!--<img src="https://shopstatic.vivo.com.cn/vivoshop/wap/dist/images/detail/icon-concat@2x_3442018.png" >-->
+                                <!--&lt;!&ndash; <i class="iconfont icon-xuanzekuangxuanzhong" v-show="!$store.state.collection"></i>-->
+                                <!--<i class="iconfont icon-xuanzekuangxuanzhong" v-show="$store.state.collection" style="color:red"></i> &ndash;&gt;-->
+                                <!--<span>店铺</span>-->
+                            <!--</div>-->
                         </div>
                         <div class="rigth">
                             <div class="add">
@@ -96,7 +96,7 @@
 import { Toast,MessageBox,Navbar,TabItem,TabContainer,TabContainerItem } from "mint-ui";
 import { mapGetters, mapMutations } from "vuex";
 import DetailHeader from "./component/DetailHeader";
-import DetailLayer from "./component/DetailLayer";
+// import DetailLayer from "./component/DetailLayer";
 import axios from "axios";
 export default {
   name: "goodDetail",
@@ -111,7 +111,7 @@ export default {
   },
   components: {
     DetailHeader,
-    DetailLayer
+    // DetailLayer
   },
   computed: {
     paid: function() {
@@ -420,7 +420,7 @@ export default {
         position: relative;
         font-size: .35rem;
         .cart {
-            width: 33%;
+            width: 50%;
             display: flex;
             justify-content: center;
             flex-direction: column;
@@ -462,7 +462,7 @@ export default {
         }
 
         .collection {
-            width: 33%;
+            width: 50%;
             height: 100%;
             display: flex;
             justify-content: center;

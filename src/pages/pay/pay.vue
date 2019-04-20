@@ -23,39 +23,43 @@
                     <img :src="list.homeImg">
                     <p class="pay-shop-2-box">
                         <span class="name">{{list.homeName}}
-                          <p>× {{$route.query.value}}</p>
+                          <p>× {{$route.query.value || list.value}}</p>
                         </span>
                         <span class="price">¥ {{list.homePrice}}</span>
                     </p>
                 </p>
             </div>
-            <div class="pay-shop-fs">
-                <div class="pay-fs-1">支付方式</div>
-                <div class="pay-fs-2">
-                    <div class="pay-fs-2-1" >
-                        <div v-for="(list,index) in lists" :class="{active:index===listIndex}" @click="btn(list.name,index)">{{list.name}}</div>
-                    </div>
-                    <div class="pay-fs-2-2">
-                       <div v-show="listIndex===0" class="pay-fs-2-2-1">支持支付宝支付、微信支付、银行卡支付、财付通等</div>
-                       <div v-show="listIndex===1" class="pay-fs-2-2-2">花呗分期是花呗联合天猫淘宝推出的，面向互联网的赊购服务，通过支付宝轻松还款，0首付</div>
-                       <div v-show="listIndex===2" class="pay-fs-2-2-3">货到再付款，支持现金交易</div>
-                    </div>
-                </div>
+
+        </div>
+        <div class="pay-shop">
+          <div class="pay-shop-fs">
+            <div class="pay-fs-1">支付方式</div>
+            <div class="pay-fs-2">
+              <div class="pay-fs-2-1" >
+                <div v-for="(list,index) in lists" :class="{active:index===listIndex}" @click="btn(list.name,index)">{{list.name}}</div>
+              </div>
+              <div class="pay-fs-2-2">
+                <div v-show="listIndex===0" class="pay-fs-2-2-1">支持支付宝支付、微信支付、银行卡支付、财付通等</div>
+                <div v-show="listIndex===1" class="pay-fs-2-2-2">花呗分期是花呗联合天猫淘宝推出的，面向互联网的赊购服务，通过支付宝轻松还款，0首付</div>
+                <div v-show="listIndex===2" class="pay-fs-2-2-3">货到再付款，支持现金交易</div>
+              </div>
             </div>
-            <div class="pay-shop-liuyan">
-                <p class="pay-liuyan-1">订单留言</p>
-                <div class="pay-liuyan-2">
-                    <textarea v-model="list.ly" rows="5" placeholder="限300字" maxlength="300"></textarea>
-                    <p>商品总金额：¥{{$route.query.value*list.homePrice}}</p>
-                    <p>运费：0.00</p>
-                    <p>优惠：¥0.00</p>
-                    <p>赠送积分：{{$route.query.value*list.homePrice}}</p>
-                </div>
+          </div>
+          <div class="pay-shop-liuyan">
+            <p class="pay-liuyan-1">订单留言</p>
+            <div class="pay-liuyan-2">
+              <textarea v-model="ly" rows="5" placeholder="限300字" maxlength="300"></textarea>
+              <p>商品总金额：¥{{totalMoney}}</p>
+              <p>运费：0.00</p>
+              <p>优惠：¥0.00</p>
+              <p>赠送积分：{{totalMoney}}</p>
             </div>
-            <div class="pay-shop-footer">
-                <p class="price">订单总金额：<span>¥{{$route.query.value*list.homePrice}}</span></p>
-                <a class="order" @click="addOrder(list,listIndex)">立即结算</a>
-            </div>
+          </div>
+          <div class="pay-shop-footer">
+            <p class="price">订单总金额：<span>¥{{totalMoney}}</span></p>
+            <a class="order" @click="addWaittingOrder(pay,listIndex,0)">提交订单</a>
+            <a class="order" @click="addOrder(pay,listIndex,1)">立即结算</a>
+          </div>
         </div>
         <!--地址选择弹层-->
         <div class="dialog-address" v-if="showAddress">
@@ -118,13 +122,15 @@
         ly: "",
         showAddress: false,
         selectNumber: '',
-        selectedAddress: ''
+        selectedAddress: '',
+        totalMoney: 0
       };
     },
     components: {
       PayHeader
     },
     methods: {
+
       danxuan(item, index) {
         this.selectNumber = index
         this.defaultAddress = item
@@ -139,15 +145,16 @@
       btn(id, index) {
         this.listIndex = index;
       },
+
       //收集订单
       getOrder(params) {
         console.log(params)
         this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
         params.userName = this.$store.state.userInfo.name
         params.address = "姓名："+params.address.name+'--电话号码：'+ params.address.phone+"--详细地址："+params.address.zone + params.address.detail
-        if (this.$route.query.orderNumber) {
-          params.orderNumber = this.$route.query.orderNumber
-        }
+        // if (this.$route.query.orderNumber) {
+        //   params.orderNumber = this.$route.query.orderNumber
+        // }
         console.log(params.address)
         axios.post('/api/getOrder',params).then(function (res) {
           if (res.success) {
@@ -155,25 +162,27 @@
           }
         })
       },
-      addOrder(id, index) {
+      //提交订单
+      addWaittingOrder(id, index,status) {
+        console.log(id,index,status,this.lists)
         console.log(this.defaultAddress)
         if (this.defaultAddress){
-          delete this.defaultAddress.danxuan
-          var data = {
-            id: id.id,
-            name: id.homeName,
-            price: id.homePrice,
-            ly: id.ly,
-            img: id.homeImg,
-            listname: this.lists[index].name,
-            value: this.$route.query.value,
-            orderNumber: new Date().getTime(),
-            address: this.defaultAddress,
-            orderStatus: '1'
-          };
-          this.$store.dispatch("setOrders", data);
-          this.getOrder(data)
-          // var _this = this;
+          for (var i in id) {
+            delete this.defaultAddress.danxuan
+            var data = {
+              id: id[i].id,
+              name: id[i].homeName,
+              price: id[i].homePrice,
+              ly: this.ly,
+              img: id[i].homeImg,
+              value: this.$route.query.value || id[i].value,
+              orderNumber:  (id[i].orderNumber)||new Date().getTime(),
+              address: this.defaultAddress,
+              orderStatus: status
+            }
+            this.$store.dispatch("setOrders", data);
+            this.getOrder(data)
+          }
           var time = setInterval(()=> {
             this.$router.push({
               path: "success"
@@ -186,39 +195,148 @@
             this.$router.replace({name:'address'})
           })
         }
+        // if (this.defaultAddress){
+        //   delete this.defaultAddress.danxuan
+        //   var data = {
+        //     id: id.id,
+        //     name: id.homeName,
+        //     price: id.homePrice,
+        //     ly: id.ly,
+        //     img: id.homeImg,
+        //     listname: this.lists[index].name,
+        //     value: this.$route.query.value,
+        //     orderNumber: new Date().getTime(),
+        //     address: this.defaultAddress,
+        //     orderStatus: '1'
+        //   };
+        //   this.$store.dispatch("setOrders", data);
+        //   this.getOrder(data)
+        //   // var _this = this;
+        //   var time = setInterval(()=> {
+        //     this.$router.push({
+        //       path: "success"
+        //     });
+        //     clearInterval(time);
+        //   }, 1000);
+        // }else {
+        //   MessageBox.confirm('还没有添加收获地址哦,是否现在添加').then(action => {
+        //     console.log(this.$route)
+        //     this.$router.replace({name:'address'})
+        //   })
+        // }
+      },
+      //结算
+      addOrder(id, index,status) {
+        console.log(id,index,status,this.lists)
+        console.log(this.defaultAddress)
+        if (this.defaultAddress){
+          for (var i in id) {
+            console.log(i)
+            delete this.defaultAddress.danxuan
+            var data = {
+              id: id[i].id,
+              name: id[i].homeName,
+              price: id[i].homePrice,
+              ly: this.ly,
+              img: id[i].homeImg,
+              listname: this.lists[index].name,
+              value: this.$route.query.value || id[i].value,
+              orderNumber:  (id[i].orderNumber)||new Date().getTime(),
+              address: this.defaultAddress,
+              orderStatus: status
+            }
+            this.$store.dispatch("setOrders", data);
+            this.getOrder(data)
+          }
+          var time = setInterval(()=> {
+            this.$router.push({
+              path: "success"
+            });
+            clearInterval(time);
+          }, 1000);
+        }else {
+          MessageBox.confirm('还没有添加收获地址哦,是否现在添加').then(action => {
+            console.log(this.$route)
+            this.$router.replace({name:'address'})
+          })
+        }
+        // if (this.defaultAddress){
+        //   delete this.defaultAddress.danxuan
+        //   var data = {
+        //     id: id.id,
+        //     name: id.homeName,
+        //     price: id.homePrice,
+        //     ly: id.ly,
+        //     img: id.homeImg,
+        //     listname: this.lists[index].name,
+        //     value: this.$route.query.value,
+        //     orderNumber: new Date().getTime(),
+        //     address: this.defaultAddress,
+        //     orderStatus: '1'
+        //   };
+        //   this.$store.dispatch("setOrders", data);
+        //   this.getOrder(data)
+        //   // var _this = this;
+        //   var time = setInterval(()=> {
+        //     this.$router.push({
+        //       path: "success"
+        //     });
+        //     clearInterval(time);
+        //   }, 1000);
+        // }else {
+        //   MessageBox.confirm('还没有添加收获地址哦,是否现在添加').then(action => {
+        //     console.log(this.$route)
+        //     this.$router.replace({name:'address'})
+        //   })
+        // }
       }
     },
-    created() {
+    mounted() {
       console.log(this.defaultAddress )
-      var _this = this;
       var id = this.$route.query.id;
+      if (this.$route.query.orderNumber){
+
+        var orderNumber = this.$route.query.orderNumber.split('-').slice(0,this.$route.query.orderNumber.split('-').length-1)
+      }
       var value = this.$route.query.value;
-      axios.get('/api/goodDetail').then(function (res) {
-        if (res.data.success) {
-          for (var i in res.data.goodDetail){
-            if (res.data.goodDetail[i].id == id)
-            _this.pay.push(res.data.goodDetail[i]);
+      // var valueNumber = this.$route.query.valueNumber.split('-').slice(0,this.$route.query.valueNumber.split('-').length-1)
+      var _this = this;
+      //有orderNumber从购物车来的
+      if (orderNumber){
+        // console.log(orderNumber,valueNumber)
+        axios.post('api/payDetailByOrderNumber',{orderNumberArray:orderNumber}).then(res => {
+          if (res.data.success) {
+            for (var i in res.data.data) {
+              _this.totalMoney += res.data.data[i].price*res.data.data[i].value
+              _this.pay.push({
+                homeImg: res.data.data[i].img,
+                homeName: res.data.data[i].name,
+                homePrice: res.data.data[i].price,
+                value: res.data.data[i].value,
+                id: res.data.data[i].id,
+                orderStatus: res.data.data[i].orderStatus,
+                orderNumber: res.data.data[i].orderNumber
+              })
+            }
           }
-        }
-        console.log(_this.pay)
-      })
-      // axios.get("/static/ceshi.json").then(function(res) {
-      //   for (var i = 0; i < res.data.data.set.length; i++) {
-      //     if (res.data.data.set[i].id == id) {
-      //       _this.pay.push(res.data.data.set[i]);
-      //     }
-      //   }
-      // });
-      // axios.get("/static/ceshi.json").then(function(res) {
-      //   for (var i = 0; i < res.data.data.home.length; i++) {
-      //     if (res.data.data.home[i].id == id) {
-      //       _this.pay.push(res.data.data.home[i]);
-      //     }
-      //   }
-      // });
+          console.log(res.data)
+        })
+      }else {
+        axios.get('/api/goodDetail').then(function (res) {
+          if (res.data.code == 200) {
+            for (var i = 0; i < res.data.data.length; i++) {
+              if (res.data.data[i].id == id) {
+                _this.totalMoney += res.data.data[i].homePrice*_this.$route.query.value
+                _this.pay.push(res.data.data[i]);
+              }
+            }
+          }
+          console.log(_this.pay)
+        })
+      }
+
       _this.$store.state.userInfo.name= _this.$store.state.userInfo.name ? _this.$store.state.userInfo.name : _this.$store.state.userInfo.phone
       //保存默认地址
-      // console.log(_this.$store.state.address[_this.$store.state.userInfo.name])
       if (_this.$store.state.address[_this.$store.state.userInfo.name].length > 0) {
         _this.defaultAddress = _this.$store.state.address[_this.$store.state.userInfo.name][0]
       }else {
@@ -276,7 +394,7 @@
 
 .pay-shop {
     width: 100%;
-    margin-bottom: 1.5rem;
+    /*margin-bottom: 1.5rem;*/
 
     .pay-shop-invoice {
         width: 100%;
@@ -509,17 +627,18 @@
     }
 
     .order {
-        width: 3.3rem;
+        width: 2rem;
         height: 0.9rem;
         line-height: 0.9rem;
         font-size: 0.35rem;
         margin-top: 0.3rem;
-        margin-right: 0.3rem;
+        margin-left 0.5rem
         border-radius: 30px;
         text-align: center;
         color: #fff;
         background: #f81200;
-        float: right;
+        display inline-block
+        /*float: right;*/
     }
 }
 .dialog-address {
