@@ -178,10 +178,15 @@ const matutaions={
         })
     },
     //订单删除
-    odefault:(state,index)=>{
+    odefault:(state,obj)=>{
+      console.log(obj.list.orderNumber)
         MessageBox.confirm('确定删除该订单么？').then(action=>{
+            //订单删除
+            axios.post('/api/deleteOrder',{orderNumber: obj.list.orderNumber}).then(res => {
+              console.log(res)
+            })
             state.userInfo.name= state.userInfo.name ? state.userInfo.name : state.userInfo.phone
-            state.orders[state.userInfo.name].splice(index,1)
+            state.orders[state.userInfo.name].splice(index,obj.index)
           localStorage.setItem("orders",JSON.stringify(state.orders));
         })
     },
@@ -204,31 +209,21 @@ const matutaions={
         state.carts[state.userInfo.name][index].value==1?state.carts[state.userInfo.name][index].value=1: state.carts[state.userInfo.name][index].value--
     },
     [type.SET_PAY](state,data) {
-      console.log(data)
-      console.log(state.carts[state.userInfo.name])
-      // function unique(array) {
-      //   var obj = {};
-      //   return array.filter(function(item, index, array){
-      //     return obj.hasOwnProperty(item) ? false : (obj[item] = true)
-      //   })
-      // }
-      // function array_diff(a, b) {
-      //   for(var i=0;i<b.length;i++)
-      //   {
-      //     for(var j=0;j<a.length;j++)
-      //     {
-      //       if(a[j].id==b[i]){
-      //         a.splice(j,1);
-      //         j=j-1;
-      //       }
-      //     }
-      //   }
-      //   return a;
-      // }
-      // array_diff(state.carts[state.userInfo.name],data)
       if (data.length > 0) {
         state.userInfo.name= state.userInfo.name ? state.userInfo.name : state.userInfo.phone
           MessageBox.confirm('提交订单不付款？').then(action=>{
+            for (var i in data) {
+              data[i].ly = null
+              data[i].listname = null
+              // this.cartOrderList[i].orderNumber = new Date().getTime()
+              data[i].orderStatus = '0'
+              data[i].userName = state.userInfo.name
+              data[i].orderTime = new Date().getTime()
+              var parms = data[i]
+              axios.post('/api/getOrder',parms).then(res => {
+                console.log(res)
+              })
+            }
             if (data.length == state.carts[state.userInfo.name].length) {
               state.carts[state.userInfo.name].splice(0,data.length)
             }else {
@@ -241,32 +236,10 @@ const matutaions={
               }
             }
             localStorage.setItem("carts",JSON.stringify(state.carts));
-            // if(state.carts[state.userInfo.name].length == data.payLength+1) {
-            //   state.carts[state.userInfo.name]=[];
-            // }else {
-            //   array_diff(state.carts[state.userInfo.name],data.idData)
-            // }
-            // localStorage.setItem("carts",JSON.stringify(state.carts));
           })
       }else {
         Toast('请选择要购买的商品')
       }
-      // data.idData = unique(data.idData)
-      // if (data.idData.length == 0) {
-      //   Toast('请选择要购买的商品')
-      // }else {
-      //   MessageBox.confirm('确定要购买吗').then(action=>{
-      //     console.log(data)
-      //     state.userInfo.name= state.userInfo.name ? state.userInfo.name : state.userInfo.phone
-      //
-      //     if(state.carts[state.userInfo.name].length == data.payLength+1) {
-      //       state.carts[state.userInfo.name]=[];
-      //     }else {
-      //       array_diff(state.carts[state.userInfo.name],data.idData)
-      //     }
-      //     localStorage.setItem("carts",JSON.stringify(state.carts));
-      //   })
-      // }
     },
     settlement:(state,data)=>{
       // console.log(data)

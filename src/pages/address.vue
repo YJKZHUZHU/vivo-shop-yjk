@@ -70,7 +70,7 @@ export default {
 
 <style lang="stylus" scoped>
 .active{
-   
+
 }
 .Address-box {
     padding-top: 1.45rem;

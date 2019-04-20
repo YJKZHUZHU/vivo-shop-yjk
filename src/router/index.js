@@ -23,7 +23,7 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
-    { path: '/', name: 'Home', component: Home },
+    { path: '/', component: Home },
     { path: '/Home', name: 'Home', component: Home, meta: { index: 1 } },
     { path: '/cart', name: 'cart', component: cart },
     { path: '/my', name: 'my', component: my },

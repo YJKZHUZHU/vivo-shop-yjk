@@ -140,11 +140,10 @@ export default {
     var _this = this;
     var id = this.$route.query.id;
     axios.get("/api/goodDetail").then(res => {
-      if (res.data.success) {
-        for (var i = 0; i < res.data.goodDetail.length;i++){
-          if (res.data.goodDetail[i].id == id ) {
-            // res.data.goodDetail[i].number = id + new Date().getTime()
-            _this.goodDetails.push(res.data.goodDetail[i]);
+      if (res.data.code == 200) {
+        for (var i = 0; i < res.data.data.length;i++){
+          if (res.data.data[i].id == id ) {
+            _this.goodDetails.push(res.data.data[i]);
           }
         }
         _this.$store.state.userInfo.name= _this.$store.state.userInfo.name ? _this.$store.state.userInfo.name : _this.$store.state.userInfo.phone
@@ -162,8 +161,6 @@ export default {
             }
           }
         }
-
-
       }
     });
   },
@@ -235,7 +232,8 @@ export default {
           price:index.homePrice,
           value:index.homeValue,
           img:index.homeImg,
-          danx1uan: false
+          danx1uan: false,
+          orderNumber: new Date().getTime()
         };
         this.$store.dispatch('setCart', data);
         // this.$store.commit("SET_CARTS",data);

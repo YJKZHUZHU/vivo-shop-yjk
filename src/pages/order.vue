@@ -40,7 +40,7 @@
             </div>
             <div class="order-3">
               <a @click.stop="odetails(list)">查看详情</a>
-              <a @click.stop="odefault(index)">订单删除</a>
+              <a @click.stop="odefault({index: index,list:list})">订单删除</a>
             </div>
           </div>
         </div>
@@ -55,7 +55,7 @@
               <p class="right" style="color: red;">{{ list.orderStatus }}</p>
             </div>
             <div class="order" >
-              <img :src="list.img">
+              <img :src="list.img" style="width: 33%">
 
               <div class="order-div">
                 <h3>{{list.name}}</h3>
@@ -75,7 +75,7 @@
             </div>
             <div class="order-3">
               <a @click.stop="pay(list)">去付款</a>
-              <a @click.stop="odefault(index)">订单删除</a>
+              <a @click.stop="odefault(index)">取消订单</a>
             </div>
           </div>
         </div>
@@ -155,7 +155,7 @@
 <script>
   import { mapState, mapMutations, mapGetters } from "vuex";
   import { MessageBox } from 'mint-ui';
-  import OrderHeader from "../common/Header";
+  import OrderHeader from "../common/header";
   import axios from "axios";
   export default {
     name: "oerder",

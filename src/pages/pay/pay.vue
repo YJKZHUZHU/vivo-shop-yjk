@@ -1,17 +1,20 @@
 <template>
     <div class="pay-container">
         <Pay-Header title="结算"></Pay-Header>
-        <div to="address" class="pay-address">
-             <p class="address-box">
-                <span class="name">收货人：{{ defaultAddress.name }}</span>
-                <span @click="pickAddress" class="pick-address">选择收货地址</span>
-            </p>
-            <p class="address-details">
-              电话：{{ defaultAddress.phone }}
-            </p>
-            <p class="address-details">
-                收货地址：{{ defaultAddress.zone }} {{ defaultAddress.detail }}
-            </p>
+        <div class="pay-address" v-if="defaultAddress">
+          <p class="address-box">
+            <span class="name">收货人：{{ defaultAddress.name }}</span>
+            <span @click="pickAddress" class="pick-address">选择收货地址</span>
+          </p>
+          <p class="address-details">
+            电话：{{ defaultAddress.phone }}
+          </p>
+          <p class="address-details">
+            收货地址：{{ defaultAddress.zone }} {{ defaultAddress.detail }}
+          </p>
+        </div>
+        <div class="pay-address" v-else>
+          <router-link :to="{name:'address'}" tag="p" style="text-align: center; color: #00acff;">戳我，添加地址</router-link>
         </div>
         <div class="pay-shop" v-for="(list,index) in pay" :key="index">
             <div class="pay-shop-list">
@@ -85,7 +88,7 @@
     </div>
 </template>
 <script>
-  import { Toast } from "mint-ui";
+  import { Toast, MessageBox } from "mint-ui";
   import { mapGetters, mapMutations } from "vuex";
   import PayHeader from "../../common/header";
   import axios from "axios";
@@ -95,7 +98,7 @@
     data() {
       return {
         listIndex: 0,
-        defaultAddress: {},
+        defaultAddress: '',
         addressList: [],
         pay: [],
         lists: [
@@ -153,8 +156,9 @@
         })
       },
       addOrder(id, index) {
-        delete this.defaultAddress.danxuan
         console.log(this.defaultAddress)
+        if (this.defaultAddress){
+          delete this.defaultAddress.danxuan
           var data = {
             id: id.id,
             name: id.homeName,
@@ -169,16 +173,23 @@
           };
           this.$store.dispatch("setOrders", data);
           this.getOrder(data)
-          var _this = this;
-          var time = setInterval(function() {
-            _this.$router.push({
+          // var _this = this;
+          var time = setInterval(()=> {
+            this.$router.push({
               path: "success"
             });
             clearInterval(time);
           }, 1000);
+        }else {
+          MessageBox.confirm('还没有添加收获地址哦,是否现在添加').then(action => {
+            console.log(this.$route)
+            this.$router.replace({name:'address'})
+          })
+        }
       }
     },
     created() {
+      console.log(this.defaultAddress )
       var _this = this;
       var id = this.$route.query.id;
       var value = this.$route.query.value;
@@ -207,7 +218,13 @@
       // });
       _this.$store.state.userInfo.name= _this.$store.state.userInfo.name ? _this.$store.state.userInfo.name : _this.$store.state.userInfo.phone
       //保存默认地址
-      _this.defaultAddress = _this.$store.state.address[_this.$store.state.userInfo.name][0]
+      // console.log(_this.$store.state.address[_this.$store.state.userInfo.name])
+      if (_this.$store.state.address[_this.$store.state.userInfo.name].length > 0) {
+        _this.defaultAddress = _this.$store.state.address[_this.$store.state.userInfo.name][0]
+      }else {
+        _this.defaultAddress = ''
+      }
+      console.log(_this.defaultAddress)
       //保存地址列表
       for (var i in _this.$store.state.address[_this.$store.state.userInfo.name]) {
         for (var item in _this.$store.state.address[_this.$store.state.userInfo.name][i]) {

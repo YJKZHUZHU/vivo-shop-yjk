@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import CollectionHeader from "../../common/Header";
+import CollectionHeader from "../../common/header";
 import { mapState, mapMutations, mapGetters } from "vuex";
 import { MessageBox } from "mint-ui";
 export default {

@@ -18,7 +18,7 @@
                 </transition>
                 <label for="">选择地区：</label>
                 <input type="text" v-model="zone " placeholder="请选择收货地址" @click="_showLinkage">
-               
+
                 <!-- <p v-html="result" class="getCity" @click="_showLinkage"></p> -->
                 <!-- <p v-html="id" class="getCity" ></p> -->
             </div>
@@ -87,7 +87,7 @@ export default {
             console.log(data)
             this.$store.dispatch("editAddress",data)
         }
-        
+
         this.$router.back();
       }
     },
@@ -106,7 +106,7 @@ export default {
       this.zone = this.$route.query.zone
       this.detail = this.$route.query.detail
       this.addressId = this.$route.query.addressId
-      
+
     }
   },
   mounted () {

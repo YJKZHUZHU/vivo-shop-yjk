@@ -32,8 +32,8 @@
 
         <div class="cartImg" v-if="!carts.length">
             <img src="/static/img/gouwuche.png" alt="购物车图片">
-            <h1>购物车是空的哦，快去购物吧</h1>
-            <router-link :to="{name:'Home'}">逛一逛</router-link>
+            <h1>你还有未结算的订单哦，快去结算吧!</h1>
+            <router-link :to="{name:'order'}">去结算</router-link>
         </div>
         <div class="cartFooter"  v-if="carts.length">
             <div class="checkAll" @click="quanxuan(carts)" >
@@ -184,21 +184,22 @@ export default {
     //   }
     // },
     settlement(){
+      console.log(this.cartOrderList)
       var data = {
         payLength: this.payLength,
         idData: this.idData
       }
       this.$store.dispatch('setPay',this.cartOrderList)
-      for (var i in this.cartOrderList) {
-        this.cartOrderList[i].ly = null
-        this.cartOrderList[i].listname = null
-        this.cartOrderList[i].orderNumber = new Date().getTime()
-        this.cartOrderList[i].orderStatus = '0'
-        this.cartOrderList[i].userName = this.$store.state.userInfo.name
-        this.cartOrderList[i].orderTime = new Date().getTime()
-        var parms = this.cartOrderList[i]
-        this.waitPay(parms)
-      }
+      // for (var i in this.cartOrderList) {
+      //   this.cartOrderList[i].ly = null
+      //   this.cartOrderList[i].listname = null
+      //   // this.cartOrderList[i].orderNumber = new Date().getTime()
+      //   this.cartOrderList[i].orderStatus = '0'
+      //   this.cartOrderList[i].userName = this.$store.state.userInfo.name
+      //   this.cartOrderList[i].orderTime = new Date().getTime()
+      //   var parms = this.cartOrderList[i]
+      //   this.waitPay(parms)
+      // }
       console.log(this.cartOrderList)
 
     }
