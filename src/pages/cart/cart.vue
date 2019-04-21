@@ -194,7 +194,7 @@ export default {
           for (var i in data) {
             data[i].ly = null
             data[i].listname = null
-            data[i].orderStatus = '0'
+            data[i].orderStatus = '2'
             data[i].userName = this.$store.state.userInfo.name
             data[i].orderTime = new Date().getTime()
             orderNumberString += data[i].orderNumber + '-'

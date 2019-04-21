@@ -178,7 +178,7 @@
               value: this.$route.query.value || id[i].value,
               orderNumber:  (id[i].orderNumber)||new Date().getTime(),
               address: this.defaultAddress,
-              orderStatus: status
+              orderStatus: '0'
             }
             this.$store.dispatch("setOrders", data);
             this.getOrder(data)
@@ -243,7 +243,7 @@
               value: this.$route.query.value || id[i].value,
               orderNumber:  (id[i].orderNumber)||new Date().getTime(),
               address: this.defaultAddress,
-              orderStatus: status
+              orderStatus: '1'
             }
             this.$store.dispatch("setOrders", data);
             this.getOrder(data)
