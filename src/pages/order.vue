@@ -34,7 +34,7 @@
             <div class="order-2">
               <div class="order-2-box">
                 <p class="order-2-zero">共计<span>{{list.value}}</span>件商品</p>
-                <p class="order-2-one">总计：<span>￥{{list.price}}</span></p>
+                <p class="order-2-one">总计：<span>￥{{list.price * list.value}}</span></p>
                 <p class="order-2-two">(含运费：¥0.00优惠：¥0.00)</p>
               </div>
             </div>
@@ -69,7 +69,7 @@
             <div class="order-2">
               <div class="order-2-box">
                 <p class="order-2-zero">共计<span>{{list.value}}</span>件商品</p>
-                <p class="order-2-one">总计：<span>￥{{list.price}}</span></p>
+                <p class="order-2-one">总计：<span>￥{{list.price * list.value}}</span></p>
                 <p class="order-2-two">(含运费：¥0.00优惠：¥0.00)</p>
               </div>
             </div>
@@ -247,6 +247,7 @@
       height 1.7rem
       background white
       .order-2-box
+        margin-left 3rem
         width 50%
         float right
         text-align right

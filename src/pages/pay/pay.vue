@@ -16,9 +16,9 @@
         <div class="pay-address" v-else>
           <router-link :to="{name:'address'}" tag="p" style="text-align: center; color: #00acff;">戳我，添加地址</router-link>
         </div>
-        <div class="pay-shop" v-for="(list,index) in pay" :key="index">
-            <div class="pay-shop-list">
-                <p class="pay-shop-1">商品清单</p>
+        <div class="pay-shop" >
+          <p class="pay-shop-1">商品清单</p>
+            <div class="pay-shop-list" v-for="(list,index) in pay" :key="index">
                 <p class="pay-shop-2">
                     <img :src="list.homeImg">
                     <p class="pay-shop-2-box">
@@ -375,21 +375,20 @@
             }
         }
     }
+    .pay-shop-1 {
+    width: 100%;
+    height: 1rem;
+    line-height: 1rem;
+    font-size: 0.4rem;
+    background: #fff;
+    padding-left: 0.7rem;
+  }
 
     .pay-shop-list {
         width: 100%;
         height: 4.5rem;
-        margin-top: 0.3rem;
         background: #fff;
 
-        .pay-shop-1 {
-            width: 100%;
-            height: 1.5rem;
-            line-height: 1.5rem;
-            border-bottom: 1px solid #eaeaea;
-            font-size: 0.4rem;
-            padding-left: 0.7rem;
-        }
 
         .pay-shop-2 {
             float: left;
@@ -429,8 +428,7 @@
         width: 100%;
         height: 6.5rem;
         background: #fff;
-        margin-top: 0.3rem;
-        margin-bottom: 0.3rem;
+        margin-bottom: 1.3rem;
 
         .pay-liuyan-1 {
             width: 100%;
