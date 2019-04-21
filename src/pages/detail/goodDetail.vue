@@ -186,7 +186,6 @@ export default {
       return year + fh1 + month + fh1 + day + fh3 + hour + fh2 + minutes;
     },
     addCollection(index) {
-      console.log(index)
       var currrentTime = this.timeFormatting()
       this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
       this.$store.state.collections[this.$store.state.userInfo.name] = this.$store.state.collections[this.$store.state.userInfo.name] || []
@@ -219,8 +218,6 @@ export default {
     },
     // 点击按钮时，首先判断该商品是否在购物车已存在，如果存在则不再加入
     add: function(index) {
-        console.log(index)
-      // this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
       this.$store.state.carts[this.$store.state.userInfo.name] = this.$store.state.carts[this.$store.state.userInfo.name] || []
       var idExist = this.$store.state.carts[this.$store.state.userInfo.name].find(todo => {
         return todo.id == index.id;
@@ -244,7 +241,11 @@ export default {
           duration: 950
         });
       } else {
-        MessageBox("提示", "商品已存在购物车");
+        MessageBox("提示", "商品已存在购物车,快去购买吧！").then(action => {
+          this.$router.push({
+            path: 'cart'
+          })
+        })
       }
     },
     jia: function(index) {
@@ -270,24 +271,6 @@ export default {
                 value:value
             }
         })
-        // Toast({
-        //     message: `成功支付了${this.paid}元`,
-        //     iconClass: "iconfont icon-goumaichenggong",
-        //     duration: 750
-        // });
-      // alert(`成功支付了${this.paid}元`)
-    //   var data = {
-    //     id: this.goodDetails[index].id,
-    //     name: this.goodDetails[index].homeName,
-    //     price: this.goodDetails[index].homePrice,
-    //     image: this.goodDetails[index].homeImg,
-    //     value: this.goodDetails[index].homeValue,
-        // order: this.goodDetails[index].order,
-        // color: this.goodDetails[index].color,
-        // number: this.goodDetails[index].number
-    //   };
-    //   this.$store.commit("addorder", data);
-    // }
     }
   }
 };

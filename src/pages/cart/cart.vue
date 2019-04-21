@@ -113,20 +113,17 @@ export default {
     ...mapMutations(["shanchu", "add", "reduce"]),
     danxuan(cart, index) {
       this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
-      // console.log(cart, index)
       cart.danx1uan = !cart.danx1uan;
       if (cart.danx1uan) {
         this.cartOrderList.push(cart)
       }else {
         this.cartOrderList.splice(index,1)
-        console.log(this.carts)
       }
       if (this.cartOrderList.length == this.$store.state.carts[this.$store.state.userInfo.name].length) {
         this.qx = true
       }else {
         this.qx = false
       }
-      console.log(this.cartOrderList)
     },
     quanxuan(data) {
       this.qx = !this.qx
@@ -142,7 +139,6 @@ export default {
           data[i].danx1uan = false
         }
       }
-      console.log(this.cartOrderList)
     },
     //提交订单
     waitPay(parms) {
@@ -150,40 +146,6 @@ export default {
         console.log(res)
       })
     },
-    // danxuan(cart, index) {
-    //   console.log(cart)
-    //   this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
-    // this.payLength = index
-    //  if(!cart.danx1uan){
-    //    this.idData.push(cart.id)
-    //  }else {
-    //    //删除数组中指定的元素
-    //    this.idData.splice(this.idData.findIndex(item => item.id === cart.id), 1)
-    //    console.log(this.idData)
-    //  }
-    //   cart.danx1uan = !cart.danx1uan;
-    //   if (!cart.danx1uan) {
-    //     this.qx = false;
-    //   }else if (index == this.$store.state.carts[this.$store.state.userInfo.name].length-1){
-    //     this.qx = true;
-    //   }
-    // },
-    // quanxuan(data) {
-    //   console.log(data)
-    //   this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
-    //   this.qx = !this.qx;
-    //   if (this.qx) {
-    //     this.$store.state.carts[this.$store.state.userInfo.name].forEach(cart => {
-    //       cart.danx1uan = true;
-    //     });
-    //     this.idData = this.$store.state.carts[this.$store.state.userInfo.name]
-    //     this.payLength = this.$store.state.carts[this.$store.state.userInfo.name].length-1
-    //   } else {
-    //     this.$store.state.carts[this.$store.state.userInfo.name].forEach(cart => {
-    //       cart.danx1uan = false;
-    //     });
-    //   }
-    // },
     settlement(){
       var data = this.cartOrderList
       if (data.length > 0) {
@@ -215,33 +177,12 @@ export default {
               }
             }
           }
-          console.log(orderNumberString)
           this.$router.push({path: '/pay',query:{orderNumber:orderNumberString}})
           localStorage.setItem("carts",JSON.stringify(this.$store.state.carts));
         })
       }else {
-
-        console.log(this.$route)
         Toast('请选择要购买的商品')
       }
-      console.log(this.cartOrderList)
-      // var data = {
-      //   payLength: this.payLength,
-      //   idData: this.idData
-      // }
-      // this.$store.dispatch('setPay',this.cartOrderList)
-      // for (var i in this.cartOrderList) {
-      //   this.cartOrderList[i].ly = null
-      //   this.cartOrderList[i].listname = null
-      //   // this.cartOrderList[i].orderNumber = new Date().getTime()
-      //   this.cartOrderList[i].orderStatus = '0'
-      //   this.cartOrderList[i].userName = this.$store.state.userInfo.name
-      //   this.cartOrderList[i].orderTime = new Date().getTime()
-      //   var parms = this.cartOrderList[i]
-      //   this.waitPay(parms)
-      // }
-      console.log(this.cartOrderList)
-
     }
   }
 };

@@ -111,14 +111,6 @@
       OrderHeader
     },
     computed: {
-      // orders() {
-      //   this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
-      //   return this.$store.state.orders[this.$store.state.userInfo.name];
-      // },
-      // pendingReceipt() {
-      //   this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
-      //   return this.$store.state.pendingReceipt[this.$store.state.userInfo.name];
-      // }
     },
     methods: {
       ...mapMutations(["odefault"]),
@@ -136,10 +128,12 @@
               }else if (res.data.data[i].orderStatus == '0') {
                 res.data.data[i].orderStatus = '待付款'
                 this.waitOrderList.push(res.data.data[i])
-              }else {
+              }else if (res.data.data[i].orderStatus == '2') {
+                res.data.data[i].orderStatus = '正在结算'
+                this.waitOrderList.push(res.data.data[i])
+              } else {
                 res.data.data[i].orderStatus = '未知错误'
               }
-
             }
           }
         })
@@ -154,10 +148,8 @@
             orderNumber: list.orderNumber
           }
         })
-        console.log(list)
       },
       pay(list){
-        console.log(list)
         this.$router.push({
           path:"pay",
           query:{
@@ -167,25 +159,12 @@
           }
         })
       },
-      // //  确认收货
-      // confirmReceipt(list,index){
-      //   var _this = this
-      //   console.log(list,this.$store)
-      //   MessageBox.confirm('确定要收货么？').then(action=>{
-      //     _this.$store.state.userInfo.name= _this.$store.state.userInfo.name ? _this.$store.state.userInfo.name : _this.$store.state.userInfo.phone
-      //     _this.$store.state.pendingReceipt[_this.$store.state.userInfo.name].splice(index,1)
-      //     localStorage.setItem("pendingReceipt",JSON.stringify(_this.$store.state.pendingReceipt));
-      //   })
-      //
-      // }
     },
     mounted() {
       this.getOrderList()
     },
   };
 </script>
-
-
 <style lang="stylus" scoped>
   .orderMain
     padding-top 1.3rem
@@ -241,6 +220,7 @@
       border-bottom 1px solid #f0f0f0
       border-top 1px solid #f0f0f0
       img
+        width 25%
         float left
         margin .3rem
         height 2.5rem
@@ -250,10 +230,13 @@
         line-height .7rem
         float left
         h3
-          font-size .5rem
+          font-size .35rem
+          overflow hidden
+          text-overflow ellipsis
+          white-space nowrap
         .order-div-price
           color red
-          font-size .4rem
+          font-size .35rem
       .order-div-2
         display inline-block
         float right

@@ -139,23 +139,16 @@
         this.showAddress = !this.showAddress
       },
       pickAddress() {
-        console.log(1)
         this.showAddress = true
       },
       btn(id, index) {
         this.listIndex = index;
       },
-
       //收集订单
       getOrder(params) {
-        console.log(params)
         this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
         params.userName = this.$store.state.userInfo.name
         params.address = "姓名："+params.address.name+'--电话号码：'+ params.address.phone+"--详细地址："+params.address.zone + params.address.detail
-        // if (this.$route.query.orderNumber) {
-        //   params.orderNumber = this.$route.query.orderNumber
-        // }
-        console.log(params.address)
         axios.post('/api/getOrder',params).then(function (res) {
           if (res.success) {
             console.log(res.message)
@@ -164,8 +157,6 @@
       },
       //提交订单
       addWaittingOrder(id, index,status) {
-        console.log(id,index,status,this.lists)
-        console.log(this.defaultAddress)
         if (this.defaultAddress){
           for (var i in id) {
             delete this.defaultAddress.danxuan
@@ -191,47 +182,16 @@
           }, 1000);
         }else {
           MessageBox.confirm('还没有添加收获地址哦,是否现在添加').then(action => {
-            console.log(this.$route)
             this.$router.replace({name:'address'})
           })
         }
-        // if (this.defaultAddress){
-        //   delete this.defaultAddress.danxuan
-        //   var data = {
-        //     id: id.id,
-        //     name: id.homeName,
-        //     price: id.homePrice,
-        //     ly: id.ly,
-        //     img: id.homeImg,
-        //     listname: this.lists[index].name,
-        //     value: this.$route.query.value,
-        //     orderNumber: new Date().getTime(),
-        //     address: this.defaultAddress,
-        //     orderStatus: '1'
-        //   };
-        //   this.$store.dispatch("setOrders", data);
-        //   this.getOrder(data)
-        //   // var _this = this;
-        //   var time = setInterval(()=> {
-        //     this.$router.push({
-        //       path: "success"
-        //     });
-        //     clearInterval(time);
-        //   }, 1000);
-        // }else {
-        //   MessageBox.confirm('还没有添加收获地址哦,是否现在添加').then(action => {
-        //     console.log(this.$route)
-        //     this.$router.replace({name:'address'})
-        //   })
-        // }
       },
       //结算
       addOrder(id, index,status) {
-        console.log(id,index,status,this.lists)
-        console.log(this.defaultAddress)
+        // console.log(id,index,status,this.lists)
+        // console.log(this.defaultAddress)
         if (this.defaultAddress){
           for (var i in id) {
-            console.log(i)
             delete this.defaultAddress.danxuan
             var data = {
               id: id[i].id,
@@ -256,54 +216,20 @@
           }, 1000);
         }else {
           MessageBox.confirm('还没有添加收获地址哦,是否现在添加').then(action => {
-            console.log(this.$route)
             this.$router.replace({name:'address'})
           })
         }
-        // if (this.defaultAddress){
-        //   delete this.defaultAddress.danxuan
-        //   var data = {
-        //     id: id.id,
-        //     name: id.homeName,
-        //     price: id.homePrice,
-        //     ly: id.ly,
-        //     img: id.homeImg,
-        //     listname: this.lists[index].name,
-        //     value: this.$route.query.value,
-        //     orderNumber: new Date().getTime(),
-        //     address: this.defaultAddress,
-        //     orderStatus: '1'
-        //   };
-        //   this.$store.dispatch("setOrders", data);
-        //   this.getOrder(data)
-        //   // var _this = this;
-        //   var time = setInterval(()=> {
-        //     this.$router.push({
-        //       path: "success"
-        //     });
-        //     clearInterval(time);
-        //   }, 1000);
-        // }else {
-        //   MessageBox.confirm('还没有添加收获地址哦,是否现在添加').then(action => {
-        //     console.log(this.$route)
-        //     this.$router.replace({name:'address'})
-        //   })
-        // }
       }
     },
     mounted() {
-      console.log(this.defaultAddress )
       var id = this.$route.query.id;
       if (this.$route.query.orderNumber){
-
         var orderNumber = this.$route.query.orderNumber.split('-').slice(0,this.$route.query.orderNumber.split('-').length-1)
       }
       var value = this.$route.query.value;
-      // var valueNumber = this.$route.query.valueNumber.split('-').slice(0,this.$route.query.valueNumber.split('-').length-1)
       var _this = this;
       //有orderNumber从购物车来的
       if (orderNumber){
-        // console.log(orderNumber,valueNumber)
         axios.post('api/payDetailByOrderNumber',{orderNumberArray:orderNumber}).then(res => {
           if (res.data.success) {
             for (var i in res.data.data) {
@@ -319,7 +245,6 @@
               })
             }
           }
-          console.log(res.data)
         })
       }else {
         axios.get('/api/goodDetail').then(function (res) {
@@ -331,10 +256,8 @@
               }
             }
           }
-          console.log(_this.pay)
         })
       }
-
       _this.$store.state.userInfo.name= _this.$store.state.userInfo.name ? _this.$store.state.userInfo.name : _this.$store.state.userInfo.phone
       //保存默认地址
       if (_this.$store.state.address[_this.$store.state.userInfo.name].length > 0) {
@@ -342,14 +265,12 @@
       }else {
         _this.defaultAddress = ''
       }
-      console.log(_this.defaultAddress)
       //保存地址列表
       for (var i in _this.$store.state.address[_this.$store.state.userInfo.name]) {
         for (var item in _this.$store.state.address[_this.$store.state.userInfo.name][i]) {
           _this.$store.state.address[_this.$store.state.userInfo.name][i].danxuan = false
         }
       }
-      console.log(_this.$store.state.address[_this.$store.state.userInfo.name])
       _this.addressList = _this.$store.state.address[_this.$store.state.userInfo.name]
     }
   };

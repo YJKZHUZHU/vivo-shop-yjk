@@ -3,7 +3,7 @@
         <h2>爆款产品</h2>
         <div class="main_box">
           <ul>
-            <img src="https://shopstatic.vivo.com.cn/vivoshop/commodity/20180405/20180405101609299910_original.jpg" width="100%">
+            <!--<img src="https://shopstatic.vivo.com.cn/vivoshop/commodity/20180405/20180405101609299910_original.jpg" width="100%">-->
             <li v-for="(todo) in todos" :key="todo.id"   @click="open(todo.id)" >
               <div class="list">
                 <div class="image">

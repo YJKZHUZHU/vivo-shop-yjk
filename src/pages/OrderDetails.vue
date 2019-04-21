@@ -104,7 +104,6 @@
           if (res.data.success) {
             this.o1  = res.data.data
             if (res.data.data[0].address) {
-              console.log(res.data.data[0].address.split('--')[1].split('：')[1])
               this.address = {
                 name:res.data.data[0].address.split('--')[0].split('：')[1],
                 phone: res.data.data[0].address.split('--')[1].split('：')[1],
@@ -123,36 +122,6 @@
         orderNumber :this.$route.query.orderNumber
       }
       this.getData(parms)
-      // var _this = this;
-      // var id = this.$route.query.id;
-      // var orderNumber = this.$route.query.orderNumber
-      // _this.$store.state.userInfo.name = _this.$store.state.userInfo.name ? _this.$store.state.userInfo.name : _this.$store.state.userInfo.phone
-      // for (var item in JSON.parse(localStorage.getItem('orders'))[_this.$store.state.userInfo.name]) {
-      //   if (JSON.parse(localStorage.getItem('orders'))[_this.$store.state.userInfo.name][item].orderNumber == orderNumber) {
-      //     console.log(JSON.parse(localStorage.getItem('orders'))[_this.$store.state.userInfo.name][item])
-      //     _this.o1.push(JSON.parse(localStorage.getItem('orders'))[_this.$store.state.userInfo.name][item]);
-      //   }
-      // }
-      // console.log(_this.o1[0].address.detail)
-      // _this.address = _this.o1[0].address
-      // axios.get("/api/index_goods").then(function(res) {
-      //   if (res.data.success) {
-      //     var data = res.data.home;
-      //     for (var i = 0; i < data.length; i++) {
-      //       if (data[i].id == id) {
-      //         _this.o1.push(data[i]);
-      //       }
-      //     }
-      //   }
-      // });
-      // axios.get("/static/ceshi.json").then(function(res) {
-      //   var data = res.data.data.list;
-      //   for (var i = 0; i < data.length; i++) {
-      //     if (data[i].id == id) {
-      //       _this.o1.push(data[i]);
-      //     }
-      //   }
-      // });
     }
   };
 </script>

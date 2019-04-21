@@ -10,10 +10,8 @@ const matutaions={
         state.userInfo.name= state.userInfo.name ? state.userInfo.name : state.userInfo.phone
         var datas = []
         datas.push(data)
-        // state.carts = state.carts || {}
         state.carts[state.userInfo.name] = state.carts[state.userInfo.name] || [];
         state.carts[state.userInfo.name] = state.carts[state.userInfo.name].concat(datas);
-        console.log(state.carts)
         localStorage.setItem("carts",JSON.stringify(state.carts));
       }else {
         MessageBox.confirm('您还没有登入哦').then(function (action) {
@@ -30,7 +28,6 @@ const matutaions={
         // state.collections = state.collections || {}
         state.article[state.userInfo.name] = state.article[state.userInfo.name] || [];
         state.article[state.userInfo.name] = state.article[state.userInfo.name].concat(datas);
-        console.log(state.article)
         localStorage.setItem("article",JSON.stringify(state.article));
       }else {
         MessageBox.confirm('您还没有登入哦').then(function (action) {
@@ -42,7 +39,6 @@ const matutaions={
     [type.DELETE_ARTICLE](state,data){
       state.userInfo.name= state.userInfo.name ? state.userInfo.name : state.userInfo.phone
       for (var i in state.article[state.userInfo.name]) {
-        // console.log(i)
         if (state.article[state.userInfo.name][i].id === data){
           state.article[state.userInfo.name].splice(i,1)
         }
@@ -74,7 +70,6 @@ const matutaions={
         // state.collections = state.collections || {}
         state.collections[state.userInfo.name] = state.collections[state.userInfo.name] || [];
         state.collections[state.userInfo.name] = state.collections[state.userInfo.name].concat(datas);
-        console.log(state.collections)
         localStorage.setItem("collections",JSON.stringify(state.collections));
       }else {
         MessageBox.confirm('您还没有登入哦').then(function (action) {
@@ -86,7 +81,6 @@ const matutaions={
     [type.DELETE_SET_GOODS](state,data){
       state.userInfo.name= state.userInfo.name ? state.userInfo.name : state.userInfo.phone
       for (var i in state.collections[state.userInfo.name]) {
-        // console.log(i)
         if (state.collections[state.userInfo.name][i].id === data){
           state.collections[state.userInfo.name].splice(i,1)
         }
@@ -99,12 +93,10 @@ const matutaions={
         state.userInfo.name= state.userInfo.name ? state.userInfo.name : state.userInfo.phone
         var datas = []
         datas.push(data)
-        // state.carts = state.carts || {}
         state.orders[state.userInfo.name] = state.orders[state.userInfo.name] || [];
         state.pendingReceipt[state.userInfo.name] = state.pendingReceipt[state.userInfo.name] || [];
         state.orders[state.userInfo.name] = state.orders[state.userInfo.name].concat(datas);
         state.pendingReceipt[state.userInfo.name] = state.pendingReceipt[state.userInfo.name].concat(datas);
-        console.log(state.orders)
         localStorage.setItem("orders",JSON.stringify(state.orders));
         localStorage.setItem("pendingReceipt",JSON.stringify(state.pendingReceipt));
       }else {
@@ -179,7 +171,6 @@ const matutaions={
     },
     //订单删除
     odefault:(state,obj)=>{
-      console.log(obj.list.orderNumber)
         MessageBox.confirm('确定删除该订单么？').then(action=>{
             //订单删除
             axios.post('/api/deleteOrder',{orderNumber: obj.list.orderNumber}).then(res => {
@@ -190,14 +181,6 @@ const matutaions={
           localStorage.setItem("orders",JSON.stringify(state.orders));
         })
     },
-    // //确认收货
-    // confirmReceipt:(state,index)=>{
-    //   MessageBox.confirm('确定要收货吗？').then(action=>{
-    //     state.orders.splice(index,1)
-    //     localStorage.setItem("pendingReceipt",JSON.stringify(state.orders));
-    //   })
-    // },
-
     //数量加
      add(state,index){
        state.userInfo.name= state.userInfo.name ? state.userInfo.name : state.userInfo.phone
@@ -239,12 +222,10 @@ const matutaions={
             localStorage.setItem("carts",JSON.stringify(state.carts));
           })
       }else {
-        console.log(this)
         Toast('请选择要购买的商品')
       }
     },
     settlement:(state,data)=>{
-      // console.log(data)
       MessageBox.confirm('确定要购买吗').then(action=>{
         state.userInfo.name= state.userInfo.name ? state.userInfo.name : state.userInfo.phone
         state.carts[state.userInfo.name]=[];
