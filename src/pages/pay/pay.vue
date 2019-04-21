@@ -386,7 +386,7 @@
 
     .pay-shop-list {
         width: 100%;
-        height: 4.5rem;
+        height: 3rem;
         background: #fff;
 
 
