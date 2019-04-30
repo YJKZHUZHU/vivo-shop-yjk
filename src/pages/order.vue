@@ -40,7 +40,7 @@
             </div>
             <div class="order-3">
               <a @click.stop="odetails(list)">查看详情</a>
-              <a @click.stop="odefault({index: index,list:list})">订单删除</a>
+              <a @click.stop="odefault(list.orderNumber)">订单删除</a>
             </div>
           </div>
         </div>
@@ -55,7 +55,7 @@
               <p class="right" style="color: red;">{{ list.orderStatus }}</p>
             </div>
             <div class="order" >
-              <img :src="list.img" style="width: 33%">
+              <img :src="list.img">
 
               <div class="order-div">
                 <h3>{{list.name}}</h3>
@@ -76,7 +76,7 @@
             <div class="order-3">
               <a @click.stop="odetails(list)">查看详情</a>
               <a @click.stop="pay(list)">去付款</a>
-              <a @click.stop="odefault({index: index,list:list})">取消订单</a>
+              <a @click.stop="odefault(list.orderNumber)">取消订单</a>
             </div>
           </div>
         </div>
@@ -113,13 +113,15 @@
     computed: {
     },
     methods: {
-      ...mapMutations(["odefault"]),
+      // ...mapMutations(["odefault"]),
       getOrderList() {
         this.$store.state.userInfo.name= this.$store.state.userInfo.name ? this.$store.state.userInfo.name : this.$store.state.userInfo.phone
         var params = {
           userName : this.$store.state.userInfo.name
         }
         axios.post('/api/getOrderList',params).then(res => {
+          this.orderList = []
+          this.waitOrderList = []
           if(res.data.code == 200) {
             for (var i in res.data.data) {
               if (res.data.data[i].orderStatus == '1') {
@@ -159,6 +161,16 @@
           }
         })
       },
+      odefault(orderNumber) {
+        MessageBox.confirm('确定删除该订单么？').then(action=>{
+          axios.post('/api/deleteOrder',{orderNumber: orderNumber}).then(res => {
+            if (res.data.code == 0){
+
+              this.getOrderList()
+            }
+          })
+        })
+      }
     },
     mounted() {
       this.getOrderList()

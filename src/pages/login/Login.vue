@@ -42,14 +42,13 @@
               </section>
               <section class="login_message">
                 <input type="text" maxlength="11" placeholder="验证码" v-model="captcha">
-                <img class="get_verification" src="http://localhost:4000/captcha" alt="captcha"
+                <img class="get_verification" src="http://172.20.10.8:4000/captcha" alt="captcha"
                   @click="getCaptcha" ref="captcha">
               </section>
             </section>
           </div>
           <button class="login_submit">登录</button>
         </form>
-        <a href="javascript:;" class="about_us">关于我们</a>
       </div>
       <a href="javascript:" class="go_back" @click="$router.back()">
         <i class="iconfont icon-jiantou2"></i>
@@ -206,7 +205,7 @@
       // 获取一个新的图片验证码
       getCaptcha () {
         // 每次指定的src要不一样
-        this.$refs.captcha.src = 'http://localhost:4000/captcha?time='+Date.now()
+        this.$refs.captcha.src = 'http://172.20.10.8:4000/captcha?time='+Date.now()
       },
 
     },
